@@ -24,11 +24,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-900">
-        <header className="w-full px-6 py-6 sm:px-10 lg:px-16">
+      <body className="min-h-full flex flex-col bg-zinc-50 font-sans">
+        <header className="w-full px-6 py-8 sm:px-10 lg:px-16">
           <Link
             href="/"
-            className="font-mono text-sm uppercase tracking-widest text-zinc-400 transition-colors hover:text-zinc-100"
+            className="font-mono text-base uppercase tracking-widest text-zinc-500 transition-colors hover:text-zinc-900"
           >
             Charlie Tolleson
           </Link>

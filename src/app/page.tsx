@@ -15,13 +15,13 @@ const comingSoon = [
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col bg-zinc-900 font-sans">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-14 px-6 pb-32 sm:px-10 lg:px-16">
+    <div className="flex flex-1 flex-col bg-zinc-50 font-sans">
+      <main className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-6 pb-40 sm:px-10 lg:px-20">
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-4xl font-semibold tracking-tight text-zinc-50 sm:text-5xl"
+          className="text-6xl font-semibold tracking-tight text-zinc-900 sm:text-7xl lg:text-8xl"
         >
           Charlie Tolleson
         </motion.h1>
@@ -33,14 +33,14 @@ export default function Home() {
         >
           <Link
             href="/work/ai-orchestration"
-            className="group block rounded-xl border border-zinc-700 bg-zinc-800/60 p-6 transition-colors hover:border-zinc-500 sm:p-8"
+            className="group block rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300 sm:p-10"
           >
             <WorkflowGraph variant="card" />
-            <div className="mt-6 flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="text-xl font-medium text-zinc-100 group-hover:text-white">
+            <div className="mt-8 flex flex-wrap items-baseline justify-between gap-4">
+              <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
                 Interactive AI Agent Orchestration Suite
               </h2>
-              <span className="shrink-0 font-mono text-xs uppercase tracking-wide text-zinc-400">
+              <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
                 Creator &amp; Architect
               </span>
             </div>
@@ -51,24 +51,24 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.25 }}
-          className="text-lg text-zinc-400"
+          className="text-2xl text-zinc-500"
         >
           Coming soon…
         </motion.p>
 
-        <ol className="flex w-full flex-col gap-6">
+        <ol className="flex w-full flex-col gap-8">
           {comingSoon.map((title, i) => (
             <motion.li
               key={title}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 + i * 0.08 }}
-              className="flex items-baseline gap-4 border-b border-zinc-700 pb-6 text-left"
+              className="flex items-baseline gap-6 border-b border-zinc-200 pb-8 text-left"
             >
-              <span className="font-mono text-sm text-zinc-500">
+              <span className="font-mono text-lg text-zinc-400">
                 {String(i + 2).padStart(2, "0")}
               </span>
-              <span className="text-base text-zinc-200">{title}</span>
+              <span className="text-2xl text-zinc-700">{title}</span>
             </motion.li>
           ))}
         </ol>

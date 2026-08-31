@@ -22,9 +22,9 @@ type GraphEdge = {
   to: string;
 };
 
-const NODE_W = 200;
+const NODE_W = 220;
 const NODE_H = 56;
-const VIEW_W = 1160;
+const VIEW_W = 1260;
 const VIEW_H = 420;
 
 // Real shape of Hyperion's "idea-council" workflow, laid out left-to-right by
@@ -41,16 +41,16 @@ const nodes: GraphNode[] = [
   { id: "market-trends", label: "Market Trends", agent: "researcher", kind: "work", x: 20, y: 260, dur: 2.9 },
   { id: "competitive-landscape", label: "Competitive Landscape", agent: "researcher", kind: "work", x: 20, y: 340, dur: 2.1 },
 
-  { id: "research-synthesizer", label: "Research Synthesis", agent: "synthesizer", kind: "synthesize", x: 250, y: 180, dur: 1.6 },
+  { id: "research-synthesizer", label: "Research Synthesis", agent: "synthesizer", kind: "synthesize", x: 270, y: 180, dur: 1.6 },
 
-  { id: "critic", label: "Critic", agent: "critic", kind: "work", x: 480, y: 60, dur: 1.1 },
-  { id: "advocate", label: "Advocate", agent: "synthesizer", kind: "work", x: 480, y: 140, dur: 1.4 },
-  { id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 480, y: 220, dur: 0.9 },
-  { id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 480, y: 300, dur: 2.2 },
+  { id: "critic", label: "Critic", agent: "critic", kind: "work", x: 520, y: 60, dur: 1.1 },
+  { id: "advocate", label: "Advocate", agent: "synthesizer", kind: "work", x: 520, y: 140, dur: 1.4 },
+  { id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 520, y: 220, dur: 0.9 },
+  { id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 520, y: 300, dur: 2.2 },
 
-  { id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 710, y: 100, dur: 1.0 },
+  { id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 770, y: 100, dur: 1.0 },
 
-  { id: "verdict", label: "Verdict", agent: "synthesizer", kind: "synthesize", x: 940, y: 207, dur: 1.3 },
+  { id: "verdict", label: "Verdict", agent: "synthesizer", kind: "synthesize", x: 1020, y: 207, dur: 1.3 },
 ];
 
 const edges: GraphEdge[] = [
@@ -70,10 +70,12 @@ const edges: GraphEdge[] = [
   { from: "developer", to: "verdict" },
 ];
 
+// Tailwind's default violet/blue/emerald 600-700 steps on a zinc-neutral
+// ground — dark enough to hold contrast on an off-white background.
 const KIND_COLOR: Record<NodeKind, { border: string; tag: string; tagBg: string }> = {
-  plan: { border: "#c4b5fd", tag: "#ede9fe", tagBg: "rgba(196,181,253,0.22)" },
-  work: { border: "#93c5fd", tag: "#e0f0ff", tagBg: "rgba(147,197,253,0.22)" },
-  synthesize: { border: "#6ee7b7", tag: "#d3fbe8", tagBg: "rgba(110,231,183,0.22)" },
+  plan: { border: "#7c3aed", tag: "#5b21b6", tagBg: "#ede9fe" },
+  work: { border: "#2563eb", tag: "#1d4ed8", tagBg: "#dbeafe" },
+  synthesize: { border: "#059669", tag: "#047857", tagBg: "#d1fae5" },
 };
 
 const byId = new Map(nodes.map((n) => [n.id, n]));
@@ -197,14 +199,14 @@ export default function WorkflowGraph({
           const from = byId.get(e.from)!;
           const to = byId.get(e.to)!;
           const active = interactive && status[e.from] === "done";
-          const color = active ? KIND_COLOR[to.kind].border : "#6b7280";
+          const color = active ? KIND_COLOR[to.kind].border : "#d4d4d8";
           return (
             <motion.path
               key={`${e.from}-${e.to}-${i}`}
               d={elbowPath(from, to)}
               fill="none"
               stroke={color}
-              strokeWidth={active ? 2 : 1.5}
+              strokeWidth={active ? 2.25 : 1.5}
               initial={interactive ? false : { pathLength: 0, opacity: 0 }}
               animate={interactive ? { opacity: 1 } : { pathLength: 1, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
@@ -215,8 +217,10 @@ export default function WorkflowGraph({
         {nodes.map((n) => {
           const color = KIND_COLOR[n.kind];
           const st: NodeStatus = interactive ? status[n.id] ?? "pending" : "done";
-          const stroke = st === "pending" ? "#71717a" : color.border;
-          const fillOpacity = st === "pending" ? 0.5 : 1;
+          const stroke = st === "pending" ? "#d4d4d8" : color.border;
+          const fill = st === "pending" ? "#fafafa" : "#ffffff";
+          const labelColor = st === "pending" ? "#a1a1aa" : "#18181b";
+          const agentColor = st === "pending" ? "#d4d4d8" : "#71717a";
           return (
             <motion.g
               key={n.id}
@@ -230,37 +234,36 @@ export default function WorkflowGraph({
                 width={NODE_W}
                 height={NODE_H}
                 rx={8}
-                fill="#3f3f46"
-                fillOpacity={fillOpacity}
+                fill={fill}
                 stroke={stroke}
-                strokeWidth={st === "running" ? 2.25 : 1.5}
+                strokeWidth={st === "running" ? 2.5 : 1.5}
               />
               {st === "done" && (
                 <circle cx={n.x + NODE_W - 10} cy={10} r={5} fill={color.border} />
               )}
-              <text x={n.x + 10} y={19} fill="#d4d4d8" fontSize={10.5} fontFamily="var(--font-geist-mono, monospace)">
+              <text x={n.x + 10} y={19} fill={agentColor} fontSize={11.5} fontFamily="var(--font-geist-mono, monospace)">
                 {n.agent}
               </text>
               <rect
-                x={n.x + NODE_W - 10 - n.kind.length * 6.4 - 12}
-                y={8}
-                width={n.kind.length * 6.4 + 12}
-                height={17}
-                rx={8.5}
-                fill={color.tagBg}
+                x={n.x + NODE_W - 10 - n.kind.length * 7 - 12}
+                y={7}
+                width={n.kind.length * 7 + 12}
+                height={18}
+                rx={9}
+                fill={st === "pending" ? "#f4f4f5" : color.tagBg}
               />
               <text
-                x={n.x + NODE_W - 16 - (n.kind.length * 6.4) / 2}
+                x={n.x + NODE_W - 16 - (n.kind.length * 7) / 2}
                 y={20}
-                fill={color.tag}
-                fontSize={9.5}
+                fill={st === "pending" ? "#a1a1aa" : color.tag}
+                fontSize={10.5}
                 textAnchor="middle"
                 letterSpacing={0.4}
                 fontFamily="var(--font-geist-mono, monospace)"
               >
                 {n.kind}
               </text>
-              <text x={n.x + 10} y={42} fill="#fafafa" fontSize={variant === "card" ? 13 : 14} fontWeight={600} fontFamily="var(--font-geist-sans, sans-serif)">
+              <text x={n.x + 10} y={43} fill={labelColor} fontSize={variant === "card" ? 14.5 : 15.5} fontWeight={600} fontFamily="var(--font-geist-sans, sans-serif)">
                 {n.label}
               </text>
             </motion.g>
@@ -269,12 +272,12 @@ export default function WorkflowGraph({
       </svg>
 
       {interactive && (
-        <div className="mt-5 flex flex-col gap-3">
+        <div className="mt-6 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-500">
               {(Object.keys(KIND_COLOR) as NodeKind[]).map((k) => (
                 <div key={k} className="flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: KIND_COLOR[k].border }} />
+                  <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: KIND_COLOR[k].border }} />
                   <span className="font-mono">{k}</span>
                 </div>
               ))}
@@ -282,16 +285,16 @@ export default function WorkflowGraph({
             <button
               onClick={play}
               disabled={running}
-              className="shrink-0 rounded-md border border-zinc-600 px-3 py-1.5 font-mono text-xs text-zinc-200 transition-colors hover:border-zinc-400 hover:text-white disabled:opacity-50"
+              className="shrink-0 rounded-md border border-zinc-300 px-4 py-2 font-mono text-sm text-zinc-700 transition-colors hover:border-zinc-500 hover:text-zinc-900 disabled:opacity-50"
             >
               {running ? "Running…" : "Run example"}
             </button>
           </div>
           <div
             ref={logRef}
-            className="h-32 overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950/60 p-3 font-mono text-[11px] leading-relaxed text-zinc-400"
+            className="h-36 overflow-y-auto rounded-md border border-zinc-200 bg-zinc-50 p-4 font-mono text-sm leading-relaxed text-zinc-600"
           >
-            {trace.length === 0 && <span className="text-zinc-600">Waiting to run…</span>}
+            {trace.length === 0 && <span className="text-zinc-400">Waiting to run…</span>}
             {trace.map((line, i) => (
               <div key={i}>{line}</div>
             ))}

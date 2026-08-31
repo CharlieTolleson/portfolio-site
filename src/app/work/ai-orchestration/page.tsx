@@ -6,18 +6,18 @@ export const metadata = {
 
 export default function AiOrchestrationPage() {
   return (
-    <div className="flex flex-1 flex-col bg-zinc-900 font-sans">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-32 sm:px-10 lg:px-16">
-        <div className="flex flex-col gap-3">
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+    <div className="flex flex-1 flex-col bg-zinc-50 font-sans">
+      <main className="mx-auto flex w-full max-w-7xl flex-col gap-14 px-6 pb-40 sm:px-10 lg:px-20">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
             Interactive AI Agent Orchestration Suite
           </h1>
-          <p className="font-mono text-xs uppercase tracking-wide text-zinc-400">
+          <p className="font-mono text-sm uppercase tracking-wide text-zinc-500">
             Creator &amp; Architect — Hyperion, personal AI workspace
           </p>
         </div>
 
-        <div className="max-w-3xl text-lg leading-relaxed text-zinc-300">
+        <div className="max-w-4xl text-2xl leading-relaxed text-zinc-700">
           <p>
             Hyperion is the multi-agent orchestration layer of my personal AI
             workspace — a service that takes a request, researches it, and
@@ -32,19 +32,19 @@ export default function AiOrchestrationPage() {
 
         <WorkflowGraph variant="full" />
 
-        <div className="grid max-w-3xl grid-cols-1 gap-10 sm:grid-cols-2">
-          <div className="flex flex-col gap-3">
-            <h2 className="text-base font-medium text-zinc-100">Challenges</h2>
-            <ol className="flex flex-col gap-2 text-zinc-400">
+        <div className="grid max-w-4xl grid-cols-1 gap-12 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
+            <h2 className="text-xl font-medium text-zinc-900">Challenges</h2>
+            <ol className="flex flex-col gap-3 text-lg text-zinc-600">
               <li>1. A fixed pipeline can&apos;t fan out or fan back in</li>
               <li>2. A hung model call could wedge an entire run</li>
               <li>3. CrewAI&apos;s framework silently ate the safeguards I built on top of it</li>
               <li>4. A failing component degraded silently instead of visibly</li>
             </ol>
           </div>
-          <div className="flex flex-col gap-3">
-            <h2 className="text-base font-medium text-zinc-100">What I built</h2>
-            <ol className="flex flex-col gap-2 text-zinc-400">
+          <div className="flex flex-col gap-4">
+            <h2 className="text-xl font-medium text-zinc-900">What I built</h2>
+            <ol className="flex flex-col gap-3 text-lg text-zinc-600">
               <li>1. An owned agent execution loop, replacing CrewAI entirely</li>
               <li>2. Real per-request timeouts and working stop/cancel for a run in flight</li>
               <li>3. Wave-based parallel execution across independent branches</li>
@@ -53,12 +53,12 @@ export default function AiOrchestrationPage() {
           </div>
         </div>
 
-        <div className="flex max-w-3xl flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <h3 className="text-base font-medium text-zinc-100">
+        <div className="flex max-w-4xl flex-col gap-8">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl font-medium text-zinc-900">
               An owned execution loop
             </h3>
-            <p className="leading-relaxed text-zinc-400">
+            <p className="text-lg leading-relaxed text-zinc-600">
               CrewAI&apos;s executor silently overwrote my usage-logging
               callbacks and swallowed exceptions I raised to enforce spend
               caps — bugs that were hard to see because a framework layer sat
@@ -68,11 +68,11 @@ export default function AiOrchestrationPage() {
               my own instrumentation.
             </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <h3 className="text-base font-medium text-zinc-100">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl font-medium text-zinc-900">
               Timeouts, cancellation, and parallel waves
             </h3>
-            <p className="leading-relaxed text-zinc-400">
+            <p className="text-lg leading-relaxed text-zinc-600">
               A stage-level timeout can&apos;t cancel a blocking call already
               running in a thread, so I threaded a real deadline down to each
               request instead, and gave every run a way to be cancelled
@@ -85,7 +85,7 @@ export default function AiOrchestrationPage() {
           </div>
         </div>
 
-        <p className="max-w-3xl leading-relaxed text-zinc-300">
+        <p className="max-w-4xl text-2xl leading-relaxed text-zinc-700">
           The orchestrator now runs workflows like this in production for my
           own daily use. The rebuild removed CrewAI entirely while the test
           suite grew from 82 to 139 passing tests, and a silent reranker
