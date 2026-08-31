@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Charlie Tolleson — Portfolio",
-  description: "Personal portfolio site — coming soon.",
+  title: "Charlie Tolleson | Portfolio",
+  description: "Personal portfolio site. Coming soon.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

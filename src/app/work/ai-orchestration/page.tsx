@@ -1,7 +1,7 @@
 import WorkflowGraph from "@/components/WorkflowGraph";
 
 export const metadata = {
-  title: "Interactive AI Agent Orchestration Suite — Charlie Tolleson",
+  title: "Interactive AI Agent Orchestration Suite | Charlie Tolleson",
 };
 
 export default function AiOrchestrationPage() {
@@ -13,86 +13,97 @@ export default function AiOrchestrationPage() {
             Interactive AI Agent Orchestration Suite
           </h1>
           <p className="font-mono text-sm uppercase tracking-wide text-zinc-500">
-            Creator &amp; Architect — Hyperion, personal AI workspace
+            Creator &amp; Architect · Hyperion, personal AI workspace
           </p>
         </div>
 
         <div className="max-w-4xl text-2xl leading-relaxed text-zinc-700">
           <p>
             Hyperion is the multi-agent orchestration layer of my personal AI
-            workspace — a service that takes a request, researches it, and
-            synthesizes a report. It started as a fixed three-step CrewAI
-            pipeline, but that couldn&apos;t express the workflows I actually
-            wanted: researching several angles on an idea in parallel,
-            critiquing and advocating for it from different perspectives, and
-            arriving at one verdict. Below is the real shape of that
-            workflow — click through it to see how a run actually executes.
+            workspace. The idea behind it is simple: no single model is the
+            right choice for every step of a task. Instead of routing
+            everything through one LLM, Hyperion assigns each role in a
+            workflow to whichever model actually fits it best, then runs the
+            whole thing as a graph instead of a straight line. Below is the
+            real shape of one workflow: five research angles running in
+            parallel, converging into a synthesis step, splitting into
+            specialist review passes, and resolving into a single verdict.
           </p>
         </div>
 
         <WorkflowGraph variant="full" />
 
-        <div className="grid max-w-4xl grid-cols-1 gap-12 sm:grid-cols-2">
-          <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-medium text-zinc-900">Challenges</h2>
-            <ol className="flex flex-col gap-3 text-lg text-zinc-600">
-              <li>1. A fixed pipeline can&apos;t fan out or fan back in</li>
-              <li>2. A hung model call could wedge an entire run</li>
-              <li>3. CrewAI&apos;s framework silently ate the safeguards I built on top of it</li>
-              <li>4. A failing component degraded silently instead of visibly</li>
-            </ol>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-medium text-zinc-900">What I built</h2>
-            <ol className="flex flex-col gap-3 text-lg text-zinc-600">
-              <li>1. An owned agent execution loop, replacing CrewAI entirely</li>
-              <li>2. Real per-request timeouts and working stop/cancel for a run in flight</li>
-              <li>3. Wave-based parallel execution across independent branches</li>
-              <li>4. Observability on every fail-soft path</li>
-            </ol>
-          </div>
-        </div>
-
         <div className="flex max-w-4xl flex-col gap-8">
           <div className="flex flex-col gap-3">
-            <h3 className="text-xl font-medium text-zinc-900">
-              An owned execution loop
-            </h3>
+            <h2 className="text-xl font-medium text-zinc-900">
+              Balancing strengths and cost
+            </h2>
             <p className="text-lg leading-relaxed text-zinc-600">
-              CrewAI&apos;s executor silently overwrote my usage-logging
-              callbacks and swallowed exceptions I raised to enforce spend
-              caps — bugs that were hard to see because a framework layer sat
-              between me and the model call. I replaced it with a small owned
-              loop directly on LiteLLM&apos;s function-calling API, so both
-              problems disappeared: there was no longer a framework fighting
-              my own instrumentation.
+              Every model has its own balance of capability, speed, and
+              price. Research that fans out into five parallel angles does
+              not need the most expensive model available, since the value
+              there comes from breadth rather than depth, so those nodes run
+              on a fast general-purpose model. The step that matters most,
+              turning five independent research threads into one coherent
+              judgment, runs on the model best suited to synthesis. The
+              planner and the specialist review nodes each get whatever tier
+              fits their role. All of it routes through LiteLLM, so moving a
+              node from one provider to another is a one-line config change
+              rather than a rewrite.
             </p>
           </div>
+
           <div className="flex flex-col gap-3">
-            <h3 className="text-xl font-medium text-zinc-900">
-              Timeouts, cancellation, and parallel waves
-            </h3>
+            <h2 className="text-xl font-medium text-zinc-900">
+              Why a graph, not a pipeline
+            </h2>
             <p className="text-lg leading-relaxed text-zinc-600">
-              A stage-level timeout can&apos;t cancel a blocking call already
-              running in a thread, so I threaded a real deadline down to each
-              request instead, and gave every run a way to be cancelled
-              outright with an immediate status flip rather than waiting on an
-              orphaned thread. The workflow itself runs as topologically
-              sorted waves — independent nodes in a wave run concurrently,
-              exactly as shown above — with each node&apos;s prompt built from
-              its upstream neighbors&apos; actual output instead of shared files.
+              A fixed linear pipeline forces every step through the same path
+              in the same order, which means every step pays the same cost
+              whether it needed to or not. Building the orchestrator around
+              an arbitrary directed graph instead means a workflow&apos;s
+              shape can actually match the task: independent research runs in
+              parallel, review happens once synthesis is done, and the model
+              assigned to each step is a property of that role rather than a
+              global default. That flexibility comes with real trade-offs. A
+              graph is harder to reason about than a straight line, mixing
+              models means each node can carry a slightly different voice or
+              judgment style that the synthesis step has to reconcile, and
+              more parallelism means more surface area for one slow node to
+              become the bottleneck everyone else is waiting on.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xl font-medium text-zinc-900">
+              What&apos;s next
+            </h2>
+            <p className="text-lg leading-relaxed text-zinc-600">
+              Right now, deciding which model belongs on which node is still
+              mostly judgment. The next iteration is making that trade-off
+              measurable: running evals against each node&apos;s output to
+              score quality per model, and building a dashboard on top of the
+              run traces the system already collects, so cost, latency, and
+              quality per model are visible per workflow instead of
+              anecdotal.
             </p>
           </div>
         </div>
 
-        <p className="max-w-4xl text-2xl leading-relaxed text-zinc-700">
-          The orchestrator now runs workflows like this in production for my
-          own daily use. The rebuild removed CrewAI entirely while the test
-          suite grew from 82 to 139 passing tests, and a silent reranker
-          bottleneck went from timing out on more than half its calls to
-          zero, at a third of the latency. The rule I now apply everywhere in
-          this system: every fail-soft path needs a signal.
-        </p>
+        <div className="flex max-w-4xl flex-col gap-4 border-t border-zinc-200 pt-10">
+          <p className="text-2xl leading-relaxed text-zinc-700">
+            Hyperion runs workflows like this in production for my own daily
+            use.
+          </p>
+          <a
+            href="https://github.com/CharlieTolleson/personal-agent"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-fit font-mono text-lg text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+          >
+            View the code on GitHub ↗
+          </a>
+        </div>
       </main>
     </div>
   );

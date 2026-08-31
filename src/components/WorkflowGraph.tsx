@@ -71,7 +71,7 @@ const edges: GraphEdge[] = [
 ];
 
 // Tailwind's default violet/blue/emerald 600-700 steps on a zinc-neutral
-// ground — dark enough to hold contrast on an off-white background.
+// ground, dark enough to hold contrast on an off-white background.
 const KIND_COLOR: Record<NodeKind, { border: string; tag: string; tagBg: string }> = {
   plan: { border: "#7c3aed", tag: "#5b21b6", tagBg: "#ede9fe" },
   work: { border: "#2563eb", tag: "#1d4ed8", tagBg: "#dbeafe" },
