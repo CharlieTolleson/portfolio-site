@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -23,7 +24,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black">{children}</body>
+      <body className="min-h-full flex flex-col bg-zinc-900">
+        <header className="w-full px-6 py-6 sm:px-10 lg:px-16">
+          <Link
+            href="/"
+            className="font-mono text-sm uppercase tracking-widest text-zinc-400 transition-colors hover:text-zinc-100"
+          >
+            Charlie Tolleson
+          </Link>
+        </header>
+        <div className="flex flex-1 flex-col">{children}</div>
+      </body>
     </html>
   );
 }
