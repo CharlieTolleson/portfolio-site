@@ -9,6 +9,7 @@ const sections = [
   "Graphical NER and News Event Detection",
   "NLP Patent Infringement Detection",
   "ML Sales Recommendations with Shapely Values",
+  "No-Code ML",
 ];
 
 export default function Home() {
