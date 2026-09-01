@@ -25,8 +25,8 @@ export default function Home() {
         >
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
             Hi, I&apos;m Charlie - a multidisciplinary data scientist
-            specializing in architecting AI, ML, and measurement systems that
-            scale across organizations.
+            specializing in architecting and scaling AI, ML, and measurement
+            systems across organizations.
           </h1>
           <p className="text-xl text-zinc-600">Currently Freelancing</p>
           <p className="text-xl text-zinc-600">
