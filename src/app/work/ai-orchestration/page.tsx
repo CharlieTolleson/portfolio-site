@@ -20,20 +20,42 @@ export default function AiOrchestrationPage() {
         <div className="max-w-4xl text-2xl leading-relaxed text-zinc-700">
           <p>
             Hyperion is the multi-agent orchestration layer of my personal AI
-            workspace. The idea behind it is simple: no single model is the
-            right choice for every step of a task. Instead of routing
-            everything through one LLM, Hyperion assigns each role in a
-            workflow to whichever model actually fits it best, then runs the
-            whole thing as a graph instead of a straight line. Below is the
-            real shape of one workflow: five research angles running in
-            parallel, converging into a synthesis step, splitting into
-            specialist review passes, and resolving into a single verdict.
+            workspace. Point it at a single prompt and it will draft a
+            workflow on its own, but a workflow is never a black box: I can
+            open any of them in a graphical builder, rewire which nodes feed
+            which, swap the model or persona behind a node, and save the
+            result as a reusable template. Auto-generated or hand-built, the
+            same idea runs underneath: no single model is the right choice
+            for every step of a task, so each role gets whichever model
+            actually fits it best. Below is the real shape of one workflow:
+            five research angles running in parallel, converging into a
+            synthesis step, splitting into specialist review passes, and
+            resolving into a single verdict. Hover a node to see its persona
+            and instruction, or expand one below to see what it actually
+            passed along.
           </p>
         </div>
 
         <WorkflowGraph variant="full" />
 
         <div className="flex max-w-4xl flex-col gap-8">
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xl font-medium text-zinc-900">
+              A team of specialists
+            </h2>
+            <p className="text-lg leading-relaxed text-zinc-600">
+              Every node in a workflow is a persona, not just a model call.
+              The market-sizing node reasons like a market analyst. The
+              critic argues like someone whose only job is finding the hole
+              in the plan. The assessor weighs critique against advocacy like
+              a partner deciding whether to greenlight a deal. Stacked
+              together, a workflow behaves less like a single assistant and
+              more like a small, elite team: each member narrowly focused on
+              one job, briefed with just enough context to do it well, and
+              reporting up to whoever synthesizes the final call.
+            </p>
+          </div>
+
           <div className="flex flex-col gap-3">
             <h2 className="text-xl font-medium text-zinc-900">
               Balancing strengths and cost
