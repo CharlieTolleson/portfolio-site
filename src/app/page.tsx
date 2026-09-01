@@ -17,14 +17,22 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 font-sans">
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-6 pb-40 sm:px-10 lg:px-20">
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-6xl font-semibold tracking-tight text-zinc-900 sm:text-7xl lg:text-8xl"
+          className="flex max-w-3xl flex-col gap-6"
         >
-          Charlie Tolleson
-        </motion.h1>
+          <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
+            Hi, I&apos;m Charlie Tolleson - a multidisciplinary data scientist
+            specializing in architecting AI, ML, and measurement systems that
+            scale across organizations.
+          </h1>
+          <p className="text-xl text-zinc-600">Currently Freelancing</p>
+          <p className="text-xl text-zinc-600">
+            Previously a senior data scientist at @Meta, @Amazon, and @IBM
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
