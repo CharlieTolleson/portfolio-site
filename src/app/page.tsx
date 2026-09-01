@@ -46,7 +46,7 @@ export default function Home() {
             <WorkflowGraph variant="card" />
             <div className="mt-8 flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
-                Interactive AI Agent Orchestration Suite
+                AI Agent Orchestration
               </h2>
               <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
                 Creator &amp; Architect

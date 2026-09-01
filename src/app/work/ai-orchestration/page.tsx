@@ -1,7 +1,7 @@
 import WorkflowGraph from "@/components/WorkflowGraph";
 
 export const metadata = {
-  title: "Interactive AI Agent Orchestration Suite | Charlie Tolleson",
+  title: "AI Agent Orchestration | Charlie Tolleson",
 };
 
 export default function AiOrchestrationPage() {
@@ -10,7 +10,7 @@ export default function AiOrchestrationPage() {
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-14 px-6 pb-40 sm:px-10 lg:px-20">
         <div className="flex flex-col gap-4">
           <h1 className="text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            Interactive AI Agent Orchestration Suite
+            AI Agent Orchestration
           </h1>
           <p className="font-mono text-sm uppercase tracking-wide text-zinc-500">
             Creator &amp; Architect · Hyperion, personal AI workspace
