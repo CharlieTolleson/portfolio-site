@@ -24,7 +24,7 @@ export default function Home() {
           className="flex max-w-3xl flex-col gap-6"
         >
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie Tolleson - a multidisciplinary data scientist
+            Hi, I&apos;m Charlie - a multidisciplinary data scientist
             specializing in architecting AI, ML, and measurement systems that
             scale across organizations.
           </h1>

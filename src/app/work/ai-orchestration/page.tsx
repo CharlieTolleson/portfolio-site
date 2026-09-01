@@ -31,8 +31,7 @@ export default function AiOrchestrationPage() {
             five research angles running in parallel, converging into a
             synthesis step, splitting into specialist review passes, and
             resolving into a single verdict. Hover a node to see its persona
-            and instruction, or expand one below to see what it actually
-            passed along.
+            and instruction.
           </p>
         </div>
 

@@ -18,9 +18,6 @@ type GraphNode = {
   /** Short persona name and instruction, shown in the hover tooltip. */
   persona: string;
   prompt: string;
-  /** Abridged mock input/output, shown in the accordion below the graph. */
-  input: string;
-  output: string;
 };
 
 type GraphEdge = {
@@ -38,82 +35,56 @@ const VIEW_H = 420;
 // aspect ratio: 5 independent research angles fan into one synthesizer,
 // which fans out to 4 specialist passes, which converge through an assessor
 // into a single verdict node. Coordinates are hand-placed for this one
-// workflow, not computed by a generic layout engine. `dur`, `input`, and
-// `output` are mock values illustrating a single run: the idea being
-// evaluated is, fittingly, whether to build the cost-aware routing layer
-// this page describes.
+// workflow, not computed by a generic layout engine. `dur` is a mock value
+// used only to pace the replay animation.
 const nodes: GraphNode[] = [
   {
     id: "market-sizing", label: "Market Sizing", agent: "researcher", kind: "work", x: 20, y: 20, dur: 1.8,
     persona: "Market Analyst", prompt: "Size the market and growth rate for this idea.",
-    input: "Idea: cost-aware LLM routing layer with evals.",
-    output: "Adjacent tooling market growing ~20%/yr. A wedge, not a whole market.",
   },
   {
     id: "domain-expert", label: "Domain Expert", agent: "researcher", kind: "work", x: 20, y: 100, dur: 2.4,
     persona: "Domain Expert", prompt: "Judge technical feasibility.",
-    input: "Idea: cost-aware LLM routing layer with evals.",
-    output: "Feasible today via LiteLLM. The hard part is the eval harness, not the routing.",
   },
   {
     id: "legal-expert", label: "Legal Expert", agent: "researcher", kind: "work", x: 20, y: 180, dur: 1.2,
     persona: "Legal Analyst", prompt: "Flag legal or compliance risk.",
-    input: "Idea: cost-aware LLM routing layer with evals.",
-    output: "No material risk beyond standard provider data-handling terms.",
   },
   {
     id: "market-trends", label: "Market Trends", agent: "researcher", kind: "work", x: 20, y: 260, dur: 2.9,
     persona: "Trend Researcher", prompt: "Identify relevant market trends.",
-    input: "Idea: cost-aware LLM routing layer with evals.",
-    output: "Demand for multi-model orchestration rising as provider pricing diverges.",
   },
   {
     id: "competitive-landscape", label: "Competitive Landscape", agent: "researcher", kind: "work", x: 20, y: 340, dur: 2.1,
     persona: "Competitive Analyst", prompt: "Map competitors and differentiation.",
-    input: "Idea: cost-aware LLM routing layer with evals.",
-    output: "Several routers exist. Almost none pair routing with built-in evals.",
   },
   {
     id: "research-synthesizer", label: "Research Synthesis", agent: "synthesizer", kind: "synthesize", x: 270, y: 180, dur: 1.6,
     persona: "Synthesizer", prompt: "Combine the five research threads into one brief.",
-    input: "5 research briefs: sizing, feasibility, legal, trends, competition.",
-    output: "Real, feasible opportunity. Differentiation depends on shipping evals, not just routing.",
   },
   {
     id: "critic", label: "Critic", agent: "critic", kind: "work", x: 520, y: 60, dur: 1.1,
     persona: "Critic", prompt: "Argue against the idea.",
-    input: "Research brief.",
-    output: "Routing alone is easy to copy. Without evals shipped fast, the edge disappears.",
   },
   {
     id: "advocate", label: "Advocate", agent: "synthesizer", kind: "work", x: 520, y: 140, dur: 1.4,
     persona: "Advocate", prompt: "Argue for the idea.",
-    input: "Research brief.",
-    output: "Evals plus a dashboard turn a commodity router into a measurable, trustworthy system.",
   },
   {
     id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 520, y: 220, dur: 0.9,
     persona: "Planner", prompt: "Draft an execution plan.",
-    input: "Research brief.",
-    output: "Phase 1: ship routing. Phase 2: evals. Phase 3: cost/quality dashboard.",
   },
   {
     id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 520, y: 300, dur: 2.2,
     persona: "Technical Lead", prompt: "Estimate build effort.",
-    input: "Research brief.",
-    output: "Routing already exists. The eval harness is the real scope: 2 to 3 weeks.",
   },
   {
     id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 770, y: 100, dur: 1.0,
     persona: "Assessor", prompt: "Weigh the critique against the advocacy.",
-    input: "Critique and advocacy.",
-    output: "The advocate's case holds only if evals ship in the same cycle as routing.",
   },
   {
     id: "verdict", label: "Verdict", agent: "synthesizer", kind: "synthesize", x: 1020, y: 207, dur: 1.3,
     persona: "Verdict Writer", prompt: "Render a final recommendation.",
-    input: "Plan, assessment, and build estimate.",
-    output: "Go, on the condition that evals ship alongside routing, not after.",
   },
 ];
 
@@ -155,8 +126,7 @@ function elbowPath(from: GraphNode, to: GraphNode) {
 
 // Schedule each node's mock start/finish so the replay animation follows the
 // same rule the real wave executor uses: a node starts once every upstream
-// node it depends on has finished. `order` gives a topological reading order
-// for the accordion below.
+// node it depends on has finished.
 function buildSchedule() {
   const upstream = new Map<string, string[]>();
   for (const n of nodes) upstream.set(n.id, []);
@@ -190,10 +160,10 @@ function buildSchedule() {
     events.push({ t: finish.get(id)!, id, kind: "done" });
   }
   events.sort((a, b) => a.t - b.t);
-  return { events, order };
+  return events;
 }
 
-const { events: schedule, order: executionOrder } = buildSchedule();
+const schedule = buildSchedule();
 
 export default function WorkflowGraph({
   variant = "full",
@@ -206,7 +176,6 @@ export default function WorkflowGraph({
   const [status, setStatus] = useState<Record<string, NodeStatus>>({});
   const [running, setRunning] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const play = () => {
@@ -236,7 +205,6 @@ export default function WorkflowGraph({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggle = (id: string) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   const hovered = interactive && hoveredId ? byId.get(hoveredId)! : null;
 
   return (
@@ -360,43 +328,6 @@ export default function WorkflowGraph({
             >
               {running ? "Running…" : "Run example"}
             </button>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {executionOrder.map((id) => {
-              const n = byId.get(id)!;
-              const isOpen = !!expanded[id];
-              return (
-                <div key={id} className="rounded-md border border-zinc-200 bg-white">
-                  <button
-                    onClick={() => toggle(id)}
-                    className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
-                  >
-                    <span className="flex items-center gap-3">
-                      <span
-                        className="inline-block h-2 w-2 shrink-0 rounded-full"
-                        style={{ backgroundColor: KIND_COLOR[n.kind].border }}
-                      />
-                      <span className="font-medium text-zinc-900">{n.label}</span>
-                      <span className="font-mono text-xs text-zinc-400">{n.persona}</span>
-                    </span>
-                    <span className="text-lg leading-none text-zinc-400">{isOpen ? "-" : "+"}</span>
-                  </button>
-                  {isOpen && (
-                    <div className="flex flex-col gap-2 border-t border-zinc-100 px-4 py-3 text-sm leading-relaxed text-zinc-600">
-                      <div>
-                        <span className="font-mono text-xs uppercase tracking-wide text-zinc-400">Input </span>
-                        {n.input}
-                      </div>
-                      <div>
-                        <span className="font-mono text-xs uppercase tracking-wide text-zinc-400">Output </span>
-                        {n.output}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
       )}
