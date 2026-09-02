@@ -20,7 +20,7 @@ type GraphNode = {
   prompt: string;
   /**
    * Model target this node actually ran on, as recorded in the trace store.
-   * Either a concrete model id or a LiteLLM alias group — see `lib/hyperionRun`.
+   * The model this node is configured to use. See `lib/hyperionRun`.
    */
   model: string;
 };
@@ -205,7 +205,7 @@ export default function WorkflowGraph({
   // The replay is the point of this figure, so it must not fire before anyone
   // can see it. The graph sits roughly a screen and a half down the page and the
   // animation lasts ~4s, so a mount-triggered play would always finish before a
-  // reader arrived — they would meet a static, already-completed graph.
+  // reader arrived, leaving them a static, already-completed graph.
   useEffect(() => {
     if (!interactive || !inView) return;
     const kickoff = setTimeout(play, 250);
@@ -221,7 +221,7 @@ export default function WorkflowGraph({
   return (
     <div className={className} ref={wrapRef}>
       {/* At 375px the 1260-unit viewBox scales to ~0.26, which renders node
-          labels at about 4px — illegible. Scrolling a min-width canvas keeps the
+          labels at about 4px, which is illegible. Scrolling a min-width canvas keeps the
           diagram readable on phones instead of shrinking it past usefulness.
           980px is the narrowest width that still puts node labels above ~12px,
           the point where they stop straining on a phone. */}
@@ -278,7 +278,7 @@ export default function WorkflowGraph({
               >
                 {/* Native SVG tooltip: covers touch long-press and any case where
                     the positioned HTML tooltip is unavailable. */}
-                <title>{`${n.label} — ${n.persona} · ${n.model}`}</title>
+                <title>{`${n.label}: ${n.persona} · ${n.model}`}</title>
                 <rect
                   x={n.x}
                   y={0}

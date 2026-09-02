@@ -1,17 +1,19 @@
 /**
- * hyperionRun.ts — real measured data from Hyperion's run trace store.
+ * hyperionRun.ts: measured data from Hyperion's run trace store.
  *
  * Role in the system: this is the single source of truth for every number shown
- * on the AI Agent Orchestration case-study page. Nothing here is illustrative or
- * rounded for effect — each value was read out of Hyperion's SQLite trace store
+ * on the AI Agent Orchestration case-study page. Timings and token counts were
+ * read straight out of Hyperion's SQLite trace store
  * (`agents/hyperion/tasks/state.db`, table `trace_events`), which the orchestrator
- * writes one row per LLM call with model, token counts, cost and duration.
+ * writes one row per LLM call with model, token counts, cost and duration. The
+ * only values not taken verbatim are two model labels: nodes that name a logical
+ * role are shown as the model that role reaches for first (see MODELS).
  *
  * Key design decision: the page keeps its claims falsifiable. Because every
  * figure traces back to a specific recorded run, the copy can name exact models
  * and exact timings instead of hedging with "a fast general-purpose model". The
- * trade-off is that this file must be regenerated when the numbers go stale —
- * see REGENERATE below.
+ * trade-off is that this file must be regenerated when the numbers go stale.
+ * See REGENERATE below.
  *
  * REGENERATE: re-run the aggregation in `agents/hyperion` against `state.db` and
  * paste the results here. Update `CAPTURED_AT` whenever you do.
@@ -26,7 +28,7 @@ export const FEATURED_RUN_ID = "47349fd3";
 /**
  * A model a node is configured to reach for.
  *
- * Two of the nodes don't name a model directly — they name a logical role that
+ * Two of the nodes don't name a model directly. They name a logical role that
  * resolves through a LiteLLM alias to an ordered provider chain. The figures
  * label those nodes with the first model in their chain, which is the model the
  * node is asking for; the role/alias indirection itself is explained in prose
@@ -76,7 +78,7 @@ export type RunNode = {
  * Ordered by start time, which makes the four execution waves visible: five
  * research nodes at t=0, the synthesizer at 135.6, four specialist passes at
  * 170.7, then assessor and verdict. Every node in a wave starts within ~20ms of
- * its siblings — that simultaneity is what the timeline is there to show.
+ * its siblings, and that simultaneity is what the timeline is there to show.
  */
 export const RUN_NODES: RunNode[] = [
   { id: "competitive-landscape", label: "Competitive Landscape", role: "researcher", model: "gpt-4o", start: 0.0, end: 86.0, calls: 3, tokens: 9586 },

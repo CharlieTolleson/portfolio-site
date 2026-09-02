@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * EvidenceStats.tsx — the measured-facts strip for the orchestration case study.
+ * EvidenceStats.tsx: the measured-facts strip for the orchestration case study.
  *
  * Role in the system: converts the page from an essay into a case study. Every
  * figure is read from Hyperion's run trace store via `lib/hyperionRun.ts`, so a

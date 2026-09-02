@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * RunTimeline.tsx — Gantt chart of one real Hyperion run.
+ * RunTimeline.tsx: Gantt chart of one real Hyperion run.
  *
  * Role in the system: this is the case study's evidence exhibit. The workflow
  * graph next to it shows the *shape* of an orchestration; this shows what that
@@ -14,13 +14,13 @@
  *     see the model mix at a glance rather than read it out of a table.
  *   - Bars are labelled with the model each node is configured to use, not the
  *     logical role it names internally. The role/alias indirection is real and
- *     worth explaining, but a chart is the wrong place to explain it — the page
+ *     worth explaining, but a chart is the wrong place to explain it. The page
  *     does that in prose beside the settings screenshot.
  *   - The footer bar compares measured wall clock against the summed node spans.
  *     That contrast is the single most persuasive number on the page, so it gets
  *     its own visual rather than living in prose.
  *
- * Built with `@visx/scale` + `@visx/group` over hand-written SVG — visx supplies
+ * Built with `@visx/scale` + `@visx/group` over hand-written SVG. visx supplies
  * the scale math while the marks stay explicit, which keeps the chart small and
  * avoids shipping a full charting runtime for one figure.
  */
@@ -176,7 +176,7 @@ export default function RunTimeline() {
                     {n.model}
                   </motion.text>
 
-                  <title>{`${n.label} — ${n.model}, ${(
+                  <title>{`${n.label}: ${n.model}, ${(
                     n.end - n.start
                   ).toFixed(1)}s, ${n.calls} call${
                     n.calls > 1 ? "s" : ""
