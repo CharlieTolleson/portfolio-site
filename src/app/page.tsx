@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
+import DecompWaterfall from "@/components/DecompWaterfall";
 
 /** Built entries, newest last. Each renders as a card above the coming-soon
  *  list, and the list numbers itself from `entries.length + 1`. */
@@ -20,10 +21,15 @@ const entries = [
     role: "Lead Data Scientist",
     visual: <CausalTree variant="card" />,
   },
+  {
+    href: "/work/metric-decomposition",
+    title: "Metric Decomposition",
+    role: "Senior Data Scientist",
+    visual: <DecompWaterfall variant="card" />,
+  },
 ];
 
 const comingSoon = [
-  "Metric Decomposition for Root Cause Analysis and Decision Making",
   "Graphical NER and News Event Detection",
   "NLP Patent Infringement Detection",
   "ML Sales Recommendations with Shapely Values",
