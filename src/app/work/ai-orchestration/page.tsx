@@ -18,7 +18,7 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
 import EvidenceStats from "@/components/EvidenceStats";
 import Figure from "@/components/Figure";
-import { AGGREGATES, FEATURED_RUN_ID } from "@/lib/hyperionRun";
+import { AGGREGATES, FEATURED_RUN_ID, SYSTEM_TOTALS } from "@/lib/hyperionRun";
 
 const REPO = "https://github.com/CharlieTolleson/personal-agent";
 /** Deep link into the orchestrator rather than the monorepo root. */
@@ -152,12 +152,11 @@ export default function AiOrchestrationPage() {
         </section>
 
         <Figure
-          pending
-          src="/work/hyperion-builder.png"
-          width={2400}
-          height={1500}
-          alt="The Hyperion workflow builder, showing the idea-council graph with nodes connected by edges and a panel for editing a selected node's model and persona."
-          caption="The same workflow in Hyperion's builder. Nodes are dragged and rewired directly; the panel on the side sets the model and persona for whichever node is selected."
+          src="/work/hyperion-workflows.png"
+          width={2800}
+          height={1480}
+          alt="Hyperion's workflow library, listing three saved workflows. The Idea Council card shows all twelve of its node slugs; another workflow is marked as the default."
+          caption="Saved workflows. Idea Council is the one diagrammed above — its twelve node slugs are listed on the card. Opening one loads a React Flow canvas where nodes are dragged, connected by dragging between handles, and edited in a side panel; the runner rejects any edge that would close a cycle."
         />
 
         {/* ---- Personas ---- */}
@@ -180,6 +179,14 @@ export default function AiOrchestrationPage() {
           </p>
         </section>
 
+        <Figure
+          src="/work/hyperion-dashboard-agents.png"
+          width={2800}
+          height={1480}
+          alt="Hyperion's dashboard: a task input at the top with a workflow picker, above a grid of agent cards. Each card shows the agent's role, description, model badge, and tool count, and is marked active or inactive."
+          caption="The agent registry. Each card carries the model that role runs on — the researcher on gpt-4o, the synthesizer on gemini-2.5-pro, the planner and developer on the smart and worker aliases — plus how many tools it can reach. Agents can be switched off without editing any workflow that references them."
+        />
+
         {/* ---- Routing ---- */}
         <section className="flex flex-col gap-8">
           <div className="flex max-w-3xl flex-col gap-5">
@@ -199,12 +206,34 @@ export default function AiOrchestrationPage() {
               The planner and developer nodes don&apos;t name a model at all.
               They point at{" "}
               <span className="font-mono text-zinc-800">smart</span> and{" "}
-              <span className="font-mono text-zinc-800">worker</span> — LiteLLM
-              alias groups that list several providers in priority order and fail
-              over between them. Moving that work from Claude to Gemini to OpenAI
-              is a config edit, not a code change, and nothing upstream of the
-              proxy has to know it happened.
+              <span className="font-mono text-zinc-800">worker</span> — logical
+              roles chosen by intent, not by vendor. Each role resolves to an
+              alias, and each alias is an ordered chain across providers:{" "}
+              <span className="font-mono text-zinc-800">smart</span> tries
+              claude-opus-4-6, then gemini-2.5-pro, then gpt-4o, and takes the
+              first that answers.
             </p>
+            <p className="text-lg leading-relaxed text-zinc-600">
+              That indirection is what makes the routing claim more than a
+              preference. Reordering a chain re-routes every node pointed at it,
+              across every workflow, without touching code — and a provider
+              outage degrades a run instead of ending it. Right now there&apos;s
+              no Anthropic key on this box, so those two nodes fall through to
+              Gemini on every run; the trace records the role they asked for, not
+              the provider that happened to serve it.
+            </p>
+          </div>
+
+          <Figure
+            maxWidth="max-w-2xl"
+            src="/work/hyperion-aliases.png"
+            width={2000}
+            height={1760}
+            alt="Hyperion's alias settings. Each alias — smart, worker, cheap — lists an ordered chain of models with controls to reorder, remove, or add entries."
+            caption="The alias editor. smart tries claude-opus-4-6, then gemini-2.5-pro, then gpt-4o; worker and cheap have their own chains. Reordering here re-routes every node pointed at that alias, across every workflow, without touching a line of code."
+          />
+
+          <div className="max-w-3xl">
             <p className="text-lg leading-relaxed text-zinc-600">
               Here is what that mix actually did on the clock. Bars are colored
               by model; dashed outlines are the alias-routed nodes.
@@ -259,8 +288,12 @@ export default function AiOrchestrationPage() {
           </h2>
           <p className="text-lg leading-relaxed text-zinc-600">
             Fanning work out to a dozen model calls means a dozen things that can
-            hang, loop, or quietly burn budget. Three mechanisms bound that, and
-            each one exists because something actually went wrong first.
+            hang, loop, or quietly burn budget. Of{" "}
+            {SYSTEM_TOTALS.tasks} runs to date, 38 finished, 11 failed and 3 were
+            cancelled — and the researcher, the role that makes by far the most
+            calls, carries a 27% error rate. Those are the numbers the next three
+            mechanisms exist to bound. Each one was added because something
+            actually went wrong first.
           </p>
           <ul className="flex flex-col gap-4 text-lg leading-relaxed text-zinc-600">
             <li className="border-l-2 border-zinc-200 pl-5">
@@ -300,12 +333,11 @@ export default function AiOrchestrationPage() {
         </section>
 
         <Figure
-          pending
-          src="/work/hyperion-trace.png"
-          width={2400}
-          height={1500}
-          alt="A Hyperion run trace, showing each node's model, token counts, duration, and cost for a single task."
-          caption={`A run trace in the console. One row per LLM call, attributed to the node that made it — this is the view run ${FEATURED_RUN_ID} above was reconstructed from.`}
+          src="/work/hyperion-monitoring.png"
+          width={2800}
+          height={1520}
+          alt="Hyperion's monitoring view: a run tally at the top, per-agent cards showing run counts, error counts, error rate and token usage against caps, and a table of recent runs with status and a link to each trace."
+          caption={`The monitoring view, reporting against itself: run tallies, per-agent error rates, and token usage against each agent's cap. Every row links out to the full Langfuse trace. This store — and the per-node rows behind it — is where run ${FEATURED_RUN_ID} and every other number on this page came from.`}
         />
 
         {/* ---- Next ---- */}
