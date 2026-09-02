@@ -11,6 +11,7 @@ const comingSoon = [
   "NLP Patent Infringement Detection",
   "ML Sales Recommendations with Shapely Values",
   "No-Code ML",
+  "Agent Context Standards",
 ];
 
 export default function Home() {
