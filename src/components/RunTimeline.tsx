@@ -12,9 +12,10 @@
  *   - Bars are colored by **model**, not by node role. The page's thesis is that
  *     different steps deserve different models, so the reader should be able to
  *     see the model mix at a glance rather than read it out of a table.
- *   - Alias-group nodes (`smart`, `worker`) get a dashed outline, because those
- *     are the nodes that prove provider-independent failover routing rather than
- *     a hardcoded model choice.
+ *   - Bars are labelled with the model each node is configured to use, not the
+ *     logical role it names internally. The role/alias indirection is real and
+ *     worth explaining, but a chart is the wrong place to explain it — the page
+ *     does that in prose beside the settings screenshot.
  *   - The footer bar compares measured wall clock against the summed node spans.
  *     That contrast is the single most persuasive number on the page, so it gets
  *     its own visual rather than living in prose.
@@ -56,8 +57,8 @@ const VIEW_H = TOP + PLOT_H + AXIS_H;
 const MODEL_COLOR: Record<string, string> = {
   "gpt-4o": "#2563eb",
   "gemini-2.5-pro": "#059669",
-  smart: "#7c3aed",
-  worker: "#d97706",
+  "claude-opus-4-6": "#7c3aed",
+  "claude-sonnet-4-6": "#d97706",
 };
 
 const xScale = scaleLinear<number>({
@@ -116,7 +117,6 @@ export default function RunTimeline() {
               const y = TOP + i * (ROW_H + ROW_GAP);
               const x = xScale(n.start);
               const w = Math.max(xScale(n.end) - x, 3);
-              const model = MODELS[n.model];
               const color = MODEL_COLOR[n.model] ?? "#71717a";
               const dim = hovered !== null && hovered !== n.id;
               return (
@@ -154,9 +154,6 @@ export default function RunTimeline() {
                     rx={4}
                     fill={color}
                     fillOpacity={dim ? 0.25 : 0.9}
-                    stroke={color}
-                    strokeWidth={model?.isAlias ? 1.5 : 0}
-                    strokeDasharray={model?.isAlias ? "4 3" : undefined}
                     initial={{ width: 0 }}
                     animate={inView ? { width: w } : { width: 0 }}
                     transition={{
@@ -224,44 +221,32 @@ export default function RunTimeline() {
       </div>
 
       <p className="mt-2 font-mono text-xs text-zinc-400 sm:hidden">
-        scroll the diagram sideways →
+        scroll the chart sideways →
       </p>
 
-      {/* Model legend. Alias groups spell out their failover order, since that
-          ordering is the whole point of routing through an alias. */}
+      {/* Model legend, annotated with the provider behind each model so the
+          three-provider spread is legible without counting. */}
       <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-500">
-        {Object.keys(MODEL_COLOR).map((m) => {
-          const model = MODELS[m];
-          return (
-            <span key={m} className="flex items-center gap-2">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-sm"
-                style={{
-                  backgroundColor: MODEL_COLOR[m],
-                  outline: model?.isAlias
-                    ? `1.5px dashed ${MODEL_COLOR[m]}`
-                    : undefined,
-                  outlineOffset: 2,
-                }}
-              />
-              <span className="font-mono">{m}</span>
-              {model?.isAlias && (
-                <span className="text-zinc-400">
-                  alias → {model.group?.join(" → ")}
-                </span>
-              )}
-            </span>
-          );
-        })}
+        {Object.keys(MODEL_COLOR).map((m) => (
+          <span key={m} className="flex items-center gap-2">
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-sm"
+              style={{ backgroundColor: MODEL_COLOR[m] }}
+            />
+            <span className="font-mono">{m}</span>
+            <span className="text-zinc-400">{MODELS[m]?.provider}</span>
+          </span>
+        ))}
       </div>
 
       <SequentialComparison />
 
       <figcaption className="text-sm leading-relaxed text-zinc-500">
         Run <span className="font-mono text-zinc-600">{FEATURED_RUN_ID}</span>,
-        recorded 2026-06-23. Spans are measured from Hyperion&apos;s trace store,
-        one row per LLM call. Research nodes span more than one call because they
-        run a capped search-and-reason loop, so their bars include tool time
+        recorded 2026-06-23. Timings are measured from Hyperion&apos;s trace
+        store, one row per LLM call; each bar is labelled with the model that
+        node is configured to use. Research nodes span more than one call because
+        they run a capped search-and-reason loop, so their bars include tool time
         between calls.
       </figcaption>
     </figure>

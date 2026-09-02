@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
-import { MODELS } from "@/lib/hyperionRun";
 
 type NodeKind = "plan" | "work" | "synthesize";
 type NodeStatus = "pending" | "running" | "done";
@@ -78,11 +77,11 @@ const nodes: GraphNode[] = [
   },
   {
     id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 520, y: 220, dur: 0.9,
-    persona: "Planner", prompt: "Draft an execution plan.", model: "smart",
+    persona: "Planner", prompt: "Draft an execution plan.", model: "claude-opus-4-6",
   },
   {
     id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 520, y: 300, dur: 2.2,
-    persona: "Technical Lead", prompt: "Estimate build effort.", model: "worker",
+    persona: "Technical Lead", prompt: "Estimate build effort.", model: "claude-sonnet-4-6",
   },
   {
     id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 770, y: 100, dur: 1.0,
@@ -337,16 +336,8 @@ export default function WorkflowGraph({
           >
             <div className="flex items-baseline justify-between gap-2">
               <span className="text-sm font-semibold text-zinc-900">{hovered.persona}</span>
-              <span
-                className="shrink-0 font-mono text-[11px] text-zinc-500"
-                title={
-                  MODELS[hovered.model]?.isAlias
-                    ? `alias group → ${MODELS[hovered.model]?.group?.join(" → ")}`
-                    : undefined
-                }
-              >
+              <span className="shrink-0 font-mono text-[11px] text-zinc-500">
                 {hovered.model}
-                {MODELS[hovered.model]?.isAlias ? " ⁎" : ""}
               </span>
             </div>
             <div className="mt-1 text-xs leading-snug text-zinc-500">{hovered.prompt}</div>
@@ -369,9 +360,6 @@ export default function WorkflowGraph({
                 </div>
               ))}
             </div>
-            <span className="text-xs text-zinc-400">
-              ⁎ alias-routed node
-            </span>
             <button
               onClick={play}
               disabled={running}

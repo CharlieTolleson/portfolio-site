@@ -120,9 +120,11 @@ export default function AiOrchestrationPage() {
           </p>
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
-            I led an evals team through this problem at Meta. Hyperion is what I
-            built to keep working on it with my hands on the whole stack —
-            orchestration, routing, and the traces underneath.
+            I led evals through this problem at Meta, across seven sales
+            workflows and a group of about thirty — seven data scientists, seven
+            data engineers, seven PMs, and ten software engineers. Hyperion is
+            what I built to keep working on the same problem with my hands on the
+            whole stack: orchestration, routing, and the traces underneath.
           </p>
         </section>
 
@@ -152,11 +154,11 @@ export default function AiOrchestrationPage() {
         </section>
 
         <Figure
-          src="/work/hyperion-workflows.png"
+          src="/work/hyperion-builder.png"
           width={2800}
-          height={1480}
-          alt="Hyperion's workflow library, listing three saved workflows. The Idea Council card shows all twelve of its node slugs; another workflow is marked as the default."
-          caption="Saved workflows. Idea Council is the one diagrammed above — its twelve node slugs are listed on the card. Opening one loads a React Flow canvas where nodes are dragged, connected by dragging between handles, and edited in a side panel; the runner rejects any edge that would close a cycle."
+          height={1866}
+          alt="The Idea Council workflow open in Hyperion's builder. Twelve nodes are laid out on a canvas connected by dependency arrows, with the advocate node selected and a side panel showing its slug, role, agent, approval gate, and instruction override."
+          caption="The same workflow in the builder, with the advocate node selected. Nodes are dragged into place and wired by dragging between handles — an edge means the source must finish first — and the panel edits that node's role, agent, approval gate, and instruction. The editor rejects any connection that would close a cycle, so a workflow always stays a DAG the runner can schedule."
         />
 
         {/* ---- Personas ---- */}
@@ -216,11 +218,9 @@ export default function AiOrchestrationPage() {
             <p className="text-lg leading-relaxed text-zinc-600">
               That indirection is what makes the routing claim more than a
               preference. Reordering a chain re-routes every node pointed at it,
-              across every workflow, without touching code — and a provider
-              outage degrades a run instead of ending it. Right now there&apos;s
-              no Anthropic key on this box, so those two nodes fall through to
-              Gemini on every run; the trace records the role they asked for, not
-              the provider that happened to serve it.
+              across every workflow, without touching code, and a provider outage
+              degrades a run instead of ending it — the node falls to the next
+              model in its chain and keeps going.
             </p>
           </div>
 
@@ -235,8 +235,8 @@ export default function AiOrchestrationPage() {
 
           <div className="max-w-3xl">
             <p className="text-lg leading-relaxed text-zinc-600">
-              Here is what that mix actually did on the clock. Bars are colored
-              by model; dashed outlines are the alias-routed nodes.
+              Here is what that mix did on the clock — twelve nodes, four
+              models, three providers, one run. Bars are colored by model.
             </p>
           </div>
 
@@ -410,9 +410,9 @@ export default function AiOrchestrationPage() {
             </span>
             <a
               href="mailto:charlietolleson@gmail.com"
-              className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+              className="font-mono text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
             >
-              Email
+              charlietolleson@gmail.com
             </a>
             <Link
               href="/"
