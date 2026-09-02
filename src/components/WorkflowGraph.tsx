@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { MODELS } from "@/lib/hyperionRun";
 
 type NodeKind = "plan" | "work" | "synthesize";
 type NodeStatus = "pending" | "running" | "done";
@@ -18,6 +19,11 @@ type GraphNode = {
   /** Short persona name and instruction, shown in the hover tooltip. */
   persona: string;
   prompt: string;
+  /**
+   * Model target this node actually ran on, as recorded in the trace store.
+   * Either a concrete model id or a LiteLLM alias group — see `lib/hyperionRun`.
+   */
+  model: string;
 };
 
 type GraphEdge = {
@@ -40,51 +46,51 @@ const VIEW_H = 420;
 const nodes: GraphNode[] = [
   {
     id: "market-sizing", label: "Market Sizing", agent: "researcher", kind: "work", x: 20, y: 20, dur: 1.8,
-    persona: "Market Analyst", prompt: "Size the market and growth rate for this idea.",
+    persona: "Market Analyst", prompt: "Size the market and growth rate for this idea.", model: "gpt-4o",
   },
   {
     id: "domain-expert", label: "Domain Expert", agent: "researcher", kind: "work", x: 20, y: 100, dur: 2.4,
-    persona: "Domain Expert", prompt: "Judge technical feasibility.",
+    persona: "Domain Expert", prompt: "Judge technical feasibility.", model: "gpt-4o",
   },
   {
     id: "legal-expert", label: "Legal Expert", agent: "researcher", kind: "work", x: 20, y: 180, dur: 1.2,
-    persona: "Legal Analyst", prompt: "Flag legal or compliance risk.",
+    persona: "Legal Analyst", prompt: "Flag legal or compliance risk.", model: "gpt-4o",
   },
   {
     id: "market-trends", label: "Market Trends", agent: "researcher", kind: "work", x: 20, y: 260, dur: 2.9,
-    persona: "Trend Researcher", prompt: "Identify relevant market trends.",
+    persona: "Trend Researcher", prompt: "Identify relevant market trends.", model: "gpt-4o",
   },
   {
     id: "competitive-landscape", label: "Competitive Landscape", agent: "researcher", kind: "work", x: 20, y: 340, dur: 2.1,
-    persona: "Competitive Analyst", prompt: "Map competitors and differentiation.",
+    persona: "Competitive Analyst", prompt: "Map competitors and differentiation.", model: "gpt-4o",
   },
   {
     id: "research-synthesizer", label: "Research Synthesis", agent: "synthesizer", kind: "synthesize", x: 270, y: 180, dur: 1.6,
-    persona: "Synthesizer", prompt: "Combine the five research threads into one brief.",
+    persona: "Synthesizer", prompt: "Combine the five research threads into one brief.", model: "gemini-2.5-pro",
   },
   {
     id: "critic", label: "Critic", agent: "critic", kind: "work", x: 520, y: 60, dur: 1.1,
-    persona: "Critic", prompt: "Argue against the idea.",
+    persona: "Critic", prompt: "Argue against the idea.", model: "gpt-4o",
   },
   {
     id: "advocate", label: "Advocate", agent: "synthesizer", kind: "work", x: 520, y: 140, dur: 1.4,
-    persona: "Advocate", prompt: "Argue for the idea.",
+    persona: "Advocate", prompt: "Argue for the idea.", model: "gemini-2.5-pro",
   },
   {
     id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 520, y: 220, dur: 0.9,
-    persona: "Planner", prompt: "Draft an execution plan.",
+    persona: "Planner", prompt: "Draft an execution plan.", model: "smart",
   },
   {
     id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 520, y: 300, dur: 2.2,
-    persona: "Technical Lead", prompt: "Estimate build effort.",
+    persona: "Technical Lead", prompt: "Estimate build effort.", model: "worker",
   },
   {
     id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 770, y: 100, dur: 1.0,
-    persona: "Assessor", prompt: "Weigh the critique against the advocacy.",
+    persona: "Assessor", prompt: "Weigh the critique against the advocacy.", model: "gpt-4o",
   },
   {
     id: "verdict", label: "Verdict", agent: "synthesizer", kind: "synthesize", x: 1020, y: 207, dur: 1.3,
-    persona: "Verdict Writer", prompt: "Render a final recommendation.",
+    persona: "Verdict Writer", prompt: "Render a final recommendation.", model: "gemini-2.5-pro",
   },
 ];
 
@@ -173,6 +179,8 @@ export default function WorkflowGraph({
   className?: string;
 }) {
   const interactive = variant === "full";
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(wrapRef, { once: true, amount: 0.35 });
   const [status, setStatus] = useState<Record<string, NodeStatus>>({});
   const [running, setRunning] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -195,21 +203,31 @@ export default function WorkflowGraph({
     timeouts.current.push(endId);
   };
 
+  // The replay is the point of this figure, so it must not fire before anyone
+  // can see it. The graph sits roughly a screen and a half down the page and the
+  // animation lasts ~4s, so a mount-triggered play would always finish before a
+  // reader arrived — they would meet a static, already-completed graph.
   useEffect(() => {
-    if (!interactive) return;
-    const kickoff = setTimeout(play, 0);
+    if (!interactive || !inView) return;
+    const kickoff = setTimeout(play, 250);
     return () => {
       clearTimeout(kickoff);
       timeouts.current.forEach(clearTimeout);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [inView]);
 
   const hovered = interactive && hoveredId ? byId.get(hoveredId)! : null;
 
   return (
-    <div className={className}>
-      <div className="relative">
+    <div className={className} ref={wrapRef}>
+      {/* At 375px the 1260-unit viewBox scales to ~0.26, which renders node
+          labels at about 4px — illegible. Scrolling a min-width canvas keeps the
+          diagram readable on phones instead of shrinking it past usefulness.
+          980px is the narrowest width that still puts node labels above ~12px,
+          the point where they stop straining on a phone. */}
+      <div className="relative -mx-6 overflow-x-auto px-6 sm:mx-0 sm:overflow-x-visible sm:px-0">
+        <div className="relative min-w-[980px] sm:min-w-0">
         <svg
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
           className="w-full h-auto"
@@ -250,8 +268,18 @@ export default function WorkflowGraph({
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 onMouseEnter={() => interactive && setHoveredId(n.id)}
                 onMouseLeave={() => interactive && setHoveredId((cur) => (cur === n.id ? null : cur))}
+                // Focus handlers mirror the hover handlers so the tooltip is
+                // reachable by keyboard, not just by pointer.
+                onFocus={() => interactive && setHoveredId(n.id)}
+                onBlur={() => interactive && setHoveredId((cur) => (cur === n.id ? null : cur))}
+                tabIndex={interactive ? 0 : -1}
+                role={interactive ? "button" : undefined}
+                aria-label={interactive ? `${n.label}: ${n.persona} running on ${n.model}. ${n.prompt}` : undefined}
                 style={{ cursor: interactive ? "default" : undefined }}
               >
+                {/* Native SVG tooltip: covers touch long-press and any case where
+                    the positioned HTML tooltip is unavailable. */}
+                <title>{`${n.label} — ${n.persona} · ${n.model}`}</title>
                 <rect
                   x={n.x}
                   y={0}
@@ -297,23 +325,43 @@ export default function WorkflowGraph({
 
         {hovered && (
           <div
-            className="pointer-events-none absolute z-10 w-56 -translate-x-1/2 -translate-y-full rounded-md border border-zinc-200 bg-white px-3 py-2 shadow-lg"
+            className="pointer-events-none absolute z-10 w-60 -translate-x-1/2 rounded-md border border-zinc-200 bg-white px-3 py-2 shadow-lg"
             style={{
               left: `${((hovered.x + NODE_W / 2) / VIEW_W) * 100}%`,
-              top: `${(hovered.y / VIEW_H) * 100}%`,
-              marginTop: -8,
+              // Nodes in the top row sit at y=20 of a 420-unit viewBox, so
+              // anchoring the tooltip above them clipped it off the top. Flip it
+              // below the node whenever there is not room above.
+              top: `${((hovered.y + (hovered.y < 90 ? NODE_H + 8 : -8)) / VIEW_H) * 100}%`,
+              transform: `translateX(-50%) ${hovered.y < 90 ? "" : "translateY(-100%)"}`,
             }}
           >
-            <div className="text-sm font-semibold text-zinc-900">{hovered.persona}</div>
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="text-sm font-semibold text-zinc-900">{hovered.persona}</span>
+              <span
+                className="shrink-0 font-mono text-[11px] text-zinc-500"
+                title={
+                  MODELS[hovered.model]?.isAlias
+                    ? `alias group → ${MODELS[hovered.model]?.group?.join(" → ")}`
+                    : undefined
+                }
+              >
+                {hovered.model}
+                {MODELS[hovered.model]?.isAlias ? " ⁎" : ""}
+              </span>
+            </div>
             <div className="mt-1 text-xs leading-snug text-zinc-500">{hovered.prompt}</div>
           </div>
         )}
+        </div>
       </div>
+      <p className="mt-2 font-mono text-xs text-zinc-400 sm:hidden">
+        scroll the diagram sideways →
+      </p>
 
       {interactive && (
         <div className="mt-6 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-500">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-500">
               {(Object.keys(KIND_COLOR) as NodeKind[]).map((k) => (
                 <div key={k} className="flex items-center gap-2">
                   <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: KIND_COLOR[k].border }} />
@@ -321,6 +369,9 @@ export default function WorkflowGraph({
                 </div>
               ))}
             </div>
+            <span className="text-xs text-zinc-400">
+              ⁎ alias-routed node
+            </span>
             <button
               onClick={play}
               disabled={running}
