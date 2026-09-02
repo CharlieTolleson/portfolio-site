@@ -24,35 +24,26 @@ export const CAPTURED_AT = "2026-09-01";
 export const FEATURED_RUN_ID = "47349fd3";
 
 /**
- * A model target as recorded on the trace row.
+ * A model a node is configured to reach for.
  *
- * Hyperion nodes can point either at a concrete model id (`gpt-4o`) or at a
- * LiteLLM *alias group* (`smart`, `worker`) that lists several providers in
- * priority order and fails over between them. The distinction matters on the
- * page: alias nodes are the ones that demonstrate provider-independent routing.
+ * Two of the nodes don't name a model directly — they name a logical role that
+ * resolves through a LiteLLM alias to an ordered provider chain. The figures
+ * label those nodes with the first model in their chain, which is the model the
+ * node is asking for; the role/alias indirection itself is explained in prose
+ * and shown in the settings screenshot.
  */
 export type ModelRef = {
-  /** Value as recorded in the trace store. */
+  /** Model id as shown in the figures. */
   id: string;
-  /** True when `id` is a LiteLLM alias group rather than a concrete model. */
-  isAlias: boolean;
-  /** For alias groups, the providers tried in priority order. */
-  group?: string[];
+  /** Provider that serves it, for the legend. */
+  provider: string;
 };
 
 export const MODELS: Record<string, ModelRef> = {
-  "gpt-4o": { id: "gpt-4o", isAlias: false },
-  "gemini-2.5-pro": { id: "gemini-2.5-pro", isAlias: false },
-  smart: {
-    id: "smart",
-    isAlias: true,
-    group: ["claude-opus-4-6", "gemini-2.5-pro", "gpt-4o"],
-  },
-  worker: {
-    id: "worker",
-    isAlias: true,
-    group: ["claude-sonnet-4-6", "gemini-2.5-pro", "gpt-4o"],
-  },
+  "gpt-4o": { id: "gpt-4o", provider: "openai" },
+  "gemini-2.5-pro": { id: "gemini-2.5-pro", provider: "gemini" },
+  "claude-opus-4-6": { id: "claude-opus-4-6", provider: "anthropic" },
+  "claude-sonnet-4-6": { id: "claude-sonnet-4-6", provider: "anthropic" },
 };
 
 /**
@@ -67,6 +58,7 @@ export type RunNode = {
   id: string;
   label: string;
   role: string;
+  /** Model this node is configured to use; see MODELS. */
   model: string;
   /** Seconds from run start. */
   start: number;
@@ -95,8 +87,8 @@ export const RUN_NODES: RunNode[] = [
   { id: "research-synthesizer", label: "Research Synthesis", role: "synthesizer", model: "gemini-2.5-pro", start: 135.6, end: 170.7, calls: 1, tokens: 8562 },
   { id: "critic", label: "Critic", role: "critic", model: "gpt-4o", start: 170.7, end: 176.5, calls: 1, tokens: 3482 },
   { id: "advocate", label: "Advocate", role: "synthesizer", model: "gemini-2.5-pro", start: 170.7, end: 182.2, calls: 1, tokens: 4481 },
-  { id: "planner", label: "Planner", role: "planner", model: "smart", start: 170.7, end: 204.4, calls: 1, tokens: 7170 },
-  { id: "developer", label: "Developer", role: "developer", model: "worker", start: 170.7, end: 222.4, calls: 1, tokens: 8991 },
+  { id: "planner", label: "Planner", role: "planner", model: "claude-opus-4-6", start: 170.7, end: 204.4, calls: 1, tokens: 7170 },
+  { id: "developer", label: "Developer", role: "developer", model: "claude-sonnet-4-6", start: 170.7, end: 222.4, calls: 1, tokens: 8991 },
   { id: "assessor", label: "Assessor", role: "critic", model: "gpt-4o", start: 222.4, end: 227.2, calls: 1, tokens: 2471 },
   { id: "verdict", label: "Verdict", role: "synthesizer", model: "gemini-2.5-pro", start: 227.3, end: 259.9, calls: 1, tokens: 10651 },
 ];
