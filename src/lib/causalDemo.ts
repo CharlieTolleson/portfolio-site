@@ -417,8 +417,8 @@ export const WORST_BEFORE = Math.max(...BALANCE.map((b) => Math.abs(b.before)));
 // --- Honest causal tree ----------------------------------------------------
 
 /**
- * Adds an English ordinal suffix, so percentile cuts read as "51st pct" rather
- * than "51th pct".
+ * Adds an English ordinal suffix, so percentile cuts read as "51st percentile"
+ * rather than "51th percentile".
  *
  * @param n A whole number.
  * @returns The number with its ordinal suffix.
@@ -441,13 +441,15 @@ const SPLIT_FEATURES = [
     key: "size" as const,
     label: "Size",
     kind: "num" as const,
-    fmt: (t: number) => `${ordinal(Math.round(t * 100))} pct`,
+    // Spelled out rather than abbreviated: these strings are read by a general
+    // audience in figure labels, where "pct" is ambiguous.
+    fmt: (t: number) => `${ordinal(Math.round(t * 100))} percentile`,
   },
   {
     key: "tenure" as const,
     label: "Tenure",
     kind: "num" as const,
-    fmt: (t: number) => `${(t * 8).toFixed(1)} yr`,
+    fmt: (t: number) => `${(t * 8).toFixed(1)} years`,
   },
   { key: "region" as const, label: "Region", kind: "cat" as const, fmt: () => "" },
 ];

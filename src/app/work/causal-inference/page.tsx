@@ -52,10 +52,14 @@ export const metadata = {
 
 /** Fact rows shown under the title, so the technical read is instant. */
 const META: [string, string][] = [
-  ["Role", "Senior data scientist: framing, method, framework, recommendations"],
+  [
+    "Role",
+    "Lead data scientist: framing, method, framework, recommendations",
+  ],
+  ["Team", "Me plus two data scientists"],
   ["Context", "Meta Sales analytics, generalized here"],
   ["Approach", "Causal forests over observational data, wrapped in an agent"],
-  ["Status", "In use by my team; expanding into a multi-method agent"],
+  ["Status", "Handed off to a team extending it into a multi-method agent"],
 ];
 
 /**
@@ -77,11 +81,11 @@ const METHODS: [string, string][] = [
   ],
   [
     "Regression discontinuity",
-    "Eligibility turns on at a threshold, so units either side of the cutoff are otherwise alike.",
+    "Eligibility turns on at a threshold, so units on either side of the cutoff are otherwise alike.",
   ],
   [
     "Instrumental variables",
-    "Something shifts treatment without touching the outcome directly, which buys identification selection alone cannot.",
+    "Something shifts treatment without affecting the outcome by any other route, which identifies the effect where adjusting for covariates alone cannot.",
   ],
 ];
 
@@ -107,7 +111,7 @@ export default function CausalInferencePage() {
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
             Sales had a new north star metric and no idea what moved it. The
             rigorous answer cost a quarter per question. I built the fast one,
-            then handed it to an agent.
+            then wrapped it in an agent.
           </p>
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
@@ -165,18 +169,19 @@ export default function CausalInferencePage() {
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
             The question landed on my team: which levers can sales pull to move
-            this metric, and by how much?
+            this metric, and by how much? I led that work, with two other data
+            scientists alongside me.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             The textbook answer is live experimentation, and it is the right
             answer. It is also the slow one. A sales experiment needs a full
             quarter to read out, and a quarter buys you one hypothesis. A
             business at Meta&apos;s scale is not going to hold still for three
-            months per question, and we had dozens of questions.
+            months per question, and we had dozens of them.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             So the requirement was never just &quot;measure this.&quot; It was:
-            measure it with data we already have, repeatably, on a timeline where
+            measure it with data we already had, repeatably, on a timeline where
             the answer still changes a decision.
           </p>
         </section>
@@ -197,24 +202,25 @@ export default function CausalInferencePage() {
             <p className="text-xl leading-relaxed text-zinc-700">
               The obstacle is always selection. The accounts that got a given
               play were not a random sample. They were the ones a rep chose to
-              spend time on, which means they skewed larger, healthier, and
+              spend time on, which means they were larger, healthier, and
               further along to begin with. Compare them to everyone else and you
               measure the head start, not the play.
             </p>
-            <p className="text-lg leading-relaxed text-zinc-600">
+            <p className="text-xl leading-relaxed text-zinc-700">
               The fix is mechanical: model each unit&apos;s probability of having
               been treated from its covariates, weight the two groups so they
               look alike on everything you can observe, and then check that they
               actually do. The check is the part that matters. An effect estimate
               is worth precisely as much as the balance diagnostics behind it,
-              which is why they belong in the figure rather than an appendix.
+              which is why those diagnostics belong in the figure rather than in
+              an appendix.
             </p>
           </div>
 
           <BalanceCheck />
 
           <div className="flex max-w-3xl flex-col gap-6">
-            <p className="text-lg leading-relaxed text-zinc-600">
+            <p className="text-xl leading-relaxed text-zinc-700">
               On this simulated population the raw comparison reports{" "}
               <span className="font-mono text-zinc-800">
                 +{NAIVE_DIFF.toFixed(2)}
@@ -229,7 +235,7 @@ export default function CausalInferencePage() {
               <span className="font-mono text-zinc-800">
                 +{ADJUSTED_ATE.toFixed(2)}
               </span>
-              , which is close, and not exact: the residual bias is larger than
+              , which is close but not exact: the residual bias is larger than
               the confidence interval around it. That gap is honest and worth
               stating, because it is the reason a live experiment stays the
               tiebreaker rather than a formality.
@@ -247,8 +253,9 @@ export default function CausalInferencePage() {
               The simplest causal methods return a single number for the whole
               population: this play lifts the metric by so much. That is a fine
               sentence and a poor instruction. Meta&apos;s advertiser base is not
-              one population. It spans regions, sizes, verticals, and wildly
-              different levels of product maturity, and a play that lands in one
+              one population. It spans regions, company sizes, industry
+              verticals, and wildly different levels of product maturity, and a
+              play that lands in one
               segment can do nothing in the next and cost you in a third.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
@@ -261,7 +268,7 @@ export default function CausalInferencePage() {
 
           <EffectSpread />
 
-          <p className="max-w-3xl text-lg leading-relaxed text-zinc-600">
+          <p className="max-w-3xl text-xl leading-relaxed text-zinc-700">
             The average here is{" "}
             <span className="font-mono text-zinc-800">
               +{ADJUSTED_ATE.toFixed(2)}
@@ -289,7 +296,7 @@ export default function CausalInferencePage() {
               different <em>responses to treatment</em>. What comes out is not a
               prediction of the metric. It is a map of where the lever works.
             </p>
-            <p className="text-lg leading-relaxed text-zinc-600">
+            <p className="text-xl leading-relaxed text-zinc-700">
               Two properties made it the right choice for this problem:
             </p>
             <ul className="flex flex-col gap-4 text-lg leading-relaxed text-zinc-600">
@@ -299,8 +306,9 @@ export default function CausalInferencePage() {
                 the effect inside each leaf. Skip that and a tree will hunt down
                 the subgroup where noise happened to look like a large effect,
                 then report the same noise back as a finding. Honest estimation
-                is what makes the intervals mean anything, and it is the
-                difference between a subgroup analysis and a fishing expedition.
+                is what makes the confidence intervals mean anything, and it is
+                the difference between a subgroup analysis and a fishing
+                expedition.
               </li>
               <li className="border-l-2 border-zinc-200 pl-5">
                 <span className="font-medium text-zinc-800">
@@ -309,9 +317,18 @@ export default function CausalInferencePage() {
                 A single tree is fragile: resample the data and the cut points
                 move. Averaging over many trees means what survives is structure
                 rather than one lucky partition, and the parts that do not
-                survive show up as wider intervals instead of quiet errors.
+                survive show up as wider confidence intervals instead of quiet
+                errors.
               </li>
             </ul>
+            <p className="text-xl leading-relaxed text-zinc-700">
+              Underneath both sits a third property, borrowed from double
+              machine learning: the outcome and the treatment are each
+              residualized on
+              the covariates before any effect is estimated, so errors in those
+              two nuisance models do not pass straight through into the
+              treatment effect.
+            </p>
           </div>
 
           <CausalTree variant="full" />
@@ -350,12 +367,13 @@ export default function CausalInferencePage() {
             concentrates, how confident we are, and what the diagnostics say
             about whether to believe any of it.
           </p>
-          <p className="text-lg leading-relaxed text-zinc-600">
+          <p className="text-xl leading-relaxed text-zinc-700">
             The trade-off is the obvious one. Making a causal estimate cheap to
             produce also makes a bad causal estimate cheap to produce, and a weak
             analysis dressed in a subgroup table is very persuasive to a room
             that wants good news. So the diagnostics travel with the answer
-            rather than sitting behind it: balance, overlap, leaf sizes, interval
+            rather than sitting behind it: covariate balance, overlap between
+            the treated and untreated groups, leaf sizes, confidence interval
             widths. A brief should let a reader see the estimate and the reasons
             to doubt it at the same time.
           </p>
@@ -377,10 +395,11 @@ export default function CausalInferencePage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             The honest framing of the result is not that this replaced
             experimentation. Live experiments still validate, and they should.
-            What changed is which experiments get run. Instead of spending a
-            quarter to discover a hypothesis was never promising, we spend an
-            afternoon ranking the whole set and spend the quarter on the one
-            worth it. Causal inference did not replace the experiment. It made
+            What changed is which experiments get run. Instead of burning a
+            quarter to discover that a hypothesis was never promising, we spend
+            an afternoon ranking the whole set and give the quarter to the one
+            that earns it. Causal inference did not replace the experiment. It
+            made
             the experiment queue an informed decision, and that is a capability
             any business can use.
           </p>
@@ -390,19 +409,21 @@ export default function CausalInferencePage() {
         <section className="flex flex-col gap-8">
           <div className="flex max-w-3xl flex-col gap-6">
             <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
-              What&apos;s next: Causal Forge
+              Handing it off: Causal Forge
             </h2>
             <p className="text-xl leading-relaxed text-zinc-700">
               Causal forests were right for this problem. They are not right for
               every problem. The shape of the data and the shape of the question
               decide the method, and choosing it is where the judgment lives. My
-              framework still assumes that choice has already been made.
+              framework assumes that choice has already been made.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
-              The next version, which I have aligned on with the broader org, is
-              what we are calling Causal Forge: a specialist agent that reads the
-              data and the question, picks the technique, defends the choice,
-              runs it, and reports its own diagnostics.
+              Closing that gap became someone else&apos;s roadmap. I scoped the
+              extension with the broader org and handed the framework over to a
+              team now building it into what we are calling Causal Forge: a
+              specialist agent that reads the data and the question, picks the
+              technique, defends the choice, runs it, and reports its own
+              diagnostics. These are the methods it arbitrates between.
             </p>
           </div>
 
@@ -420,7 +441,16 @@ export default function CausalInferencePage() {
             ))}
           </ul>
 
-          <p className="max-w-3xl text-lg leading-relaxed text-zinc-600">
+          <p className="max-w-3xl text-xl leading-relaxed text-zinc-700">
+            That handoff was the point. A framework only its author can run
+            is a personal productivity gain. One that another team can extend is
+            infrastructure. What made it extensible was the seam between the
+            estimator and everything around it, so swapping causal forests for a
+            different method does not disturb the data preparation, the
+            diagnostics, or the brief.
+          </p>
+
+          <p className="max-w-3xl text-xl leading-relaxed text-zinc-700">
             It is the same problem as the one in my{" "}
             <Link
               href="/work/ai-orchestration"
