@@ -94,7 +94,7 @@ export default function RunTimeline() {
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
             className="h-auto w-full"
             role="img"
-            aria-label={`Timeline of Hyperion run ${FEATURED_RUN_ID}: twelve nodes across four execution waves completing in ${Math.round(
+            aria-label={`Timeline of Hyperion run ${FEATURED_RUN_ID}: nodes grouped into execution waves, completing in ${Math.round(
               RUN_WALL_SECONDS
             )} seconds of wall clock, against ${Math.round(
               RUN_SEQUENTIAL_SECONDS
@@ -286,7 +286,7 @@ function SequentialComparison() {
         delay={0.25}
       />
       <p className="text-sm text-zinc-500">
-        Same twelve nodes, same models.{" "}
+        Same nodes, same models.{" "}
         <span className="font-medium text-zinc-700">
           {(RUN_SEQUENTIAL_SECONDS / RUN_WALL_SECONDS).toFixed(1)}× faster
         </span>{" "}

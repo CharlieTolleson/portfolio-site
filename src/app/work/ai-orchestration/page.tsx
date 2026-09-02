@@ -18,7 +18,7 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
 import EvidenceStats from "@/components/EvidenceStats";
 import Figure from "@/components/Figure";
-import { AGGREGATES, FEATURED_RUN_ID, SYSTEM_TOTALS } from "@/lib/hyperionRun";
+import { AGGREGATES, FEATURED_RUN_ID } from "@/lib/hyperionRun";
 
 const REPO = "https://github.com/CharlieTolleson/personal-agent";
 /** Deep link into the orchestrator rather than the monorepo root. */
@@ -31,11 +31,11 @@ const ROUTING_SRC = `${REPO}/blob/main/agents/hyperion/src/hyperion/llms.py`;
 export const metadata = {
   title: "AI Agent Orchestration",
   description:
-    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 12 nodes, 2.6× faster than sequential, traced end to end.",
+    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 2.6× faster than sequential, traced end to end.",
   openGraph: {
     title: "AI Agent Orchestration | Charlie Tolleson",
     description:
-      "A multi-agent orchestrator that routes each step to the model that fits it. 12 nodes across 5 execution waves, 2.6× faster than sequential, every call traced.",
+      "A multi-agent orchestrator that routes each step to the model that fits it. 2.6× faster than sequential, with every call traced.",
     type: "article",
     url: "https://charlietolleson.com/work/ai-orchestration",
   },
@@ -235,8 +235,8 @@ export default function AiOrchestrationPage() {
 
           <div className="max-w-3xl">
             <p className="text-lg leading-relaxed text-zinc-600">
-              Here is what that mix did on the clock: twelve nodes, four
-              models, three providers, one run. Bars are colored by model.
+              Here is what that mix did on the clock across four models and
+              three providers in a single run. Bars are colored by model.
             </p>
           </div>
 
@@ -262,8 +262,8 @@ export default function AiOrchestrationPage() {
               execution waves
             </a>
             , fires each wave concurrently, and only advances once every node in
-            it has finished. Across {AGGREGATES.runs} recorded runs that&apos;s
-            worth a median{" "}
+            it has finished. Across the runs on record that&apos;s worth a
+            median{" "}
             <span className="font-medium text-zinc-800">
               {AGGREGATES.medianSpeedup.toFixed(1)}×
             </span>{" "}
@@ -288,12 +288,10 @@ export default function AiOrchestrationPage() {
           </h2>
           <p className="text-lg leading-relaxed text-zinc-600">
             Fanning work out to a dozen model calls means a dozen things that can
-            hang, loop, or quietly burn budget. Of{" "}
-            {SYSTEM_TOTALS.tasks} runs to date, 38 finished, 11 failed and 3 were
-            cancelled. The researcher, the role that makes by far the most calls,
-            carries a 27% error rate. Those are the numbers the next three
-            mechanisms exist to bound. Each one was added because something
-            actually went wrong first.
+            hang, loop, or quietly burn budget. Runs do fail here: the researcher,
+            the role that makes by far the most calls, carries a 27% error rate.
+            That is the number the next three mechanisms exist to bring down, and
+            each one was added because something actually went wrong first.
           </p>
           <ul className="flex flex-col gap-4 text-lg leading-relaxed text-zinc-600">
             <li className="border-l-2 border-zinc-200 pl-5">
