@@ -242,7 +242,7 @@ function EstimateLadder() {
       label: "Adjusted: weighted estimate",
       value: ADJUSTED_ATE,
       color: "#2563eb",
-      note: `±${(1.96 * ADJUSTED_SE).toFixed(2)} at 95%`,
+      note: `95% confidence interval ±${(1.96 * ADJUSTED_SE).toFixed(2)}`,
     },
     {
       label: "Truth",
@@ -283,8 +283,8 @@ function EstimateLadder() {
         <span className="font-medium text-zinc-700">
           {(BIAS_REMOVED * 100).toFixed(0)}%
         </span>{" "}
-        of the naive comparison&apos;s error. The last few percent is the part
-        no amount of weighting recovers, and it is the reason a live experiment
+        of the naive comparison&apos;s error. The remainder is the part no
+        amount of weighting recovers, and it is the reason a live experiment
         stays the tiebreaker.
       </p>
     </div>

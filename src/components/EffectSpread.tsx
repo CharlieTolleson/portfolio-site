@@ -25,10 +25,11 @@ import { motion, useInView } from "motion/react";
 import { scaleLinear } from "@visx/scale";
 import { LEAVES, ADJUSTED_ATE, effectColor } from "@/lib/causalDemo";
 
-const VIEW_W = 1240;
+const VIEW_W = 1330;
 // Wide enough for the longest subgroup rule, which is a three-clause
-// conjunction. Narrower and the labels overflow the canvas and get clipped.
-const LABEL_W = 415;
+// conjunction with a spelled-out percentile. Narrower and the labels overflow
+// the canvas and get clipped.
+const LABEL_W = 505;
 const RIGHT_PAD = 92;
 const ROW_H = 42;
 // Headroom for the "average" callout, which sits above the top row.
@@ -60,6 +61,9 @@ export default function EffectSpread() {
   return (
     <figure ref={ref} className="m-0 flex flex-col gap-5">
       <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+        {/* 1120px is the content column's width at the page's max width
+            (max-w-7xl less lg:px-20). Any wider and the rightmost column is
+            silently scrolled out of view on a desktop that shows no scrollbar. */}
         <div className="min-w-[1120px]">
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -164,11 +168,12 @@ export default function EffectSpread() {
 
                   <title>{`${leaf.path.join("; ")}: ${leaf.effect.toFixed(
                     2
-                  )} points (95% CI ${(leaf.effect - 1.96 * leaf.se).toFixed(
+                  )} index points (95% confidence interval ${(
+                    leaf.effect -
+                    1.96 * leaf.se
+                  ).toFixed(2)} to ${(leaf.effect + 1.96 * leaf.se).toFixed(
                     2
-                  )} to ${(leaf.effect + 1.96 * leaf.se).toFixed(2)}), n=${
-                    leaf.n
-                  }`}</title>
+                  )}), ${leaf.n} accounts`}</title>
                 </g>
               );
             })}
@@ -190,7 +195,7 @@ export default function EffectSpread() {
               fill="#a1a1aa"
               fontFamily="var(--font-geist-mono, monospace)"
             >
-              share
+              of accounts
             </text>
           </svg>
         </div>
@@ -201,11 +206,11 @@ export default function EffectSpread() {
       </p>
 
       <figcaption className="text-sm leading-relaxed text-zinc-500">
-        Every subgroup the tree found, with 95% intervals, against the single
-        population average. Reporting the average alone would tell a sales team
-        to run this play everywhere, including the{" "}
+        Every subgroup the tree found, with 95% confidence intervals, against
+        the single population average. Reporting the average alone would tell a
+        sales team to run this play everywhere, including the{" "}
         {(LEAVES[0].share * 100).toFixed(0)}% of accounts where the estimate is
-        negative and the interval excludes zero. Simulated data.
+        negative and the confidence interval excludes zero. Simulated data.
       </figcaption>
     </figure>
   );

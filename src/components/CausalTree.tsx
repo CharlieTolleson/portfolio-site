@@ -116,9 +116,16 @@ export default function CausalTree({
 
 // --- Card variant ----------------------------------------------------------
 
+/**
+ * Card canvas, deliberately at the same 3:1 aspect ratio as WorkflowGraph's
+ * card variant. The home page stacks both entries at equal width, so matching
+ * the aspect ratio is what makes the two cards render at the same height
+ * without wrapping either visual in a fixed-height box.
+ */
 const CARD_W = 1200;
-const CARD_H = 244;
-const CARD_ROW_H = 78;
+const CARD_H = 400;
+const CARD_ROW_H = 128;
+const CARD_TOP = 68;
 
 /**
  * The home-page thumbnail: three bootstrap trees side by side.
@@ -132,14 +139,19 @@ function ForestCard() {
   const each = CARD_W / FOREST.length;
 
   return (
-    <svg
-      viewBox={`0 0 ${CARD_W} ${CARD_H}`}
-      className="h-auto w-full"
-      role="img"
-      aria-label="Three causal trees from a bootstrap ensemble. Each splits the population into subgroups whose leaves are colored by the size of the estimated treatment effect."
-    >
+    /* Matches the scroll behaviour of the other card visual: at 375px a
+       1200-unit canvas would render the leaf figures at about 5px, so the
+       canvas keeps a min-width and scrolls sideways on a phone instead. */
+    <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:overflow-x-visible sm:px-0">
+      <div className="min-w-[820px] sm:min-w-0">
+        <svg
+          viewBox={`0 0 ${CARD_W} ${CARD_H}`}
+          className="h-auto w-full"
+          role="img"
+          aria-label="Three causal trees from a bootstrap ensemble. Each splits the population into subgroups whose leaves are labelled with the estimated treatment effect and colored by its size."
+        >
       {FOREST.map((tree, i) => {
-        const placed = layout(tree, each - 90, CARD_ROW_H, 34);
+        const placed = layout(tree, each - 90, CARD_ROW_H, CARD_TOP);
         const dx = i * each + 45;
         return (
           <g key={i} transform={`translate(${dx}, 0)`}>
@@ -147,9 +159,11 @@ function ForestCard() {
               p.parent ? (
                 <path
                   key={`e-${p.node.id}`}
+                  /* Control points scale with the row height so the curve
+                     keeps its shape if the canvas is retuned. */
                   d={`M ${p.parent.x} ${p.parent.y + 12} C ${p.parent.x} ${
-                    p.parent.y + 48
-                  }, ${p.x} ${p.y - 46}, ${p.x} ${p.y - 12}`}
+                    p.parent.y + CARD_ROW_H * 0.45
+                  }, ${p.x} ${p.y - CARD_ROW_H * 0.45}, ${p.x} ${p.y - 16}`}
                   fill="none"
                   stroke="#d4d4d8"
                   strokeWidth={2}
@@ -192,19 +206,24 @@ function ForestCard() {
                 />
               )
             )}
-          </g>
-        );
-      })}
-    </svg>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
   );
 }
 
 // --- Full variant ----------------------------------------------------------
 
-const FULL_W = 1180;
+/** Sized so the widest branch label ("Size ≥ 51st percentile") and the widest
+ *  leaf sublabel ("±0.6 · 1503 accounts") both fit without abbreviating them. */
+const FULL_W = 1320;
 const ROW_H = 118;
 const TOP = 44;
 const NODE_W = 132;
+const LEAF_W = 152;
 
 /**
  * The featured tree at full size.
@@ -228,10 +247,12 @@ function FullTree() {
 
   return (
     <figure ref={ref} className="m-0 flex flex-col gap-5">
-      {/* A 1180-unit canvas scaled to a phone would render labels at a few
+      {/* A 1320-unit canvas scaled to a phone would render labels at a few
           pixels. Scrolling the canvas keeps them legible instead. */}
       <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
-        <div className="relative min-w-[1040px]">
+        {/* Capped at the content column's width at the page's max width, so
+            the canvas never scrolls out from under a desktop reader. */}
+        <div className="relative min-w-[1120px]">
           <svg
             viewBox={`0 0 ${FULL_W} ${viewH}`}
             className="h-auto w-full"
@@ -337,7 +358,14 @@ function FullTree() {
                     role="button"
                     aria-label={`Subgroup ${leaf.path.join(
                       ", "
-                    )}: effect ${leaf.effect.toFixed(1)} points`}
+                    )}: effect ${leaf.effect.toFixed(
+                      2
+                    )} index points, 95% confidence interval ${(
+                      leaf.effect -
+                      1.96 * leaf.se
+                    ).toFixed(2)} to ${(leaf.effect + 1.96 * leaf.se).toFixed(
+                      2
+                    )}, ${leaf.n} accounts`}
                     className="cursor-pointer focus:outline-none"
                     onMouseEnter={() => setActive(leaf.id)}
                     onMouseLeave={() =>
@@ -352,9 +380,9 @@ function FullTree() {
                     transition={{ duration: 0.4, delay: 0.12 * p.depth + 0.1 }}
                   >
                     <rect
-                      x={p.x - 62}
+                      x={p.x - LEAF_W / 2}
                       y={p.y - 24}
-                      width={124}
+                      width={LEAF_W}
                       height={52}
                       rx={8}
                       fill={effectColor(leaf.effect)}
@@ -384,7 +412,7 @@ function FullTree() {
                       fillOpacity={dim ? 0.4 : 0.85}
                       fontFamily="var(--font-geist-mono, monospace)"
                     >
-                      ±{(1.96 * leaf.se).toFixed(1)} · n={leaf.n}
+                      ±{(1.96 * leaf.se).toFixed(1)} · {leaf.n} accounts
                     </text>
                   </motion.g>
                 );
@@ -408,7 +436,8 @@ function FullTree() {
                     {activeNode.node.effect.toFixed(2)}
                   </span>{" "}
                   <span className="text-zinc-500">
-                    (95% CI {(
+                    (95% confidence interval{" "}
+                    {(
                       activeNode.node.effect -
                       1.96 * activeNode.node.se
                     ).toFixed(2)}{" "}
@@ -461,8 +490,9 @@ function FullTree() {
         One tree from the ensemble, fit on simulated data. Splits were chosen on
         one half of the sample and every effect above was estimated on the other
         half, so no subgroup is reported by the same data that went looking for
-        it. Numbers are effects on the outcome in index points, with 95%
-        intervals.
+        it. The large number in each leaf is that subgroup&apos;s estimated
+        effect on the outcome in index points, and the value beneath it is the
+        half-width of the 95% confidence interval around that estimate.
       </figcaption>
     </figure>
   );

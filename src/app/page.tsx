@@ -17,7 +17,7 @@ const entries = [
   {
     href: "/work/causal-inference",
     title: "Agentic Causal Inference",
-    role: "Senior Data Scientist",
+    role: "Lead Data Scientist",
     visual: <CausalTree variant="card" />,
   },
 ];
@@ -68,8 +68,7 @@ export default function Home() {
                 href={entry.href}
                 className="group block rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300 sm:p-10"
               >
-                {entry.visual}
-                <div className="mt-8 flex flex-wrap items-baseline justify-between gap-4">
+                <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
                   <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
                     {entry.title}
                   </h2>
@@ -77,6 +76,7 @@ export default function Home() {
                     {entry.role}
                   </span>
                 </div>
+                {entry.visual}
               </Link>
             </motion.div>
           ))}
