@@ -19,24 +19,19 @@ export default function AiOrchestrationPage() {
 
         <div className="flex max-w-4xl flex-col gap-6 text-2xl leading-relaxed text-zinc-700">
           <p>
-            Prompting a modern AI agent doesn&apos;t kick off just one run of
-            the model. Under the hood, there are typically several, even
-            dozens, of sub-agents working together to respond to a single
-            query. We&apos;ve all noticed that prompting an agent multiple
-            times with identical prompts often yields different results. The
-            nondeterministic nature of LLMs is to blame, and the problem
-            compounds as more sub-agents get involved: each one builds on an
-            already uncertain upstream output, so small differences stack up
-            across the chain. This nondeterminism is a large reason
-            organizations still lack trust in AI for critical business
-            workflows like generating client-facing documents and
-            calculating performance metrics for reporting, and is making it
-            necessary for evaluations to be conducted and monitored at the
-            sub-agent level. This &quot;exploding evals&quot; problem is
-            making launching enterprise-ready agentic tools increasingly
-            complicated and expensive. I led an evals team through building
-            and monitoring sub-agent evals at Meta, and developed a tool that
-            gives visibility into sub-agent behavior for my personal use.
+            A single prompt to a modern AI agent doesn&apos;t trigger one
+            model call. It triggers several, sometimes dozens, of sub-agents
+            working together. Anyone who&apos;s re-run the same prompt knows
+            LLMs are nondeterministic, and that variance compounds as
+            sub-agents chain together, each one building on an
+            already-uncertain upstream output. It&apos;s a big reason
+            organizations still don&apos;t trust AI for high-stakes work like
+            client-facing documents or reporting metrics, and why evals
+            increasingly have to happen at the sub-agent level, not just the
+            final output. This &quot;exploding evals&quot; problem is what
+            makes enterprise-ready agentic tools hard and expensive to ship.
+            I led an evals team through it at Meta, and built a personal tool
+            that gives visibility into sub-agent behavior.
           </p>
 
           <p>
