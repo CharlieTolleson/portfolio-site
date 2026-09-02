@@ -8,7 +8,11 @@
  * reader can check the claims rather than take them on trust.
  *
  * Key design decision: token counts and timings are headlined; dollar cost is
- * deliberately *not*. Hyperion's usage logger prices the metered OpenAI legs but
+ * deliberately *not*, and neither are raw run/node/call counts. Ratios and
+ * medians say something about the system; small absolute counts only say the
+ * project is young. Add counts back once they carry their own weight.
+ *
+ * On cost specifically: Hyperion's usage logger prices the metered OpenAI legs but
  * not the legs that run on subscription tiers, so a per-run dollar figure would
  * read as precise while being incomplete. Tokens are counted on every call, so
  * they are the honest unit here.
@@ -16,17 +20,16 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { AGGREGATES, SYSTEM_TOTALS } from "@/lib/hyperionRun";
+import { AGGREGATES } from "@/lib/hyperionRun";
 
 /** One measured figure: a large value, a label, and an optional qualifier. */
 type Stat = { value: string; label: string; note?: string };
 
 const STATS: Stat[] = [
-  { value: "12", label: "nodes", note: "across 5 execution waves" },
   {
     value: `${AGGREGATES.medianSpeedup.toFixed(1)}×`,
     label: "faster than sequential",
-    note: `median of ${AGGREGATES.runs} runs`,
+    note: "median across recorded runs",
   },
   {
     value: `${Math.round(AGGREGATES.medianWallSeconds / 60)}m`,
@@ -43,11 +46,6 @@ const STATS: Stat[] = [
     label: "tokens per run",
     note: "median, input + output",
   },
-  {
-    value: SYSTEM_TOTALS.llmCalls.toLocaleString(),
-    label: "traced LLM calls",
-    note: `${SYSTEM_TOTALS.tasks} tasks since ${SYSTEM_TOTALS.firstRun.slice(0, 7)}`,
-  },
 ];
 
 export default function EvidenceStats() {
@@ -57,7 +55,7 @@ export default function EvidenceStats() {
   return (
     <div
       ref={ref}
-      className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-zinc-200 py-8 sm:grid-cols-3 lg:grid-cols-6"
+      className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-zinc-200 py-8 sm:grid-cols-4"
     >
       {STATS.map((s, i) => (
         <motion.div

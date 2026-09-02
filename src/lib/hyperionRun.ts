@@ -101,7 +101,7 @@ export const RUN_WALL_SECONDS = 259.9;
 /**
  * Summed node spans for the featured run.
  *
- * This is what the same twelve nodes would have cost end-to-end if each had
+ * This is what the same nodes would have cost end-to-end if each had
  * waited for the one before it. The ratio against RUN_WALL_SECONDS is the
  * concurrency win the graph executor actually delivered.
  */
@@ -110,14 +110,14 @@ export const RUN_SEQUENTIAL_SECONDS = 696.6;
 /**
  * Aggregates across every *completed* idea-council run in the trace store.
  *
- * Medians rather than means: the sample is small (9 runs) and one outlier run
- * with a long research phase would drag a mean noticeably.
+ * Medians rather than means: the sample is small and one outlier run with a long
+ * research phase would drag a mean noticeably.
+ *
+ * Run and node counts deliberately live here rather than on the page. Small
+ * absolute counts read as "young project" and undercut the ratios they sit next
+ * to; surface them once they carry their own weight.
  */
 export const AGGREGATES = {
-  /** Completed idea-council runs the medians are computed over. */
-  runs: 9,
-  /** Nodes per run (the workflow gained a node partway through the sample). */
-  nodesPerRun: "11–12",
   medianSpeedup: 2.64,
   medianWallSeconds: 179,
   medianTokens: 61097,
@@ -127,7 +127,11 @@ export const AGGREGATES = {
   providers: 3,
 };
 
-/** Whole-system totals across every task Hyperion has run, not just this workflow. */
+/**
+ * Whole-system totals across every task Hyperion has run, not just this workflow.
+ * Not currently surfaced on the page (see the note on AGGREGATES); kept so the
+ * figures are ready when the volume justifies showing them.
+ */
 export const SYSTEM_TOTALS = {
   tasks: 52,
   llmCalls: 821,
