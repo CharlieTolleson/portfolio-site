@@ -1,5 +1,5 @@
 /**
- * Figure.tsx — a captioned screenshot of the running system.
+ * Figure.tsx: a captioned screenshot of the running system.
  *
  * Role in the system: prose and diagrams describe Hyperion; these images prove
  * it exists and runs. A reader who has never met Charlie can't distinguish
@@ -48,7 +48,7 @@ export default function Figure({
       {pending ? (
         <div className="flex aspect-[16/10] w-full items-center justify-center rounded-lg border border-dashed border-zinc-300 bg-zinc-100">
           <span className="px-6 text-center font-mono text-xs text-zinc-400">
-            screenshot pending — {src}
+            screenshot pending: {src}
           </span>
         </div>
       ) : (

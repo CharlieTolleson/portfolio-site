@@ -1,5 +1,5 @@
 /**
- * AI Agent Orchestration — case study page.
+ * AI Agent Orchestration: case study page.
  *
  * Role in the system: the first built portfolio entry, linked from the home
  * page. It argues that multi-agent orchestration is a routing and observability
@@ -8,7 +8,7 @@
  *
  * Key design decision: every quantitative claim on this page resolves to
  * `lib/hyperionRun.ts`, which is read out of Hyperion's own trace store. The
- * page names concrete models and exact timings on purpose — an AI audience reads
+ * page names concrete models and exact timings on purpose, because an AI audience reads
  * hedged language ("a fast general-purpose model") as either vagueness or
  * inexperience, and the specifics are the credential.
  */
@@ -31,9 +31,9 @@ const ROUTING_SRC = `${REPO}/blob/main/agents/hyperion/src/hyperion/llms.py`;
 export const metadata = {
   title: "AI Agent Orchestration",
   description:
-    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it — and measuring what that actually buys you. 12 nodes, 2.6× faster than sequential, traced end to end.",
+    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 12 nodes, 2.6× faster than sequential, traced end to end.",
   openGraph: {
-    title: "AI Agent Orchestration — Charlie Tolleson",
+    title: "AI Agent Orchestration | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. 12 nodes across 5 execution waves, 2.6× faster than sequential, every call traced.",
     type: "article",
@@ -41,7 +41,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Agent Orchestration — Charlie Tolleson",
+    title: "AI Agent Orchestration | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. Measured, not described.",
   },
@@ -49,7 +49,7 @@ export const metadata = {
 
 /** Fact rows shown under the title, so the technical read is instant. */
 const META: [string, string][] = [
-  ["Role", "Creator & architect — design, build, operations"],
+  ["Role", "Creator & architect: design, build, operations"],
   ["Project", "Hyperion, the orchestration layer of my personal AI workspace"],
   ["Stack", "Python · FastAPI · LiteLLM · Qdrant · Langfuse · Next.js"],
   ["Status", "Running daily since May 2026"],
@@ -73,7 +73,7 @@ export default function AiOrchestrationPage() {
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
             Most agent systems pick one model and route everything through it.
-            This one treats model choice as a property of each step — and
+            This one treats model choice as a property of each step, and
             measures what that buys.
           </p>
 
@@ -108,7 +108,7 @@ export default function AiOrchestrationPage() {
             nondeterministic. That variance compounds as sub-agents chain
             together, each one building on an already-uncertain upstream output.
             So evals increasingly have to happen at the sub-agent level, not
-            just on the final answer — and the number of things you have to
+            just on the final answer, and the number of things you have to
             measure grows with the graph, not with the feature.
           </p>
 
@@ -121,7 +121,7 @@ export default function AiOrchestrationPage() {
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
             I led evals through this problem at Meta, across seven sales
-            workflows and a group of about thirty — seven data scientists, seven
+            workflows and a group of about thirty: seven data scientists, seven
             data engineers, seven PMs, and ten software engineers. Hyperion is
             what I built to keep working on the same problem with my hands on the
             whole stack: orchestration, routing, and the traces underneath.
@@ -143,7 +143,7 @@ export default function AiOrchestrationPage() {
             </p>
 
             <p className="text-xl leading-relaxed text-zinc-700">
-              Below is the real shape of one — five research angles running in
+              Below is the real shape of one: five research angles running in
               parallel, converging into a synthesis step, splitting into
               specialist review passes, and resolving into a single verdict.
               Hover or focus a node to see its persona and the model it ran on.
@@ -158,7 +158,7 @@ export default function AiOrchestrationPage() {
           width={2800}
           height={1866}
           alt="The Idea Council workflow open in Hyperion's builder. Twelve nodes are laid out on a canvas connected by dependency arrows, with the advocate node selected and a side panel showing its slug, role, agent, approval gate, and instruction override."
-          caption="The same workflow in the builder, with the advocate node selected. Nodes are dragged into place and wired by dragging between handles — an edge means the source must finish first — and the panel edits that node's role, agent, approval gate, and instruction. The editor rejects any connection that would close a cycle, so a workflow always stays a DAG the runner can schedule."
+          caption="The same workflow in the builder, with the advocate node selected. Nodes are dragged into place and wired by dragging between handles (an edge means the source must finish first), and the panel edits that node's role, agent, approval gate, and instruction. The editor rejects any connection that would close a cycle, so a workflow always stays a DAG the runner can schedule."
         />
 
         {/* ---- Personas ---- */}
@@ -186,7 +186,7 @@ export default function AiOrchestrationPage() {
           width={2800}
           height={1480}
           alt="Hyperion's dashboard: a task input at the top with a workflow picker, above a grid of agent cards. Each card shows the agent's role, description, model badge, and tool count, and is marked active or inactive."
-          caption="The agent registry. Each card carries the model that role runs on — the researcher on gpt-4o, the synthesizer on gemini-2.5-pro, the planner and developer on the smart and worker aliases — plus how many tools it can reach. Agents can be switched off without editing any workflow that references them."
+          caption="The agent registry. Each card carries the model that role runs on (the researcher on gpt-4o, the synthesizer on gemini-2.5-pro, the planner and developer on the smart and worker aliases) plus how many tools it can reach. Agents can be switched off without editing any workflow that references them."
         />
 
         {/* ---- Routing ---- */}
@@ -200,16 +200,16 @@ export default function AiOrchestrationPage() {
               over depth, so those nodes run on{" "}
               <span className="font-mono text-zinc-800">gpt-4o</span> with a
               capped search-and-reason loop. The steps that have to hold a lot of
-              context at once and produce long prose — research synthesis, the
-              advocate, the final verdict — run on{" "}
+              context at once and produce long prose (research synthesis, the
+              advocate, the final verdict) run on{" "}
               <span className="font-mono text-zinc-800">gemini-2.5-pro</span>.
             </p>
             <p className="text-lg leading-relaxed text-zinc-600">
               The planner and developer nodes don&apos;t name a model at all.
               They point at{" "}
               <span className="font-mono text-zinc-800">smart</span> and{" "}
-              <span className="font-mono text-zinc-800">worker</span> — logical
-              roles chosen by intent, not by vendor. Each role resolves to an
+              <span className="font-mono text-zinc-800">worker</span>, logical
+              roles chosen by intent rather than by vendor. Each role resolves to an
               alias, and each alias is an ordered chain across providers:{" "}
               <span className="font-mono text-zinc-800">smart</span> tries
               claude-opus-4-6, then gemini-2.5-pro, then gpt-4o, and takes the
@@ -219,7 +219,7 @@ export default function AiOrchestrationPage() {
               That indirection is what makes the routing claim more than a
               preference. Reordering a chain re-routes every node pointed at it,
               across every workflow, without touching code, and a provider outage
-              degrades a run instead of ending it — the node falls to the next
+              degrades a run instead of ending it: the node falls to the next
               model in its chain and keeps going.
             </p>
           </div>
@@ -229,13 +229,13 @@ export default function AiOrchestrationPage() {
             src="/work/hyperion-aliases.png"
             width={2000}
             height={1760}
-            alt="Hyperion's alias settings. Each alias — smart, worker, cheap — lists an ordered chain of models with controls to reorder, remove, or add entries."
+            alt="Hyperion's alias settings. Each alias (smart, worker, cheap) lists an ordered chain of models with controls to reorder, remove, or add entries."
             caption="The alias editor. smart tries claude-opus-4-6, then gemini-2.5-pro, then gpt-4o; worker and cheap have their own chains. Reordering here re-routes every node pointed at that alias, across every workflow, without touching a line of code."
           />
 
           <div className="max-w-3xl">
             <p className="text-lg leading-relaxed text-zinc-600">
-              Here is what that mix did on the clock — twelve nodes, four
+              Here is what that mix did on the clock: twelve nodes, four
               models, three providers, one run. Bars are colored by model.
             </p>
           </div>
@@ -274,7 +274,7 @@ export default function AiOrchestrationPage() {
             than a straight line. Mixing models means each node carries a
             slightly different voice and judgment style that the synthesis step
             has to reconcile. And more parallelism means more surface area for
-            one slow node to become the bottleneck everyone waits on — in the run
+            one slow node to become the bottleneck everyone waits on. In the run
             above, the whole first wave waits on{" "}
             <span className="font-mono text-zinc-800">market-trends</span> at
             135.6s while four sibling nodes sit finished and idle.
@@ -290,8 +290,8 @@ export default function AiOrchestrationPage() {
             Fanning work out to a dozen model calls means a dozen things that can
             hang, loop, or quietly burn budget. Of{" "}
             {SYSTEM_TOTALS.tasks} runs to date, 38 finished, 11 failed and 3 were
-            cancelled — and the researcher, the role that makes by far the most
-            calls, carries a 27% error rate. Those are the numbers the next three
+            cancelled. The researcher, the role that makes by far the most calls,
+            carries a 27% error rate. Those are the numbers the next three
             mechanisms exist to bound. Each one was added because something
             actually went wrong first.
           </p>
@@ -304,7 +304,7 @@ export default function AiOrchestrationPage() {
               blocked inside a completion call. Each node gets a hard{" "}
               <span className="font-mono">timeout</span> of{" "}
               <span className="font-mono">min(remaining budget, 180s)</span>{" "}
-              handed to LiteLLM itself — the only knob that can actually kill a
+              handed to LiteLLM itself, the only knob that can actually kill a
               stalled upstream from inside the executor.
             </li>
             <li className="border-l-2 border-zinc-200 pl-5">
@@ -325,8 +325,8 @@ export default function AiOrchestrationPage() {
             </li>
           </ul>
           <p className="text-lg leading-relaxed text-zinc-600">
-            Every call — model, tokens, cost, duration, and the node it belongs
-            to — is written to a trace store and grouped into one Langfuse
+            Every call (model, tokens, cost, duration, and the node it belongs
+            to) is written to a trace store and grouped into one Langfuse
             session per run. That store is where every number on this page came
             from.
           </p>
@@ -337,7 +337,7 @@ export default function AiOrchestrationPage() {
           width={2800}
           height={1520}
           alt="Hyperion's monitoring view: a run tally at the top, per-agent cards showing run counts, error counts, error rate and token usage against caps, and a table of recent runs with status and a link to each trace."
-          caption={`The monitoring view, reporting against itself: run tallies, per-agent error rates, and token usage against each agent's cap. Every row links out to the full Langfuse trace. This store — and the per-node rows behind it — is where run ${FEATURED_RUN_ID} and every other number on this page came from.`}
+          caption={`The monitoring view, reporting against itself: run tallies, per-agent error rates, and token usage against each agent's cap. Every row links out to the full Langfuse trace. This store, and the per-node rows behind it, is where run ${FEATURED_RUN_ID} and every other number on this page came from.`}
         />
 
         {/* ---- Next ---- */}
@@ -348,7 +348,7 @@ export default function AiOrchestrationPage() {
           <p className="text-lg leading-relaxed text-zinc-600">
             Deciding which model belongs on which node is still mostly judgment.
             I have cost, latency, and token counts per node; I don&apos;t yet
-            have <em>quality</em> per node. The next iteration closes that loop —
+            have <em>quality</em> per node. The next iteration closes that loop by
             running evals against each node&apos;s output to score models against
             the specific job that node does, so the routing table becomes a
             measured argument instead of a defensible guess.
@@ -383,7 +383,7 @@ export default function AiOrchestrationPage() {
                 rel="noopener noreferrer"
                 className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
               >
-                runner.py — wave grouping ↗
+                runner.py: wave grouping ↗
               </a>
               <span className="ml-3 font-sans text-sm text-zinc-500">
                 the DAG-to-parallel-waves core
@@ -396,7 +396,7 @@ export default function AiOrchestrationPage() {
                 rel="noopener noreferrer"
                 className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
               >
-                llms.py — per-node routing ↗
+                llms.py: per-node routing ↗
               </a>
               <span className="ml-3 font-sans text-sm text-zinc-500">
                 model handles, caps, fallback
