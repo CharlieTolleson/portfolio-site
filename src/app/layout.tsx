@@ -13,9 +13,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * Site-wide defaults. Individual pages override `title`/`description` and add
+ * their own `openGraph` block; anything they don't set falls back to these.
+ *
+ * `metadataBase` is required for Next to emit absolute OG URLs — without it,
+ * relative image paths are dropped from the tags and link previews render bare.
+ */
 export const metadata: Metadata = {
-  title: "Charlie Tolleson | Portfolio",
-  description: "Personal portfolio site. Coming soon.",
+  metadataBase: new URL("https://charlietolleson.com"),
+  title: {
+    default: "Charlie Tolleson — Data Scientist & AI Systems",
+    template: "%s | Charlie Tolleson",
+  },
+  description:
+    "Multidisciplinary data scientist architecting and scaling AI, ML, and measurement systems. Previously Meta, Amazon, IBM.",
+  openGraph: {
+    siteName: "Charlie Tolleson",
+    type: "website",
+    locale: "en_US",
+    title: "Charlie Tolleson — Data Scientist & AI Systems",
+    description:
+      "Multidisciplinary data scientist architecting and scaling AI, ML, and measurement systems. Previously Meta, Amazon, IBM.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Charlie Tolleson — Data Scientist & AI Systems",
+    description:
+      "Architecting and scaling AI, ML, and measurement systems. Previously Meta, Amazon, IBM.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
