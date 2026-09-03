@@ -200,18 +200,28 @@ export default function NewsEventDetectionPage() {
           <StreamPipeline />
         </section>
 
-        {/* ---- The idea ---- */}
+        {/* ---- Why a graph ---- */}
         <section className="flex max-w-3xl flex-col gap-6">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
-            One entity, many stories
+            A graph you keep
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            That last stage is the design decision the rest of this rests on.
+            The obvious tool was a topic model, and the obvious objection to one
+            is cost. That objection is weaker than it looks: streaming variants of
+            LDA existed by 2010 and would have kept up with the feed. The real
+            mismatch is what a topic is. It is a corpus-level theme, and it is one
+            of a number of slots you have to fix in advance, which is a strange
+            thing to have to declare about the world&apos;s events. I needed the
+            opposite: a discrete thing that began on a particular Tuesday and
+            could be compared against itself a week later. So I built something
+            that produces objects rather than themes.
+          </p>
+          <p className="text-xl leading-relaxed text-zinc-700">
             Nodes are entities and key phrases pulled by the tagger; an edge
             between two of them means they appeared in the same article, weighted
             by how often. The graph is never rebuilt. Each batch of articles adds
-            nodes and strengthens edges in the graph already there, and old
-            weight decays, so it accumulates and ages the way the coverage does.
+            nodes and strengthens edges in the graph already there, and old weight
+            decays, so it accumulates and ages the way the coverage does.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             The persistence is the part that makes an alert system possible. The
@@ -221,9 +231,16 @@ export default function NewsEventDetectionPage() {
             has an identity because it is built out of entities that are still
             sitting there in the morning.
           </p>
+        </section>
+
+        {/* ---- The idea ---- */}
+        <section className="flex max-w-3xl flex-col gap-6">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
+            One entity, many stories
+          </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The graph also produces the problem this project actually turned on.
-            Take the entity you care about, pull in everything mentioned
+            Keeping the graph creates the problem this project actually turned
+            on. Take the entity you care about, pull in everything mentioned
             alongside it, and you get one dense tangle, because the events
             overlap. The phrase{" "}
             <span className="font-mono text-zinc-800">shipping delays</span>{" "}
@@ -256,16 +273,6 @@ export default function NewsEventDetectionPage() {
             runs directly on the graph: repeatedly find the entity holding the
             most unrelated things together and hand each of the contexts it was
             bridging its own copy.
-          </p>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            It is worth being exact about what that does, because it is easy to
-            overclaim. The duplication does not create the stories. The stories
-            are already in the graph, in the sense that the co-occurrences that
-            make them up are all sitting there; they are just impossible to read,
-            because a handful of shared entities weld them into one mass. All the
-            manipulation does is take those few entities out of the load-bearing
-            role they were never meant to have. The organisation that appears
-            afterwards was in the data the whole time.
           </p>
         </section>
 
@@ -320,11 +327,19 @@ export default function NewsEventDetectionPage() {
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
               Nothing is deleted along the way. No edge is cut and no
-              co-occurrence is discarded; entities are only ever copied. That
-              matters because the components are then readable as evidence: each
-              one is a set of phrases that genuinely arrived together, from
-              multiple independent sources, which is a much better description of
-              a news story than a ranked list of words.
+              co-occurrence is discarded; entities are only ever copied. It is
+              worth being exact about what that means, because it is easy to
+              overclaim what just happened. The splitting did not create those
+              stories. They were already in the graph, in the
+              sense that every co-occurrence making them up had been sitting
+              there the whole time. They were simply impossible to read, because
+              a handful of shared entities welded them into one mass. All the
+              manipulation does is take those few entities out of a load-bearing
+              role they were never meant to have, and what falls out is readable
+              as evidence: each component is a set of phrases that genuinely
+              arrived together, from multiple independent sources, which is a
+              much better description of a news story than a ranked list of
+              words.
             </p>
           </div>
         </section>
