@@ -20,8 +20,8 @@
  *     is the shape I observed. It is not a re-run of the original job.
  *   - **Two peaks, not one.** The reason this example was worth presenting is the
  *     second peak. A story that decays and then returns with a *different*
- *     vocabulary is the case that a keyword alert or a static topic model handles
- *     badly, and it is the case a live graph handles naturally.
+ *     vocabulary is the case a keyword alert handles badly, and the case an
+ *     accumulating graph handles naturally.
  */
 
 /** First day of the observed window. Day indices below are offsets from here. */

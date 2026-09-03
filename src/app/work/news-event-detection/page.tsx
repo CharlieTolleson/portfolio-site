@@ -11,7 +11,9 @@
  *   - **Dated on purpose.** The work predates practical LLM agents, and the
  *     obvious modern reader question is "why not just ask a model?". The page
  *     answers that directly rather than hoping nobody asks, and closes by saying
- *     what it would now be built on.
+ *     what it would now be built on. It does not argue against the topic models
+ *     of the time: that comparison pulled the piece into a literature review and
+ *     away from the thing that was actually built.
  *   - **The algorithm runs on the page.** The client is confidential and the
  *     outputs stayed at IBM, so `lib/newsGraph.ts` implements the real procedure
  *     over a synthetic feed and the figure steps through it live. Betweenness,
@@ -109,8 +111,8 @@ export default function NewsEventDetectionPage() {
                 "Treated it as structure discovery, not classification: surface whatever stories are forming around the client, then rank them.",
               ],
               [
-                "Topic models describe the themes in a corpus. An alert system needs discrete events that hold their identity from one day to the next.",
-                "Kept a persistent entity graph in Neo4j that accumulates as articles arrive, so a story is a thing in the database rather than an output of the last fit.",
+                "An alert has to say what changed since yesterday, which only means something if a story is the same object today that it was yesterday.",
+                "Kept a persistent entity graph in Neo4j that accumulates as articles arrive, so a story is a thing in the database with a history rather than the output of the latest run.",
               ],
               [
                 "A real entity belongs to several stories at once, and every clustering method available would force it into exactly one.",
@@ -198,64 +200,32 @@ export default function NewsEventDetectionPage() {
           <StreamPipeline />
         </section>
 
-        {/* ---- Why not LDA ---- */}
-        <section className="flex max-w-3xl flex-col gap-6">
-          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
-            The state of the art was the wrong shape
-          </h2>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            Event detection at the time mostly meant topic modelling, and topic
-            modelling mostly meant LDA: a statistical model that treats each
-            document as a mixture of topics and each topic as a distribution over
-            words, then infers both from how words co-occur across the corpus. It
-            works, and for describing what a body of documents is about it works
-            well.
-          </p>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            The usual objection is cost, and on its own it does not hold up.
-            Fitting LDA in batch does mean processing the corpus, but streaming
-            variants already existed: online variational Bayes for LDA had been
-            published in 2010 and was sitting in the libraries I would have
-            reached for. Anyone who rejects topic models purely on running time
-            should expect to be corrected.
-          </p>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            The real mismatch is what a topic is. A topic is a theme spread
-            across a corpus, and it is a slot in a model whose number you fix in
-            advance. An event is neither. It begins on a particular Tuesday, has
-            a vocabulary that turns over as it develops, and either matters to a
-            supply chain or does not. Ask a fixed set of topics to represent an
-            unbounded stream of arriving events and every new one has to be
-            absorbed into a slot already spoken for, or wait for a refit that
-            renumbers everything.
-          </p>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            That last part is what actually ruled it out. An alert system does
-            not ask what themes exist. It asks what changed since yesterday, and
-            that question needs the things being compared to be the same objects
-            across time, with identities that persist. What I needed was a
-            structure that accumulated rather than a model that got re-estimated.
-          </p>
-        </section>
-
         {/* ---- The idea ---- */}
         <section className="flex max-w-3xl flex-col gap-6">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
             One entity, many stories
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            So I moved the representation to a graph, held in Neo4j. Nodes are
-            entities and key phrases pulled by the tagger; an edge between two of
-            them means they appeared in the same article, weighted by how often.
-            The graph is not rebuilt. Each batch of articles adds nodes and
-            strengthens edges in the graph that is already there, and old weight
-            decays, so it accumulates and ages the way the coverage does. Nothing
-            is re-estimated to bring it up to date.
+            That last stage is the design decision the rest of this rests on.
+            Nodes are entities and key phrases pulled by the tagger; an edge
+            between two of them means they appeared in the same article, weighted
+            by how often. The graph is never rebuilt. Each batch of articles adds
+            nodes and strengthens edges in the graph already there, and old
+            weight decays, so it accumulates and ages the way the coverage does.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            Which surfaces the real obstacle immediately. Take the entity you
-            care about and pull in everything mentioned alongside it, and you get
-            one dense tangle, because the events overlap. The phrase{" "}
+            The persistence is the part that makes an alert system possible. The
+            question is never what is being written about, it is what changed
+            since yesterday, and that only means something if the thing you are
+            comparing is the same object it was yesterday. A story in this graph
+            has an identity because it is built out of entities that are still
+            sitting there in the morning.
+          </p>
+          <p className="text-xl leading-relaxed text-zinc-700">
+            The graph also produces the problem this project actually turned on.
+            Take the entity you care about, pull in everything mentioned
+            alongside it, and you get one dense tangle, because the events
+            overlap. The phrase{" "}
             <span className="font-mono text-zinc-800">shipping delays</span>{" "}
             belongs to the port strike and the typhoon and the factory fire all
             at once. Ordinary clustering has to award it to one of them, and in
@@ -489,11 +459,11 @@ export default function NewsEventDetectionPage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             The other thing it taught me, which I have used constantly since, is
             that a method has to have the right shape, not just the right output.
-            Topic models were not rejected for being inaccurate. They were
-            rejected because they produce themes that get re-estimated, when what
-            the job needed was events that persist, and no amount of accuracy
-            converts one into the other. That is the same reasoning I now apply
-            to model choice inside{" "}
+            Every technique I could have reached for would have answered what is
+            in the news accurately, and the question was what changed in it.
+            Those need different machinery, and no amount of accuracy on the
+            first converts it into the second. That is the same reasoning I now
+            apply to model choice inside{" "}
             <Link
               href="/work/ai-orchestration"
               className="underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
