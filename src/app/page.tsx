@@ -24,7 +24,7 @@ const entries = [
     title: "Orchestrating a Team of Models",
     role: "Creator & Architect",
     blurb:
-      "Hyperion, a multi-agent orchestrator for building your best agent team.",
+      "From evals @Meta to Hyperion, a multi-agent orchestrator for building your best agent team.",
     visual: <WorkflowGraph variant="card" />,
   },
   {
