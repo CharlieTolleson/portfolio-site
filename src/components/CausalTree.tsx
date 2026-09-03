@@ -148,7 +148,7 @@ function ForestCard() {
           viewBox={`0 0 ${CARD_W} ${CARD_H}`}
           className="h-auto w-full"
           role="img"
-          aria-label="Three causal trees from a bootstrap ensemble. Each splits the population into subgroups whose leaves are labelled with the estimated treatment effect and colored by its size."
+          aria-label="Three causal trees from a bootstrap ensemble. Each splits the population into subgroups whose leaves are labeled with the estimated treatment effect and colored by its size."
         >
       {FOREST.map((tree, i) => {
         const placed = layout(tree, each - 90, CARD_ROW_H, CARD_TOP);

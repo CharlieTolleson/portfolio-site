@@ -442,10 +442,10 @@ export default function CausalInferencePage() {
             <p className="text-xl leading-relaxed text-zinc-700">
               Closing that gap became someone else&apos;s roadmap. I scoped the
               extension with the broader org and handed the framework over to a
-              team now building it into a
-              specialist agent that reads the data and the question, picks the
-              technique, defends the choice, runs it, and reports its own
-              diagnostics. These are the methods it arbitrates between.
+              team now building it into a specialist agent that reads the data
+              and the question, picks the technique, defends the choice, runs it,
+              and reports its own diagnostics. These are the methods it
+              arbitrates between.
             </p>
           </div>
 

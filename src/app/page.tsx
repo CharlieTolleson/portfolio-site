@@ -56,7 +56,7 @@ const entries = [
 
 const comingSoon = [
   "NLP Patent Infringement Detection",
-  "ML Sales Recommendations with Shapely Values",
+  "ML Sales Recommendations with Shapley Values",
   "No-Code ML",
   "Agent Context Standards",
 ];

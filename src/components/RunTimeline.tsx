@@ -244,7 +244,7 @@ export default function RunTimeline() {
       <figcaption className="text-sm leading-relaxed text-zinc-500">
         Run <span className="font-mono text-zinc-600">{FEATURED_RUN_ID}</span>,
         recorded 2026-06-23. Timings are measured from Hyperion&apos;s trace
-        store, one row per LLM call; each bar is labelled with the model that
+        store, one row per LLM call; each bar is labeled with the model that
         node is configured to use. Research nodes span more than one call because
         they run a capped search-and-reason loop, so their bars include tool time
         between calls.
