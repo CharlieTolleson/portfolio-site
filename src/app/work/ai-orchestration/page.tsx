@@ -1,5 +1,5 @@
 /**
- * AI Agent Orchestration: case study page.
+ * Orchestrating a Team of Models: case study page.
  *
  * Role in the system: the first built portfolio entry, linked from the home
  * page. It argues that multi-agent orchestration is a routing and observability
@@ -30,11 +30,11 @@ const WAVE_EXECUTOR = `${REPO}/blob/main/agents/hyperion/src/hyperion/crews/runn
 const ROUTING_SRC = `${REPO}/blob/main/agents/hyperion/src/hyperion/llms.py`;
 
 export const metadata = {
-  title: "AI Agent Orchestration",
+  title: "Orchestrating a Team of Models",
   description:
     "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 2.6× faster than sequential, traced end to end.",
   openGraph: {
-    title: "AI Agent Orchestration | Charlie Tolleson",
+    title: "Orchestrating a Team of Models | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. 2.6× faster than sequential, with every call traced.",
     type: "article",
@@ -42,7 +42,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Agent Orchestration | Charlie Tolleson",
+    title: "Orchestrating a Team of Models | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. Measured, not described.",
   },
@@ -69,7 +69,7 @@ export default function AiOrchestrationPage() {
           </Link>
 
           <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            AI Agent Orchestration
+            Orchestrating a Team of Models
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
@@ -77,7 +77,7 @@ export default function AiOrchestrationPage() {
           </p>
 
           <EntrySummary
-            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven sales workflows, then built Hyperion to keep working on it with my hands on the whole stack: orchestration, routing, and the traces underneath. It treats model choice as a property of each step, and measures what that buys."
+            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven production sales workflows, then built Hyperion to keep working on it with my hands on the whole stack. It treats model choice as a property of each step, and measures what that buys."
             pairs={[
               [
                 "One prompt fans out into dozens of nondeterministic model calls, each compounding the variance of the one before it.",
@@ -143,8 +143,8 @@ export default function AiOrchestrationPage() {
           </p>
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
-            I led evals through this problem at Meta, across seven sales
-            workflows and a group of about thirty: seven data scientists, seven
+            I led evals through this problem at Meta, across seven production
+            sales workflows and a group of about thirty: seven data scientists, seven
             data engineers, seven PMs, and ten software engineers. Hyperion is
             what I built to keep working on the same problem with my hands on the
             whole stack: orchestration, routing, and the traces underneath.

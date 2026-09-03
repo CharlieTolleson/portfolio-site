@@ -6,25 +6,42 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
 
-/** Built entries, newest last. Each renders as a card above the coming-soon
- *  list, and the list numbers itself from `entries.length + 1`. */
+/**
+ * Built entries, newest last. Each renders as a card above the coming-soon list,
+ * and the list numbers itself from `entries.length + 1`.
+ *
+ * Titles are written to invite rather than to classify, so `blurb` is where the
+ * method keyword lives ("multi-agent orchestrator", "causal inference",
+ * "decomposition"). That keeps the card searchable and tells a visitor what the
+ * entry actually is, which an evocative title on its own does not.
+ *
+ * Keep the three blurbs within a few characters of each other. They sit above
+ * visuals that are already height-matched, so one blurb wrapping to an extra line
+ * is the only thing that can make the cards render at different heights.
+ */
 const entries = [
   {
     href: "/work/ai-orchestration",
-    title: "AI Agent Orchestration",
+    title: "Orchestrating a Team of Models",
     role: "Creator & Architect",
+    blurb:
+      "Hyperion, a multi-agent orchestrator that routes each step of a task to the model that fits it.",
     visual: <WorkflowGraph variant="card" />,
   },
   {
     href: "/work/causal-inference",
-    title: "Agentic Causal Inference",
+    title: "What Moves the Metric @Meta",
     role: "Data Science Lead",
+    blurb:
+      "Causal inference over the data we already had, when a live experiment cost a full quarter.",
     visual: <CausalTree variant="card" />,
   },
   {
     href: "/work/metric-decomposition",
-    title: "Metric Decomposition",
+    title: "Metric Forensics @Amazon & @Meta",
     role: "Data Science Lead",
+    blurb:
+      "Two decomposition frameworks that explain a metric move exactly, self-serve to anyone who asks.",
     visual: <DecompWaterfall variant="card" />,
   },
 ];
@@ -74,13 +91,18 @@ export default function Home() {
                 href={entry.href}
                 className="group block rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300 sm:p-10"
               >
-                <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
-                  <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
-                    {entry.title}
-                  </h2>
-                  <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
-                    {entry.role}
-                  </span>
+                <div className="mb-8 flex flex-col gap-3">
+                  <div className="flex flex-wrap items-baseline justify-between gap-4">
+                    <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
+                      {entry.title}
+                    </h2>
+                    <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
+                      {entry.role}
+                    </span>
+                  </div>
+                  <p className="max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
+                    {entry.blurb}
+                  </p>
                 </div>
                 {entry.visual}
               </Link>
