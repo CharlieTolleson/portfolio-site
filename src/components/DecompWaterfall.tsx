@@ -299,7 +299,10 @@ function DetailTable({ rows }: { rows: Row[] }) {
           <tr className="border-b border-zinc-200 font-mono text-[11px] uppercase tracking-wide text-zinc-400">
             <th className="py-2 pr-4 font-normal">Subgroup</th>
             <th className="py-2 pr-4 text-right font-normal">Rate</th>
-            <th className="py-2 pr-4 text-right font-normal">Share</th>
+            {/* "Mix share" rather than "share": it pairs the state column with
+                the "mix effect" column derived from it, and mix shift is the
+                concept a business reader already has a name for. */}
+            <th className="py-2 pr-4 text-right font-normal">Mix share</th>
             <th className="py-2 pr-4 text-right font-normal">Rate effect</th>
             <th className="py-2 pr-4 text-right font-normal">Mix effect</th>
             <th className="py-2 text-right font-normal">Contribution</th>

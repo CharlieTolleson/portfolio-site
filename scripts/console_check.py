@@ -9,6 +9,12 @@ warning level or above for each URL given.
 Usage:
     npx next start -p 3311 &
     python scripts/console_check.py http://localhost:3311/ http://localhost:3311/work/foo
+    lsof -ti:3311 | xargs kill -9
+
+Kill the server by port, not with `kill %1`: npx spawns the Next server as a
+child, so the job-control kill leaves it holding the port. A leftover server from
+an earlier run serves a stale build whose chunk hashes no longer match, and the
+result is a page full of 500s that looks exactly like a real regression.
 """
 import json, subprocess, sys, time, urllib.request
 import websocket

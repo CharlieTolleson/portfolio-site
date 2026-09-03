@@ -24,7 +24,7 @@ const entries = [
   {
     href: "/work/metric-decomposition",
     title: "Metric Decomposition",
-    role: "Senior Data Scientist",
+    role: "Lead Data Scientist",
     visual: <DecompWaterfall variant="card" />,
   },
 ];

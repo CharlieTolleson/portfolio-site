@@ -66,7 +66,11 @@ export const metadata = {
 
 /** Fact rows shown under the title, so the scope is legible at a glance. */
 const META: [string, string][] = [
-  ["Role", "Senior data scientist: framework, tooling, and the executive read"],
+  ["Role", "Lead data scientist: framework, tooling, and the executive read"],
+  [
+    "Ownership",
+    "Worldwide single-threaded owner and coordinator for this work at Amazon",
+  ],
   ["Context", "Amazon retail pricing, then Meta ads sales. Generalized here"],
   [
     "Approach",
@@ -109,9 +113,9 @@ export default function MetricDecompositionPage() {
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
-            &quot;Why did the number move?&quot; is the most expensive question
-            in analytics, and most organizations answer it by searching. I made
-            it arithmetic, then made it self-serve.
+            &quot;Why did the number move?&quot; might be the most expensive
+            question in analytics, and most organizations answer it by
+            searching. I made it arithmetic, then made it self-serve.
           </p>
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
@@ -198,12 +202,12 @@ export default function MetricDecompositionPage() {
               Make the arithmetic do the searching
             </h2>
             <p className="text-xl leading-relaxed text-zinc-700">
-              At Amazon I worked with a framework we called Contribution to
-              Change. The idea behind it is almost embarrassingly simple, which
-              is exactly why it holds up in a room full of executives: a
-              percentage metric is just the weighted average of its parts, so a
-              movement in the whole can only come from two places. Either the
-              parts changed, or the weights did.
+              At Amazon I owned this work worldwide, using a framework we
+              called Contribution to Change. The idea behind it is almost
+              embarrassingly simple, which is exactly why it holds up in a room
+              full of executives: a percentage metric is just the weighted
+              average of its parts, so a movement in the whole can only come
+              from two places. Either the parts changed, or the mix of them did.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
               Split every subgroup&apos;s movement into those two pieces and
@@ -290,8 +294,8 @@ export default function MetricDecompositionPage() {
               <span className="font-mono text-zinc-800">
                 {Math.abs(bps(NA_ROW.mixEffect)).toFixed(1)}
               </span>{" "}
-              basis points, purely because it is the strongest region and it
-              shrank as a share of traffic. LATAM did the reverse and was
+              basis points, purely because it is the strongest region and its
+              share of the mix shrank. LATAM did the reverse and was
               punished twice: its own rate falling cost{" "}
               <span className="font-mono text-zinc-800">
                 {Math.abs(bps(LATAM_ROW.rateEffect)).toFixed(0)}
