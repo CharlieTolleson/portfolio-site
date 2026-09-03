@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
+import StorySplit from "@/components/StorySplit";
 
 /**
  * Built entries, newest last. Each renders as a card above the coming-soon list,
@@ -43,10 +44,17 @@ const entries = [
       "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
     visual: <DecompWaterfall variant="card" />,
   },
+  {
+    href: "/work/news-event-detection",
+    title: "Finding the Story @IBM",
+    role: "Data Science Lead",
+    blurb:
+      "Anything can break a supply chain. I built a graph that finds the story before the alert exists.",
+    visual: <StorySplit variant="card" />,
+  },
 ];
 
 const comingSoon = [
-  "Graphical NER and News Event Detection",
   "NLP Patent Infringement Detection",
   "ML Sales Recommendations with Shapely Values",
   "No-Code ML",
