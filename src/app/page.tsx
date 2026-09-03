@@ -18,13 +18,13 @@ const entries = [
   {
     href: "/work/causal-inference",
     title: "Agentic Causal Inference",
-    role: "Lead Data Scientist",
+    role: "Data Science Lead",
     visual: <CausalTree variant="card" />,
   },
   {
     href: "/work/metric-decomposition",
     title: "Metric Decomposition",
-    role: "Lead Data Scientist",
+    role: "Data Science Lead",
     visual: <DecompWaterfall variant="card" />,
   },
 ];

@@ -67,7 +67,7 @@ export const metadata = {
 
 /** Fact rows shown under the title, so the scope is legible at a glance. */
 const META: [string, string][] = [
-  ["Role", "Lead data scientist: framework, tooling, and the executive read"],
+  ["Role", "Data science lead: framework, tooling, and the executive read"],
   [
     "Ownership",
     "Worldwide single-threaded owner and coordinator for this work at Amazon",
@@ -115,14 +115,29 @@ export default function MetricDecompositionPage() {
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
             &quot;Why did the number move?&quot; might be the most expensive
-            question in analytics, and most organizations answer it by
-            searching. I made it arithmetic, then made it self-serve.
+            question in analytics.
           </p>
 
           <EntrySummary
-            problem="When a metric moved, the answer came from an open-ended data dive that produced a plausible culprit and no way to know whether it was most of the movement or a tenth of it."
-            built="Python modules for two decomposition frameworks, Contribution to Change for rate metrics and LMDI for absolute ones, behind Claude Code skills that run them in sequence and write the analysis."
-            changed="Every part of the business gets an exact contribution that sums to the total. At Amazon that replaced the narrative in board reporting; at Meta it made the work self-serve for anyone with an agent."
+            intro="Most organizations answer it by searching: someone opens a notebook and hunts through tables until they find an anomaly large enough to blame. As the worldwide owner of this problem at Amazon, and later rebuilding it for Meta's ads funnel, I replaced that dive with two decomposition frameworks that account for a metric move exactly, then wrapped them in agents so anyone could run the analysis without waiting on my team."
+            pairs={[
+              [
+                "A metric moves and the best answer available is a plausible culprit, with no way to know whether it explains most of the change or a tenth of it.",
+                "Contribution to Change, which splits the move into per-subgroup pieces that sum to the total exactly, with no residual.",
+              ],
+              [
+                "The real cause usually hides several dimensions deep, where a top-down dashboard scan dilutes it into ordinary noise.",
+                "Layered drilling, from region down to the single cell responsible, reconciling at every level of the descent.",
+              ],
+              [
+                "Half the movement comes from shifts in mix that no amount of staring at subgroup rates will ever reveal.",
+                "A mix effect reported beside the rate effect, so a subgroup that grew while performing below average becomes visible.",
+              ],
+              [
+                "Revenue is not a rate, so the framework explained part of a miss and left the rest unattributed.",
+                "LMDI for absolute funnel metrics, which decomposes a chain of multiplied factors and still leaves nothing over.",
+              ],
+            ]}
           />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">

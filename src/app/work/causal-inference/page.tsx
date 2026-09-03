@@ -55,7 +55,7 @@ export const metadata = {
 const META: [string, string][] = [
   [
     "Role",
-    "Lead data scientist: framing, method, framework, recommendations",
+    "Data science lead: framing, method, framework, recommendations",
   ],
   ["Team", "Me plus two data scientists"],
   ["Context", "Meta Sales analytics, generalized here"],
@@ -110,15 +110,29 @@ export default function CausalInferencePage() {
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
-            Sales had a new north star metric and no idea what moved it. The
-            rigorous answer cost a quarter per question. I built the fast one,
-            then wrapped it in an agent.
+            Sales had a new north star metric and no idea what moved it.
           </p>
 
           <EntrySummary
-            problem="Meta Sales adopted a north star metric with no evidence about what moved it, and the rigorous answer, a live experiment, cost a full quarter per hypothesis."
-            built="A causal forest framework that estimates the effect for each subgroup instead of one average, wrapped in a Claude Code skill that runs the analysis and writes the executive brief."
-            changed="A week of work per hypothesis became minutes of prompting, so we tested dozens instead of one. The strongest findings went to sales leadership; the framework went to a team extending it."
+            intro="Goals were set against that metric and the organization's funding case rested on hitting them, but nobody had established how it responded to anything sales actually did. As the data science lead on a team of three, I rebuilt the experiment we could not afford to run out of observational history, used causal forests to find where each lever actually works rather than what it does on average, and wrapped the whole pipeline in an agent."
+            pairs={[
+              [
+                "The accounts that got a given play were never chosen at random; reps picked the large, healthy ones.",
+                "Propensity weighting to rebuild the comparison a randomized experiment would have handed us, with the balance checked in the open.",
+              ],
+              [
+                "The rigorous answer, a live experiment, costs a full quarter and buys exactly one hypothesis.",
+                "An estimate in minutes instead, so the quarter goes to the hypothesis that has earned it.",
+              ],
+              [
+                "One average effect across a global advertiser base is a real number and a useless instruction.",
+                "Causal forests, which estimate a separate effect per subgroup and show where the lever quietly backfires.",
+              ],
+              [
+                "Making a causal estimate cheap to produce makes a bad causal estimate cheap to produce too.",
+                "Balance, overlap, and interval diagnostics that travel with every brief instead of sitting behind it.",
+              ],
+            ]}
           />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
