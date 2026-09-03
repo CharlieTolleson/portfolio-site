@@ -1,5 +1,5 @@
 /**
- * Agentic Causal Inference: case study page.
+ * What Moves the Metric: case study page (agentic causal inference at Meta).
  *
  * Role in the system: the second built portfolio entry. The underlying work was
  * done inside Meta and is proprietary, so this page can carry no real data,
@@ -33,21 +33,21 @@ import {
 } from "@/lib/causalDemo";
 
 export const metadata = {
-  title: "Agentic Causal Inference",
+  title: "What Moves the Metric",
   description:
     "Meta Sales changed its north star metric without knowing how to move it. Live experiments cost a quarter each, so I built a causal forest framework, wrapped it in an agent, and turned a week of analysis into minutes.",
   openGraph: {
-    title: "Agentic Causal Inference | Charlie Tolleson",
+    title: "What Moves the Metric | Charlie Tolleson",
     description:
-      "Causal forests over observational data, wrapped in an agent. Turning a week of analysis per hypothesis into minutes of prompting.",
+      "Agentic causal inference at Meta. Causal forests over observational data, turning a week of analysis per hypothesis into minutes of prompting.",
     type: "article",
     url: "https://charlietolleson.com/work/causal-inference",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agentic Causal Inference | Charlie Tolleson",
+    title: "What Moves the Metric | Charlie Tolleson",
     description:
-      "Which levers move the metric, and for whom. Causal forests, wrapped in an agent.",
+      "Which levers move the metric, and for whom. Causal inference with causal forests, wrapped in an agent.",
   },
 };
 
@@ -106,15 +106,16 @@ export default function CausalInferencePage() {
           </Link>
 
           <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            Agentic Causal Inference
+            What Moves the Metric @Meta
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
-            Sales had a new north star metric and no idea what moved it.
+            Sales committed to a new north star metric, then set goals against
+            it, with no evidence behind either.
           </p>
 
           <EntrySummary
-            intro="Goals were set against that metric and the organization's funding case rested on hitting them, but nobody had established how it responded to anything sales actually did. As the data science lead on a team of three, I rebuilt the experiment we could not afford to run out of observational history, used causal forests to find where each lever actually works rather than what it does on average, and wrapped the whole pipeline in an agent."
+            intro="The organization's funding case rested on hitting those goals, so the gap was not academic: leadership was allocating a quarter at a time on conviction alone. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached."
             pairs={[
               [
                 "The accounts that got a given play were never chosen at random; reps picked the large, healthy ones.",

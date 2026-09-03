@@ -1,5 +1,5 @@
 /**
- * Metric Decomposition: case study page.
+ * Metric Forensics: case study page (metric decomposition at Amazon and Meta).
  *
  * Role in the system: the third built portfolio entry, covering the measurement
  * work done at Amazon (Contribution to Change over a retail rate metric) and
@@ -47,21 +47,21 @@ import {
 } from "@/lib/decompDemo";
 
 export const metadata = {
-  title: "Metric Decomposition",
+  title: "Metric Forensics",
   description:
     "Why did the number move? At Amazon and Meta I replaced the open-ended data dive with two decomposition frameworks that answer it exactly, then wrapped them in an agent so anyone could ask.",
   openGraph: {
-    title: "Metric Decomposition | Charlie Tolleson",
+    title: "Metric Forensics | Charlie Tolleson",
     description:
-      "Contribution to Change and LMDI: turning the most expensive question in analytics into arithmetic that adds up, and then into a query anyone can run.",
+      "Metric decomposition at Amazon and Meta. Contribution to Change and LMDI: turning the most expensive question in analytics into arithmetic that adds up.",
     type: "article",
     url: "https://charlietolleson.com/work/metric-decomposition",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Metric Decomposition | Charlie Tolleson",
+    title: "Metric Forensics | Charlie Tolleson",
     description:
-      "Why did the number move? An exact answer, in minutes, for anyone who asks.",
+      "Why did the number move? Metric decomposition that gives an exact answer, in minutes, for anyone who asks.",
   },
 };
 
@@ -110,7 +110,7 @@ export default function MetricDecompositionPage() {
           </Link>
 
           <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            Metric Decomposition
+            Metric Forensics @Amazon &amp; @Meta
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
