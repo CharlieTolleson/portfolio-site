@@ -15,9 +15,8 @@ import DecompWaterfall from "@/components/DecompWaterfall";
  * "decomposition"). That keeps the card searchable and tells a visitor what the
  * entry actually is, which an evocative title on its own does not.
  *
- * Keep the three blurbs within a few characters of each other. They sit above
- * visuals that are already height-matched, so one blurb wrapping to an extra line
- * is the only thing that can make the cards render at different heights.
+ * Blurb length is not load-bearing: the paragraph below reserves two lines of
+ * space either way, so these can be rewritten without disturbing card heights.
  */
 const entries = [
   {
@@ -25,7 +24,7 @@ const entries = [
     title: "Orchestrating a Team of Models",
     role: "Creator & Architect",
     blurb:
-      "Hyperion, a multi-agent orchestrator that routes each step of a task to the model that fits it.",
+      "Hyperion, a multi-agent orchestrator for building your best agent team.",
     visual: <WorkflowGraph variant="card" />,
   },
   {
@@ -33,7 +32,7 @@ const entries = [
     title: "What Moves the Metric @Meta",
     role: "Data Science Lead",
     blurb:
-      "Causal inference over the data we already had, when a live experiment cost a full quarter.",
+      "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
     visual: <CausalTree variant="card" />,
   },
   {
@@ -41,7 +40,7 @@ const entries = [
     title: "Metric Forensics @Amazon & @Meta",
     role: "Data Science Lead",
     blurb:
-      "Two decomposition frameworks that explain a metric move exactly, self-serve to anyone who asks.",
+      "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
     visual: <DecompWaterfall variant="card" />,
   },
 ];
@@ -100,7 +99,15 @@ export default function Home() {
                       {entry.role}
                     </span>
                   </div>
-                  <p className="max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
+                  {/* Two lines of space are reserved whether or not the blurb
+                      fills them. The visuals below are already height-matched,
+                      so a blurb wrapping to a different number of lines is the
+                      only thing that can make the cards render at different
+                      heights, and reserving the space here means the copy can
+                      be edited freely without anyone having to count
+                      characters. 3.7rem is two lines of text-lg at
+                      leading-relaxed. */}
+                  <p className="min-h-[3.7rem] max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
                     {entry.blurb}
                   </p>
                 </div>
