@@ -15,7 +15,7 @@
  *   - **The algorithm runs on the page.** The client is confidential and the
  *     outputs stayed at IBM, so `lib/newsGraph.ts` implements the real procedure
  *     over a synthetic feed and the figure steps through it live. Betweenness,
- *     the local clustering, and the persona construction are the actual ones.
+ *     the local clustering, and the node duplication are the actual ones.
  *   - **An honest outcome.** It did not ship. Saying so plainly and then being
  *     specific about what was learned is worth more than dressing a proof of
  *     concept up as a product.
@@ -51,7 +51,7 @@ export const metadata = {
   openGraph: {
     title: "Finding the Story | Charlie Tolleson",
     description:
-      "Graphical NER and news event detection at IBM. Splitting an entity co-occurrence graph into overlapping stories that can be tracked as they grow, fade, and return.",
+      "Graphical NER and news event detection at IBM. Reorganising a persistent entity graph into overlapping stories that can be tracked as they grow, fade, and return.",
     type: "article",
     url: "https://charlietolleson.com/work/news-event-detection",
   },
@@ -73,7 +73,7 @@ const META: [string, string][] = [
   ],
   [
     "Approach",
-    "Streaming NER into an entity graph, split into stories by persona duplication",
+    "Streaming NER into a persistent entity graph, reorganised into stories on demand",
   ],
   ["Outcome", "Proof of concept, published internally at IBM for patent cover"],
 ];
@@ -105,20 +105,20 @@ export default function NewsEventDetectionPage() {
             intro="A truck breaks down, a plant catches fire, a port shuts, a strike starts, a storm reroutes a shipping lane. Each of those reaches the world as news, written in words nobody set up a rule for in advance. As the data science lead on a team of six at IBM, I built a system that read a live global news feed and, rather than matching terms, found the stories forming around a client's suppliers and tracked each one as it grew, faded, and came back."
             pairs={[
               [
-                "The events worth alerting on run from a factory fire to civil unrest to a currency move, so there is no list of terms to watch and no labelled set to train on.",
-                "Treated it as structure discovery instead of classification: surface whatever stories are forming around the client, then rank them, rather than asking only about the events I already knew to ask about.",
+                "The events worth alerting on run from a factory fire to civil unrest to a currency move. There is no list of terms to watch and nothing to train on.",
+                "Treated it as structure discovery, not classification: surface whatever stories are forming around the client, then rank them.",
               ],
               [
-                "The state of the art in topic modelling had to re-read the entire corpus on every run, which is the wrong cost shape for an alert system that has to be current.",
-                "Moved the representation to a graph that could be rebuilt over a time window and compared against yesterday's, so the recurring cost was one window rather than the whole archive.",
+                "Topic models describe the themes in a corpus. An alert system needs discrete events that hold their identity from one day to the next.",
+                "Kept a persistent entity graph in Neo4j that accumulates as articles arrive, so a story is a thing in the database rather than an output of the last fit.",
               ],
               [
                 "A real entity belongs to several stories at once, and every clustering method available would force it into exactly one.",
-                "Adapted the persona idea behind Google's Splitter: duplicate the entities holding the graph together, so one entity can sit inside many stories without fusing them into one.",
+                "Borrowed the duplication idea behind Google's Splitter, so one entity can sit inside many stories without fusing them together.",
               ],
               [
                 "A single wire story republished across dozens of outlets would have dominated the graph on volume alone.",
-                "MinHash with banded LSH in the ingestion path, tuned to collapse syndicated reprints while keeping two outlets genuinely covering the same event as two articles.",
+                "MinHash in the ingestion path, tuned to collapse syndicated reprints while keeping independent coverage of the same event separate.",
               ],
             ]}
           />
@@ -140,7 +140,7 @@ export default function NewsEventDetectionPage() {
             </span>{" "}
             The client is confidential and the original outputs stayed at IBM, so
             no real feed, entity, or result appears here. The algorithm does: the
-            graph figure below runs the actual betweenness scoring and persona
+            graph figure below runs the actual betweenness scoring and node
             splitting in your browser, over a feed written for this page.
           </p>
         </div>
@@ -187,12 +187,11 @@ export default function NewsEventDetectionPage() {
               Slower than the firehose by some hours, and enormously cleaner.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
-              I worked with the two developers on the team to build the path that
-              turns that feed into something a graph can be built from. Kafka to
-              move articles between stages, MinHash and LSH to collapse
-              near-duplicate wire copy, named entity recognition to tag entities
-              and key phrases, and Elasticsearch to hold the result so any time
-              window could be rebuilt on demand.
+              I worked with the two developers on the team to build the path
+              from that feed into the graph. Kafka to move articles between
+              stages, MinHash to collapse near-duplicate wire copy, named entity
+              recognition to tag entities and key phrases, Elasticsearch to hold
+              the articles, and Neo4j to hold the entity graph itself.
             </p>
           </div>
 
@@ -206,26 +205,36 @@ export default function NewsEventDetectionPage() {
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
             Event detection at the time mostly meant topic modelling, and topic
-            modelling mostly meant LDA: a statistical method that finds sets of
-            words which tend to occur together across a body of documents. It
-            works, and for a fixed archive it works well.
+            modelling mostly meant LDA: a statistical model that treats each
+            document as a mixture of topics and each topic as a distribution over
+            words, then infers both from how words co-occur across the corpus. It
+            works, and for describing what a body of documents is about it works
+            well.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The problem is what it costs and what it assumes. LDA fits over the
-            whole corpus at once, so keeping it current means re-fitting
-            repeatedly against an archive that only grows. It also wants to be
-            told how many topics there are, which is a strange thing to have to
-            declare about the world&apos;s events, and its topics have no
-            identity across runs, so today&apos;s topic four has no particular
-            relationship to yesterday&apos;s topic four.
+            The usual objection is cost, and on its own it does not hold up.
+            Fitting LDA in batch does mean processing the corpus, but streaming
+            variants already existed: online variational Bayes for LDA had been
+            published in 2010 and was sitting in the libraries I would have
+            reached for. Anyone who rejects topic models purely on running time
+            should expect to be corrected.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            That last point is the one that actually rules it out. An alert
-            system is not asking what topics exist. It is asking what changed
-            since yesterday, which requires the things being compared to be the
-            same kind of object across time. What I needed was a structure that
-            could grow, shrink, and be compared against its own previous state,
-            the way the events themselves do.
+            The real mismatch is what a topic is. A topic is a theme spread
+            across a corpus, and it is a slot in a model whose number you fix in
+            advance. An event is neither. It begins on a particular Tuesday, has
+            a vocabulary that turns over as it develops, and either matters to a
+            supply chain or does not. Ask a fixed set of topics to represent an
+            unbounded stream of arriving events and every new one has to be
+            absorbed into a slot already spoken for, or wait for a refit that
+            renumbers everything.
+          </p>
+          <p className="text-xl leading-relaxed text-zinc-700">
+            That last part is what actually ruled it out. An alert system does
+            not ask what themes exist. It asks what changed since yesterday, and
+            that question needs the things being compared to be the same objects
+            across time, with identities that persist. What I needed was a
+            structure that accumulated rather than a model that got re-estimated.
           </p>
         </section>
 
@@ -235,10 +244,13 @@ export default function NewsEventDetectionPage() {
             One entity, many stories
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            So I moved the representation to a graph. Nodes are entities and key
-            phrases pulled by the tagger; an edge between two of them means they
-            appeared in the same article, weighted by how often. Building it over
-            a time window is cheap, and two windows can be compared directly.
+            So I moved the representation to a graph, held in Neo4j. Nodes are
+            entities and key phrases pulled by the tagger; an edge between two of
+            them means they appeared in the same article, weighted by how often.
+            The graph is not rebuilt. Each batch of articles adds nodes and
+            strengthens edges in the graph that is already there, and old weight
+            decays, so it accumulates and ages the way the coverage does. Nothing
+            is re-estimated to bring it up to date.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             Which surfaces the real obstacle immediately. Take the entity you
@@ -268,12 +280,22 @@ export default function NewsEventDetectionPage() {
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             I did not use Splitter itself. It learns embeddings, and training
-            embeddings on every window is exactly the recurring cost I had just
-            moved the whole design to avoid. What I took was the underlying move,
-            duplication rather than assignment, and rebuilt it as something that
+            embeddings on a live feed is exactly the recurring cost I had just
+            designed my way out of. What I took was the underlying move,
+            duplication rather than assignment, and turned it into something that
             runs directly on the graph: repeatedly find the entity holding the
-            most unrelated things together, split it into one copy per context,
-            and let the graph fall apart along its natural seams.
+            most unrelated things together and hand each of the contexts it was
+            bridging its own copy.
+          </p>
+          <p className="text-xl leading-relaxed text-zinc-700">
+            It is worth being exact about what that does, because it is easy to
+            overclaim. The duplication does not create the stories. The stories
+            are already in the graph, in the sense that the co-occurrences that
+            make them up are all sitting there; they are just impossible to read,
+            because a handful of shared entities weld them into one mass. All the
+            manipulation does is take those few entities out of the load-bearing
+            role they were never meant to have. The organisation that appears
+            afterwards was in the data the whole time.
           </p>
         </section>
 
@@ -344,11 +366,13 @@ export default function NewsEventDetectionPage() {
               A story is a thing with a life
             </h2>
             <p className="text-xl leading-relaxed text-zinc-700">
-              Running the split on one window finds stories. Running it on
-              consecutive windows is what turns a story into an object you can
-              watch, because the components can be matched across days by the
-              entities they share. A story then has a size, a direction, and a
-              vocabulary that shifts as new information arrives.
+              Splitting the graph once finds stories. Splitting the same
+              accumulating graph again the next day is what turns a story into an
+              object you can watch, because the components can be matched across
+              days by the entities they share. The extraction is redone; the
+              graph underneath it is the same graph, a day heavier. A story then
+              has a size, a direction, and a vocabulary that shifts as new
+              information arrives.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
               The first real one I found was IBM&apos;s acquisition of Red Hat.
@@ -395,25 +419,17 @@ export default function NewsEventDetectionPage() {
             Where it ended up
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            It did not ship. The project ended at proof of concept, and I wrote
-            up the method and the findings as an internal IBM paper, which is how
-            research gets published there when the patent position matters more
-            than the citation. So the honest summary is that I have the method
-            and the evidence it works, and no production system to point at.
+            The project ended at proof of concept, and I wrote the method and the
+            findings up as an internal IBM paper, which is how research gets
+            published there when the patent position matters more than the
+            citation.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            What I would defend is the shape of the answer. The requirement was
-            an alert for a category of event nobody can enumerate, and the
-            instinct in the room, then and now, is to enumerate harder: more
-            keywords, more categories, more labelled data. Structure discovery
-            was the right call, and the reason I still believe it is that the
-            IBM and Red Hat timeline was found without anybody telling the system
-            that a company acquisition was a thing that happens.
-          </p>
-          <p className="text-xl leading-relaxed text-zinc-700">
-            It is also the most enjoyable technical problem I have worked on,
-            which is not a business argument, but it is why I have kept thinking
-            about it since.
+            It is also one of the most enjoyable technical problems I have worked
+            on, and one I still think about. The IBM and Red Hat timeline came
+            out of a system that had never been told a company acquisition was a
+            thing that happens, and that is the part I would want to build on
+            next.
           </p>
         </section>
 
@@ -423,31 +439,31 @@ export default function NewsEventDetectionPage() {
             What I would build now
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The obvious modern question is why not just give the feed to a
-            language model. For reading any single article, that is now clearly
-            the better tool: it understands context, resolves entities properly,
-            and needs no tagger. The context-free semantic similarity I had to
-            work with was the weakest part of the pipeline by a distance.
+            The weakest part of what I built was the tagging. Named entity
+            recognition then meant context-free semantic similarity, which cannot
+            tell a company from a place with the same name, and cannot tell that
+            two articles are describing one event in different words. That is
+            precisely what a language model is good at now, and it is the piece I
+            would replace outright.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            What a model does not do on its own is the part this project was
-            actually about. Deciding that fourteen articles from nine outlets over
-            three days are one event, that the event is growing, and that its
-            vocabulary has turned over since last week is a question about
-            structure across a corpus and across time, not about the meaning of
-            any one document. Reading every article with a model to answer it
-            would put me back at a cost that scales with the archive, which is
-            where LDA already was.
+            I would go further than swapping the tagger. A model can read a
+            handful of articles and say whether they are covering the same thing,
+            which is a judgement my pipeline had to approximate with
+            co-occurrence statistics, and a team of agents could carry that
+            comparison across days. So the extraction and the topic assignment,
+            the parts that decide what goes into the graph, are where I would put
+            the model and where I expect most of the gain to be.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            So the version I would build today keeps the graph and changes what
-            fills it. A model does the extraction and the entity resolution,
-            which is where it is strongest and where my pipeline was weakest. The
-            splitting stays, because it is cheap and it is the part that produces
-            an object with an identity over time. And the model comes back at the
-            end, where it is strong again: reading a component and writing the
-            two sentences that tell an operations team whether this one is worth
-            their morning.
+            What I would keep is the graph. Not because a graph is the only way
+            to do this, but because once you are tracking events over weeks you
+            need somewhere to put them that holds identity, shows structure, and
+            can be looked at. A story that grew today, shares four entities with
+            one from last Tuesday, and has picked up a supplier nobody was
+            watching is a natural thing to ask a graph and an awkward thing to
+            ask anything else. The model decides what the graph contains. The
+            graph is still what makes a story a thing rather than an answer.
           </p>
         </section>
 
@@ -472,11 +488,12 @@ export default function NewsEventDetectionPage() {
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             The other thing it taught me, which I have used constantly since, is
-            that the cost shape of a method is a product decision. LDA was not
-            rejected because it was inaccurate. It was rejected because
-            re-reading the corpus is the wrong thing to be doing every hour, and
-            no amount of accuracy fixes that. That is the same reasoning I now
-            apply to model choice inside{" "}
+            that a method has to have the right shape, not just the right output.
+            Topic models were not rejected for being inaccurate. They were
+            rejected because they produce themes that get re-estimated, when what
+            the job needed was events that persist, and no amount of accuracy
+            converts one into the other. That is the same reasoning I now apply
+            to model choice inside{" "}
             <Link
               href="/work/ai-orchestration"
               className="underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
@@ -495,12 +512,12 @@ export default function NewsEventDetectionPage() {
           <p className="text-base leading-relaxed text-zinc-600">
             The graph figure is the algorithm, not a picture of it. Betweenness
             centrality is computed with Brandes&apos; algorithm, the
-            neighbourhood clustering and the persona construction run on every
-            step, and the layout is a force simulation over the result, all in the
-            browser over a synthetic feed. The dedup curves are the LSH banding
-            formula evaluated directly. The story timeline is a reconstruction:
-            the dates and events are the public record of the acquisition, and the
-            phrase sets are rebuilt from the poster I presented at IBM.
+            neighbourhood clustering and the node duplication run on every step,
+            and the layout is a force simulation over the result, all in the
+            browser over a synthetic feed. The story timeline is a
+            reconstruction: the dates and events are the public record of the
+            acquisition, and the phrase sets are rebuilt from the poster I
+            presented at IBM.
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-zinc-200 pt-6 text-base">

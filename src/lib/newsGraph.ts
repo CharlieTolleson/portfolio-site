@@ -367,8 +367,9 @@ export function betweenness(g: Graph): Map<string, number> {
  *
  * Label propagation is used because it is linear in the number of edges, needs
  * no target number of clusters, and requires no training. All three mattered:
- * the point of the whole approach was to react to a live feed rather than
- * re-fit a model over the corpus.
+ * the extraction runs repeatedly over an accumulating graph, so anything that
+ * had to be trained, or told in advance how many stories to expect, would have
+ * been the wrong shape for the job.
  *
  * Determinism is deliberate. Label propagation is normally randomised and
  * therefore unstable between runs, which would be a poor property for an alert
