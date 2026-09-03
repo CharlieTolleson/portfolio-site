@@ -431,7 +431,7 @@ export default function CausalInferencePage() {
         <section className="flex flex-col gap-8">
           <div className="flex max-w-3xl flex-col gap-6">
             <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
-              Handing it off: Causal Forge
+              Handing it off
             </h2>
             <p className="text-xl leading-relaxed text-zinc-700">
               Causal forests were right for this problem. They are not right for
@@ -442,10 +442,10 @@ export default function CausalInferencePage() {
             <p className="text-xl leading-relaxed text-zinc-700">
               Closing that gap became someone else&apos;s roadmap. I scoped the
               extension with the broader org and handed the framework over to a
-              team now building it into what we are calling Causal Forge: a
-              specialist agent that reads the data and the question, picks the
-              technique, defends the choice, runs it, and reports its own
-              diagnostics. These are the methods it arbitrates between.
+              team now building it into a specialist agent that reads the data
+              and the question, picks the technique, defends the choice, runs it,
+              and reports its own diagnostics. These are the methods it
+              arbitrates between.
             </p>
           </div>
 

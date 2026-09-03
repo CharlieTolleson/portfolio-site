@@ -53,7 +53,7 @@ export const metadata = {
   openGraph: {
     title: "Finding the Story | Charlie Tolleson",
     description:
-      "Graphical NER and news event detection at IBM. Reorganising a persistent entity graph into overlapping stories that can be tracked as they grow, fade, and return.",
+      "Graphical NER and news event detection at IBM. Reorganizing a persistent entity graph into overlapping stories that can be tracked as they grow, fade, and return.",
     type: "article",
     url: "https://charlietolleson.com/work/news-event-detection",
   },
@@ -75,7 +75,7 @@ const META: [string, string][] = [
   ],
   [
     "Approach",
-    "Streaming NER into a persistent entity graph, reorganised into stories on demand",
+    "Streaming NER into a persistent entity graph, reorganized into stories on demand",
   ],
   ["Outcome", "Proof of concept, published internally at IBM for patent cover"],
 ];
@@ -389,7 +389,7 @@ export default function NewsEventDetectionPage() {
               component simply grew new nodes.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
-              That is the behaviour the client actually needed. A disruption does
+              That is the behavior the client actually needed. A disruption does
               not arrive fully formed with its final vocabulary attached. It
               starts as a few local reports, changes words as it develops, and
               the useful alert is the one that fires on a component growing fast,
@@ -424,12 +424,12 @@ export default function NewsEventDetectionPage() {
             What I would build now
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The weakest part of what I built was the tagging. Named entity
-            recognition then meant context-free semantic similarity, which cannot
-            tell a company from a place with the same name, and cannot tell that
-            two articles are describing one event in different words. That is
-            precisely what a language model is good at now, and it is the piece I
-            would replace outright.
+            The weakest part of what I built was the tagging. Off-the-shelf NER
+            then labeled spans without linking them, so a company and a place
+            sharing a name arrived as one node, and the key phrases it pulled
+            were surface strings that knew nothing about two wordings meaning the
+            same thing. That is precisely what a language model is good at now,
+            and it is the piece I would replace outright.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             I would go further than swapping the tagger. A model can read a
@@ -497,7 +497,7 @@ export default function NewsEventDetectionPage() {
           <p className="text-base leading-relaxed text-zinc-600">
             The graph figure is the algorithm, not a picture of it. Betweenness
             centrality is computed with Brandes&apos; algorithm, the
-            neighbourhood clustering and the node duplication run on every step,
+            neighborhood clustering and the node duplication run on every step,
             and the layout is a force simulation over the result, all in the
             browser over a synthetic feed. The story timeline is a
             reconstruction: the dates and events are the public record of the
