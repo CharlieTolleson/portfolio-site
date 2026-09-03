@@ -4,26 +4,48 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
+import DecompWaterfall from "@/components/DecompWaterfall";
 
-/** Built entries, newest last. Each renders as a card above the coming-soon
- *  list, and the list numbers itself from `entries.length + 1`. */
+/**
+ * Built entries, newest last. Each renders as a card above the coming-soon list,
+ * and the list numbers itself from `entries.length + 1`.
+ *
+ * Titles are written to invite rather than to classify, so `blurb` is where the
+ * method keyword lives ("multi-agent orchestrator", "causal inference",
+ * "decomposition"). That keeps the card searchable and tells a visitor what the
+ * entry actually is, which an evocative title on its own does not.
+ *
+ * Blurb length is not load-bearing: the paragraph below reserves two lines of
+ * space either way, so these can be rewritten without disturbing card heights.
+ */
 const entries = [
   {
     href: "/work/ai-orchestration",
-    title: "AI Agent Orchestration",
+    title: "Orchestrating a Team of Models",
     role: "Creator & Architect",
+    blurb:
+      "Hyperion, a multi-agent orchestrator for building your best agent team.",
     visual: <WorkflowGraph variant="card" />,
   },
   {
     href: "/work/causal-inference",
-    title: "Agentic Causal Inference",
-    role: "Lead Data Scientist",
+    title: "What Moves the Metric @Meta",
+    role: "Data Science Lead",
+    blurb:
+      "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
     visual: <CausalTree variant="card" />,
+  },
+  {
+    href: "/work/metric-decomposition",
+    title: "Metric Forensics @Amazon & @Meta",
+    role: "Data Science Lead",
+    blurb:
+      "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
+    visual: <DecompWaterfall variant="card" />,
   },
 ];
 
 const comingSoon = [
-  "Metric Decomposition for Root Cause Analysis and Decision Making",
   "Graphical NER and News Event Detection",
   "NLP Patent Infringement Detection",
   "ML Sales Recommendations with Shapely Values",
@@ -68,13 +90,26 @@ export default function Home() {
                 href={entry.href}
                 className="group block rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300 sm:p-10"
               >
-                <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
-                  <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
-                    {entry.title}
-                  </h2>
-                  <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
-                    {entry.role}
-                  </span>
+                <div className="mb-8 flex flex-col gap-3">
+                  <div className="flex flex-wrap items-baseline justify-between gap-4">
+                    <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
+                      {entry.title}
+                    </h2>
+                    <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
+                      {entry.role}
+                    </span>
+                  </div>
+                  {/* Two lines of space are reserved whether or not the blurb
+                      fills them. The visuals below are already height-matched,
+                      so a blurb wrapping to a different number of lines is the
+                      only thing that can make the cards render at different
+                      heights, and reserving the space here means the copy can
+                      be edited freely without anyone having to count
+                      characters. 3.7rem is two lines of text-lg at
+                      leading-relaxed. */}
+                  <p className="min-h-[3.7rem] max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
+                    {entry.blurb}
+                  </p>
                 </div>
                 {entry.visual}
               </Link>
