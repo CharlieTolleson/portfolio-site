@@ -3,12 +3,12 @@
 /**
  * StoryEvolution.tsx: one story's size and vocabulary, day by day.
  *
- * Role in the system: splitting the graph finds stories in a snapshot. This
- * figure is the part that makes it an alert system: run the same split on
- * consecutive windows and a story becomes an object with a life, one that can be
- * watched growing, fading, and coming back. The IBM / Red Hat acquisition is the
- * example because both of its peaks are public record, so a reader can check the
- * dates against the events rather than taking the shape on trust.
+ * Role in the system: splitting the graph finds stories as it stands today. This
+ * figure is the part that makes it an alert system: split the same accumulating
+ * graph again tomorrow and a story becomes an object with a life, one that can
+ * be watched growing, fading, and coming back. The IBM / Red Hat acquisition is
+ * the example because both of its peaks are public record, so a reader can check
+ * the dates against the events rather than taking the shape on trust.
  *
  * Key design decisions:
  *   - **The curve is derived, the annotations are not.** Component size is

@@ -1,10 +1,11 @@
 /**
  * storyTimeline.ts: the IBM / Red Hat story, as the algorithm saw it evolve.
  *
- * Role in the system: the splitting algorithm finds stories in a single snapshot
- * of the feed. The claim that makes it an alert system rather than a clustering
- * toy is that re-running it on consecutive windows tracks the same story as it
- * grows, fades, and comes back. This module is the data behind that figure.
+ * Role in the system: the splitting algorithm finds stories in the graph as it
+ * stands. The claim that makes it an alert system rather than a clustering toy
+ * is that re-running the extraction against the same accumulating graph tracks
+ * one story as it grows, fades, and comes back. This module is the data behind
+ * that figure.
  *
  * Key design decisions:
  *   - **Keyword windows, not a hand-typed curve.** The size of a story on a given
