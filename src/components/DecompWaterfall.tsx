@@ -362,11 +362,13 @@ export default function DecompWaterfall({
             d={BY_REGION}
             width={CARD_W}
             height={CARD_H}
+            // Deliberately not a question: the card's own subtitle already
+            // opens with one, and two stacked questions read as a stutter.
             headline={[
-              "Why did the number move?",
+              "Nothing left over.",
               `${Math.abs(bps(BY_REGION.delta)).toFixed(
                 0
-              )} basis points, split four ways, with nothing left over.`,
+              )} basis points of decline, split across four regions that sum exactly to the total.`,
             ]}
           />
         </div>
