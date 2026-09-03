@@ -18,6 +18,7 @@
  */
 
 import Link from "next/link";
+import EntrySummary from "@/components/EntrySummary";
 import CausalTree from "@/components/CausalTree";
 import EffectSpread from "@/components/EffectSpread";
 import BalanceCheck from "@/components/BalanceCheck";
@@ -113,6 +114,12 @@ export default function CausalInferencePage() {
             rigorous answer cost a quarter per question. I built the fast one,
             then wrapped it in an agent.
           </p>
+
+          <EntrySummary
+            problem="Meta Sales adopted a north star metric with no evidence about what moved it, and the rigorous answer, a live experiment, cost a full quarter per hypothesis."
+            built="A causal forest framework that estimates the effect for each subgroup instead of one average, wrapped in a Claude Code skill that runs the analysis and writes the executive brief."
+            changed="A week of work per hypothesis became minutes of prompting, so we tested dozens instead of one. The strongest findings went to sales leadership; the framework went to a team extending it."
+          />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
             {META.map(([k, v]) => (
