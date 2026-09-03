@@ -1,5 +1,5 @@
 /**
- * Agentic Causal Inference: case study page.
+ * What Moves the Metric: case study page (agentic causal inference at Meta).
  *
  * Role in the system: the second built portfolio entry. The underlying work was
  * done inside Meta and is proprietary, so this page can carry no real data,
@@ -18,6 +18,7 @@
  */
 
 import Link from "next/link";
+import EntrySummary from "@/components/EntrySummary";
 import CausalTree from "@/components/CausalTree";
 import EffectSpread from "@/components/EffectSpread";
 import BalanceCheck from "@/components/BalanceCheck";
@@ -32,21 +33,21 @@ import {
 } from "@/lib/causalDemo";
 
 export const metadata = {
-  title: "Agentic Causal Inference",
+  title: "What Moves the Metric",
   description:
     "Meta Sales changed its north star metric without knowing how to move it. Live experiments cost a quarter each, so I built a causal forest framework, wrapped it in an agent, and turned a week of analysis into minutes.",
   openGraph: {
-    title: "Agentic Causal Inference | Charlie Tolleson",
+    title: "What Moves the Metric | Charlie Tolleson",
     description:
-      "Causal forests over observational data, wrapped in an agent. Turning a week of analysis per hypothesis into minutes of prompting.",
+      "Agentic causal inference at Meta. Causal forests over observational data, turning a week of analysis per hypothesis into minutes of prompting.",
     type: "article",
     url: "https://charlietolleson.com/work/causal-inference",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agentic Causal Inference | Charlie Tolleson",
+    title: "What Moves the Metric | Charlie Tolleson",
     description:
-      "Which levers move the metric, and for whom. Causal forests, wrapped in an agent.",
+      "Which levers move the metric, and for whom. Causal inference with causal forests, wrapped in an agent.",
   },
 };
 
@@ -54,7 +55,7 @@ export const metadata = {
 const META: [string, string][] = [
   [
     "Role",
-    "Lead data scientist: framing, method, framework, recommendations",
+    "Data science lead: framing, method, framework, recommendations",
   ],
   ["Team", "Me plus two data scientists"],
   ["Context", "Meta Sales analytics, generalized here"],
@@ -105,14 +106,35 @@ export default function CausalInferencePage() {
           </Link>
 
           <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            Agentic Causal Inference
+            What Moves the Metric @Meta
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
-            Sales had a new north star metric and no idea what moved it. The
-            rigorous answer cost a quarter per question. I built the fast one,
-            then wrapped it in an agent.
+            Sales committed to a new north star metric, then set goals against
+            it, with no evidence behind either.
           </p>
+
+          <EntrySummary
+            intro="The organization's funding case rested on hitting those goals, so the gap was not academic: leadership was allocating a quarter at a time on conviction alone. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached."
+            pairs={[
+              [
+                "The accounts that got a given play were never chosen at random; reps picked the large, healthy ones.",
+                "Propensity weighting to rebuild the comparison a randomized experiment would have handed us, with the balance checked in the open.",
+              ],
+              [
+                "The rigorous answer, a live experiment, costs a full quarter and buys exactly one hypothesis.",
+                "An estimate in minutes instead, so the quarter goes to the hypothesis that has earned it.",
+              ],
+              [
+                "One average effect across a global advertiser base is a real number and a useless instruction.",
+                "Causal forests, which estimate a separate effect per subgroup and show where the lever quietly backfires.",
+              ],
+              [
+                "Making a causal estimate cheap to produce makes a bad causal estimate cheap to produce too.",
+                "Balance, overlap, and interval diagnostics that travel with every brief instead of sitting behind it.",
+              ],
+            ]}
+          />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
             {META.map(([k, v]) => (

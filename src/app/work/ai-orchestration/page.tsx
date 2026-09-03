@@ -1,5 +1,5 @@
 /**
- * AI Agent Orchestration: case study page.
+ * Orchestrating a Team of Models: case study page.
  *
  * Role in the system: the first built portfolio entry, linked from the home
  * page. It argues that multi-agent orchestration is a routing and observability
@@ -14,6 +14,7 @@
  */
 
 import Link from "next/link";
+import EntrySummary from "@/components/EntrySummary";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
 import EvidenceStats from "@/components/EvidenceStats";
@@ -29,11 +30,11 @@ const WAVE_EXECUTOR = `${REPO}/blob/main/agents/hyperion/src/hyperion/crews/runn
 const ROUTING_SRC = `${REPO}/blob/main/agents/hyperion/src/hyperion/llms.py`;
 
 export const metadata = {
-  title: "AI Agent Orchestration",
+  title: "Orchestrating a Team of Models",
   description:
     "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 2.6× faster than sequential, traced end to end.",
   openGraph: {
-    title: "AI Agent Orchestration | Charlie Tolleson",
+    title: "Orchestrating a Team of Models | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. 2.6× faster than sequential, with every call traced.",
     type: "article",
@@ -41,7 +42,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Agent Orchestration | Charlie Tolleson",
+    title: "Orchestrating a Team of Models | Charlie Tolleson",
     description:
       "A multi-agent orchestrator that routes each step to the model that fits it. Measured, not described.",
   },
@@ -68,14 +69,36 @@ export default function AiOrchestrationPage() {
           </Link>
 
           <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
-            AI Agent Orchestration
+            Orchestrating a Team of Models
           </h1>
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
             Most agent systems pick one model and route everything through it.
-            This one treats model choice as a property of each step, and
-            measures what that buys.
           </p>
+
+          <EntrySummary
+            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven production sales workflows, then built Hyperion to keep working on it with my hands on the whole stack. It treats model choice as a property of each step, and measures what that buys."
+            pairs={[
+              [
+                "One prompt fans out into dozens of nondeterministic model calls, each compounding the variance of the one before it.",
+                "Every task planned as an inspectable graph, so any node can be opened, edited, and re-run on its own.",
+              ],
+              [
+                "Evals have to happen per sub-agent, so the number of things to measure grows with the graph rather than the feature.",
+                "Every call traced end to end, with per-node timings, token counts, and failure rates I can audit rather than guess at.",
+              ],
+              [
+                "Routing every step through one model pays premium latency and cost for work that never needed it.",
+                "Model choice treated as a property of each step, with an ordered fallback chain behind every role.",
+              ],
+              [
+                "A pipeline stalls on its slowest step even when most of the work is independent.",
+                `A graph executed in parallel waves, which measures ${AGGREGATES.medianSpeedup.toFixed(
+                  1
+                )}× faster than the same work run sequentially.`,
+              ],
+            ]}
+          />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
             {META.map(([k, v]) => (
@@ -120,8 +143,8 @@ export default function AiOrchestrationPage() {
           </p>
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
-            I led evals through this problem at Meta, across seven sales
-            workflows and a group of about thirty: seven data scientists, seven
+            I led evals through this problem at Meta, across seven production
+            sales workflows and a group of about thirty: seven data scientists, seven
             data engineers, seven PMs, and ten software engineers. Hyperion is
             what I built to keep working on the same problem with my hands on the
             whole stack: orchestration, routing, and the traces underneath.
