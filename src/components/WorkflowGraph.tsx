@@ -20,7 +20,8 @@ type GraphNode = {
   prompt: string;
   /**
    * Model target this node actually ran on, as recorded in the trace store.
-   * The model this node is configured to use. See `lib/hyperionRun`.
+   * The routing target this node asks for: a model id, or a role alias
+   * resolved to a provider pool at call time. See `lib/hyperionRun`.
    */
   model: string;
 };
@@ -77,11 +78,11 @@ const nodes: GraphNode[] = [
   },
   {
     id: "planner", label: "Planner", agent: "planner", kind: "plan", x: 520, y: 220, dur: 0.9,
-    persona: "Planner", prompt: "Draft an execution plan.", model: "claude-opus-4-6",
+    persona: "Planner", prompt: "Draft an execution plan.", model: "smart",
   },
   {
     id: "developer", label: "Developer", agent: "developer", kind: "plan", x: 520, y: 300, dur: 2.2,
-    persona: "Technical Lead", prompt: "Estimate build effort.", model: "claude-sonnet-4-6",
+    persona: "Technical Lead", prompt: "Estimate build effort.", model: "worker",
   },
   {
     id: "assessor", label: "Assessor", agent: "critic", kind: "synthesize", x: 770, y: 100, dur: 1.0,
@@ -273,7 +274,7 @@ export default function WorkflowGraph({
                 onBlur={() => interactive && setHoveredId((cur) => (cur === n.id ? null : cur))}
                 tabIndex={interactive ? 0 : -1}
                 role={interactive ? "button" : undefined}
-                aria-label={interactive ? `${n.label}: ${n.persona} running on ${n.model}. ${n.prompt}` : undefined}
+                aria-label={interactive ? `${n.label}: ${n.persona}, routed to ${n.model}. ${n.prompt}` : undefined}
                 style={{ cursor: interactive ? "default" : undefined }}
               >
                 {/* Native SVG tooltip: covers touch long-press and any case where

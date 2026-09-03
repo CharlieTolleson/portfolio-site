@@ -9,13 +9,15 @@
  * (see `lib/hyperionRun.ts`).
  *
  * Key design decisions:
- *   - Bars are colored by **model**, not by node role. The page's thesis is that
- *     different steps deserve different models, so the reader should be able to
- *     see the model mix at a glance rather than read it out of a table.
- *   - Bars are labelled with the model each node is configured to use, not the
- *     logical role it names internally. The role/alias indirection is real and
- *     worth explaining, but a chart is the wrong place to explain it. The page
- *     does that in prose beside the settings screenshot.
+ *   - Bars are colored by **routing target**, not by node role. The page's
+ *     thesis is that different steps deserve different models, so the reader
+ *     should be able to see the mix at a glance rather than read it out of a
+ *     table.
+ *   - Bars carry the target the trace store recorded, which for two nodes is a
+ *     role alias (`smart`, `worker`) rather than a vendor model. The store does
+ *     not record which member of an alias pool served the call, so the chart
+ *     does not guess. The indirection is explained in prose beside the settings
+ *     screenshot.
  *   - The footer bar compares measured wall clock against the summed node spans.
  *     That contrast is the single most persuasive number on the page, so it gets
  *     its own visual rather than living in prose.
@@ -48,7 +50,7 @@ const PLOT_H = RUN_NODES.length * (ROW_H + ROW_GAP);
 const VIEW_H = TOP + PLOT_H + AXIS_H;
 
 /**
- * Bar colors keyed by the model recorded on the trace row.
+ * Bar colors keyed by the routing target recorded on the trace row.
  *
  * Chosen from Tailwind's 600 steps so they hold contrast against the zinc-50
  * page ground and stay distinguishable for the most common forms of color
@@ -57,8 +59,8 @@ const VIEW_H = TOP + PLOT_H + AXIS_H;
 const MODEL_COLOR: Record<string, string> = {
   "gpt-4o": "#2563eb",
   "gemini-2.5-pro": "#059669",
-  "claude-opus-4-6": "#7c3aed",
-  "claude-sonnet-4-6": "#d97706",
+  smart: "#7c3aed",
+  worker: "#d97706",
 };
 
 const xScale = scaleLinear<number>({
@@ -244,10 +246,11 @@ export default function RunTimeline() {
       <figcaption className="text-sm leading-relaxed text-zinc-500">
         Run <span className="font-mono text-zinc-600">{FEATURED_RUN_ID}</span>,
         recorded 2026-06-23. Timings are measured from Hyperion&apos;s trace
-        store, one row per LLM call; each bar is labeled with the model that
-        node is configured to use. Research nodes span more than one call because
-        they run a capped search-and-reason loop, so their bars include tool time
-        between calls.
+        store, one row per LLM call; each bar is labeled with the routing
+        target that call requested. Two nodes name a role alias rather than a
+        model, and the store does not record which member of the pool served
+        them. Research nodes span more than one call because they run a capped
+        search-and-reason loop, so their bars include tool time between calls.
       </figcaption>
     </figure>
   );

@@ -2,17 +2,20 @@
  * hyperionRun.ts: measured data from Hyperion's run trace store.
  *
  * Role in the system: this is the single source of truth for every number shown
- * on the AI Agent Orchestration case-study page. Timings and token counts were
- * read straight out of Hyperion's SQLite trace store
+ * on the AI Agent Orchestration case-study page. Timings, token counts and
+ * routing targets were read straight out of Hyperion's SQLite trace store
  * (`agents/hyperion/tasks/state.db`, table `trace_events`), which the orchestrator
- * writes one row per LLM call with model, token counts, cost and duration. The
- * only values not taken verbatim are two model labels: nodes that name a logical
- * role are shown as the model that role reaches for first (see MODELS).
+ * writes one row per LLM call with model, token counts, cost and duration.
  *
- * Key design decision: the page keeps its claims falsifiable. Because every
- * figure traces back to a specific recorded run, the copy can name exact models
- * and exact timings instead of hedging with "a fast general-purpose model". The
- * trade-off is that this file must be regenerated when the numbers go stale.
+ * Key design decision: the page keeps its claims falsifiable, so every value
+ * here is the value the trace store recorded. In particular the `model` field on
+ * a node is the routing target that was *requested*, which is what the store
+ * knows. For nodes that name a role alias (`smart`, `worker`) the store does not
+ * record which provider ultimately served the call, so neither does this file
+ * and neither does the page. Labelling those bars with a vendor model would be
+ * an inference dressed as a measurement. See ModelRef.
+ *
+ * The trade-off is that this file must be regenerated when the numbers go stale.
  * See REGENERATE below.
  *
  * REGENERATE: re-run the aggregation in `agents/hyperion` against `state.db` and
@@ -20,32 +23,32 @@
  */
 
 /** Date the figures below were read out of the trace store. */
-export const CAPTURED_AT = "2026-09-01";
+export const CAPTURED_AT = "2026-09-02";
 
 /** The specific run the timeline visualizes. */
 export const FEATURED_RUN_ID = "47349fd3";
 
 /**
- * A model a node is configured to reach for.
+ * A routing target a node asks for.
  *
- * Two of the nodes don't name a model directly. They name a logical role that
- * resolves through a LiteLLM alias to an ordered provider chain. The figures
- * label those nodes with the first model in their chain, which is the model the
- * node is asking for; the role/alias indirection itself is explained in prose
- * and shown in the settings screenshot.
+ * Two kinds appear. A concrete model id (`gpt-4o`) names one model at one
+ * provider. A role alias (`smart`, `worker`) names a *pool* of interchangeable
+ * models spanning several providers; the proxy picks a healthy member per
+ * request, so the provider that served any given call is decided at call time
+ * and is not recorded in the trace store.
  */
 export type ModelRef = {
-  /** Model id as shown in the figures. */
+  /** Target id as recorded on the trace row and shown in the figures. */
   id: string;
-  /** Provider that serves it, for the legend. */
+  /** Provider that serves it, or `alias` when that is chosen at call time. */
   provider: string;
 };
 
 export const MODELS: Record<string, ModelRef> = {
   "gpt-4o": { id: "gpt-4o", provider: "openai" },
   "gemini-2.5-pro": { id: "gemini-2.5-pro", provider: "gemini" },
-  "claude-opus-4-6": { id: "claude-opus-4-6", provider: "anthropic" },
-  "claude-sonnet-4-6": { id: "claude-sonnet-4-6", provider: "anthropic" },
+  smart: { id: "smart", provider: "alias" },
+  worker: { id: "worker", provider: "alias" },
 };
 
 /**
@@ -60,7 +63,7 @@ export type RunNode = {
   id: string;
   label: string;
   role: string;
-  /** Model this node is configured to use; see MODELS. */
+  /** Routing target recorded for this node's calls; see MODELS. */
   model: string;
   /** Seconds from run start. */
   start: number;
@@ -89,8 +92,8 @@ export const RUN_NODES: RunNode[] = [
   { id: "research-synthesizer", label: "Research Synthesis", role: "synthesizer", model: "gemini-2.5-pro", start: 135.6, end: 170.7, calls: 1, tokens: 8562 },
   { id: "critic", label: "Critic", role: "critic", model: "gpt-4o", start: 170.7, end: 176.5, calls: 1, tokens: 3482 },
   { id: "advocate", label: "Advocate", role: "synthesizer", model: "gemini-2.5-pro", start: 170.7, end: 182.2, calls: 1, tokens: 4481 },
-  { id: "planner", label: "Planner", role: "planner", model: "claude-opus-4-6", start: 170.7, end: 204.4, calls: 1, tokens: 7170 },
-  { id: "developer", label: "Developer", role: "developer", model: "claude-sonnet-4-6", start: 170.7, end: 222.4, calls: 1, tokens: 8991 },
+  { id: "planner", label: "Planner", role: "planner", model: "smart", start: 170.7, end: 204.4, calls: 1, tokens: 7170 },
+  { id: "developer", label: "Developer", role: "developer", model: "worker", start: 170.7, end: 222.4, calls: 1, tokens: 8991 },
   { id: "assessor", label: "Assessor", role: "critic", model: "gpt-4o", start: 222.4, end: 227.2, calls: 1, tokens: 2471 },
   { id: "verdict", label: "Verdict", role: "synthesizer", model: "gemini-2.5-pro", start: 227.3, end: 259.9, calls: 1, tokens: 10651 },
 ];
@@ -108,7 +111,8 @@ export const RUN_WALL_SECONDS = 259.9;
 export const RUN_SEQUENTIAL_SECONDS = 696.6;
 
 /**
- * Aggregates across every *completed* idea-council run in the trace store.
+ * Aggregates across every *completed* idea-council run in the trace store
+ * (n = 9 at CAPTURED_AT).
  *
  * Medians rather than means: the sample is small and one outlier run with a long
  * research phase would drag a mean noticeably.
@@ -121,19 +125,26 @@ export const AGGREGATES = {
   medianSpeedup: 2.64,
   medianWallSeconds: 179,
   medianTokens: 61097,
-  /** Distinct model targets across the workflow. */
-  distinctModels: 4,
-  /** Providers reachable behind those targets via LiteLLM. */
-  providers: 3,
+  /** Completed idea-council runs the medians above are taken over. */
+  runs: 9,
+  /** Distinct routing targets named across the workflow's nodes. */
+  distinctTargets: 4,
+  /** How many of those targets are concrete model ids. */
+  concreteModels: 2,
+  /** How many are role aliases resolved to a provider pool at call time. */
+  aliasTargets: 2,
 };
 
 /**
  * Whole-system totals across every task Hyperion has run, not just this workflow.
- * Not currently surfaced on the page (see the note on AGGREGATES); kept so the
- * figures are ready when the volume justifies showing them.
+ * The status split is quoted on the page's reliability section; the rest is kept
+ * so the figures are ready when the volume justifies showing them.
  */
 export const SYSTEM_TOTALS = {
   tasks: 52,
+  done: 38,
+  failed: 11,
+  cancelled: 3,
   llmCalls: 821,
   totalTokens: 3014333,
   firstRun: "2026-05-29",
