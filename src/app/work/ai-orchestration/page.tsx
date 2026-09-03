@@ -74,16 +74,30 @@ export default function AiOrchestrationPage() {
 
           <p className="max-w-3xl text-2xl leading-snug text-zinc-500">
             Most agent systems pick one model and route everything through it.
-            This one treats model choice as a property of each step, and
-            measures what that buys.
           </p>
 
           <EntrySummary
-            problem="Agent systems chain sub-agents together, so the number of things you have to evaluate grows with the graph rather than with the feature. That is much of why agents still don't get trusted with high-stakes work."
-            built="Hyperion: an orchestrator that plans a task as an inspectable graph, routes each step to the model that fits it, and traces every call end to end."
-            changed={`${AGGREGATES.medianSpeedup.toFixed(
-              1
-            )}× faster than running the same work sequentially, with per-node timings and failure rates I can audit rather than guess at. Running daily since May 2026.`}
+            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven sales workflows, then built Hyperion to keep working on it with my hands on the whole stack: orchestration, routing, and the traces underneath. It treats model choice as a property of each step, and measures what that buys."
+            pairs={[
+              [
+                "One prompt fans out into dozens of nondeterministic model calls, each compounding the variance of the one before it.",
+                "Every task planned as an inspectable graph, so any node can be opened, edited, and re-run on its own.",
+              ],
+              [
+                "Evals have to happen per sub-agent, so the number of things to measure grows with the graph rather than the feature.",
+                "Every call traced end to end, with per-node timings, token counts, and failure rates I can audit rather than guess at.",
+              ],
+              [
+                "Routing every step through one model pays premium latency and cost for work that never needed it.",
+                "Model choice treated as a property of each step, with an ordered fallback chain behind every role.",
+              ],
+              [
+                "A pipeline stalls on its slowest step even when most of the work is independent.",
+                `A graph executed in parallel waves, which measures ${AGGREGATES.medianSpeedup.toFixed(
+                  1
+                )}× faster than the same work run sequentially.`,
+              ],
+            ]}
           />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
