@@ -14,6 +14,7 @@
  */
 
 import Link from "next/link";
+import EntrySummary from "@/components/EntrySummary";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
 import EvidenceStats from "@/components/EvidenceStats";
@@ -76,6 +77,14 @@ export default function AiOrchestrationPage() {
             This one treats model choice as a property of each step, and
             measures what that buys.
           </p>
+
+          <EntrySummary
+            problem="Agent systems chain sub-agents together, so the number of things you have to evaluate grows with the graph rather than with the feature. That is much of why agents still don't get trusted with high-stakes work."
+            built="Hyperion: an orchestrator that plans a task as an inspectable graph, routes each step to the model that fits it, and traces every call end to end."
+            changed={`${AGGREGATES.medianSpeedup.toFixed(
+              1
+            )}× faster than running the same work sequentially, with per-node timings and failure rates I can audit rather than guess at. Running daily since May 2026.`}
+          />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
             {META.map(([k, v]) => (

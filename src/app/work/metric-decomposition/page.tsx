@@ -21,6 +21,7 @@
  */
 
 import Link from "next/link";
+import EntrySummary from "@/components/EntrySummary";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import MixVsRate from "@/components/MixVsRate";
 import FunnelLMDI from "@/components/FunnelLMDI";
@@ -117,6 +118,12 @@ export default function MetricDecompositionPage() {
             question in analytics, and most organizations answer it by
             searching. I made it arithmetic, then made it self-serve.
           </p>
+
+          <EntrySummary
+            problem="When a metric moved, the answer came from an open-ended data dive that produced a plausible culprit and no way to know whether it was most of the movement or a tenth of it."
+            built="Python modules for two decomposition frameworks, Contribution to Change for rate metrics and LMDI for absolute ones, behind Claude Code skills that run them in sequence and write the analysis."
+            changed="Every part of the business gets an exact contribution that sums to the total. At Amazon that replaced the narrative in board reporting; at Meta it made the work self-serve for anyone with an agent."
+          />
 
           <dl className="mt-2 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-3 border-t border-zinc-200 pt-6 sm:grid-cols-2">
             {META.map(([k, v]) => (
