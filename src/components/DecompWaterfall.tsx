@@ -358,19 +358,7 @@ export default function DecompWaterfall({
     return (
       <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:overflow-x-visible sm:px-0">
         <div className="min-w-[720px] sm:min-w-0">
-          <Waterfall
-            d={BY_REGION}
-            width={CARD_W}
-            height={CARD_H}
-            // Deliberately not a question: the card's own subtitle already
-            // opens with one, and two stacked questions read as a stutter.
-            headline={[
-              "Nothing left over.",
-              `${Math.abs(bps(BY_REGION.delta)).toFixed(
-                0
-              )} basis points of decline, split across four regions that sum exactly to the total.`,
-            ]}
-          />
+          <Waterfall d={BY_REGION} width={CARD_W} height={CARD_H} />
         </div>
       </div>
     );
