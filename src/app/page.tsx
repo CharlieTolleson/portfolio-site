@@ -76,9 +76,8 @@ export default function Home() {
             specializing in architecting and scaling AI, ML, and measurement
             systems across organizations.
           </h1>
-          <p className="text-xl text-zinc-600">Currently Freelancing</p>
           <p className="text-xl text-zinc-600">
-            Previously a senior data scientist at @Meta, @Amazon, and @IBM
+            Experience at @Meta, @Amazon, and @IBM
           </p>
         </motion.div>
 
