@@ -8,8 +8,7 @@ import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
 
 /**
- * Built entries, newest last. Each renders as a card above the coming-soon list,
- * and the list numbers itself from `entries.length + 1`.
+ * Built entries, newest last. Each renders as a card on the home page.
  *
  * Titles are written to invite rather than to classify, so `blurb` is where the
  * method keyword lives ("multi-agent orchestrator", "causal inference",
@@ -52,13 +51,6 @@ const entries = [
       "Anything can break a supply chain. I built a graph that finds the story before the alert exists.",
     visual: <StorySplit variant="card" />,
   },
-];
-
-const comingSoon = [
-  "NLP Patent Infringement Detection",
-  "ML Sales Recommendations with Shapley Values",
-  "No-Code ML",
-  "Agent Context Standards",
 ];
 
 export default function Home() {
@@ -123,32 +115,6 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut", delay: 0.25 }}
-          className="text-2xl text-zinc-500"
-        >
-          Coming soon…
-        </motion.p>
-
-        <ol className="flex w-full flex-col gap-8">
-          {comingSoon.map((title, i) => (
-            <motion.li
-              key={title}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 + i * 0.08 }}
-              className="flex items-baseline gap-6 border-b border-zinc-200 pb-8 text-left"
-            >
-              <span className="font-mono text-lg text-zinc-400">
-                {String(i + entries.length + 1).padStart(2, "0")}
-              </span>
-              <span className="text-2xl text-zinc-700">{title}</span>
-            </motion.li>
-          ))}
-        </ol>
       </main>
     </div>
   );
