@@ -22,6 +22,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import CopyEmailButton from "@/components/CopyEmailButton";
 
 export const metadata = {
   title: "About",
@@ -116,7 +117,7 @@ export default function AboutPage() {
         </div>
 
         <section className="flex max-w-4xl flex-col gap-5">
-          <Label>Where I&apos;ve worked</Label>
+          <Label>A few things I&apos;ve done…</Label>
           <ol className="flex flex-col">
             {WORK.map((w) => (
               <li
@@ -158,7 +159,18 @@ export default function AboutPage() {
             Open to full-time AI and data science roles, and select freelance
             projects. If you&apos;re building something, say hi.
           </p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          {/* The closing line asks people to reach out, so the ways to do it
+              sit right under it rather than only up in the header. */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-sm">
+            <CopyEmailButton />
+            <a
+              href="https://www.linkedin.com/in/charlietolleson"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-zinc-700 ${LINK}`}
+            >
+              LinkedIn
+            </a>
             <Link href="/" className={`text-zinc-700 ${LINK}`}>
               See the work
             </Link>
