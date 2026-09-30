@@ -45,6 +45,20 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Header contact links, in the order the visitor should reach for them. They
+ * live in the layout so every page, including a case study someone landed on
+ * from a shared link, is one click from getting in touch.
+ */
+const CONTACT = [
+  { label: "Email", href: "mailto:charlietolleson@gmail.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/charlietolleson" },
+  { label: "GitHub", href: "https://github.com/CharlieTolleson" },
+];
+
+const NAV_LINK =
+  "text-zinc-500 transition-colors hover:text-zinc-900";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -52,13 +66,31 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-zinc-50 font-sans">
-        <header className="w-full px-6 py-8 sm:px-10 lg:px-16">
+        <header className="flex w-full flex-wrap items-center justify-between gap-x-8 gap-y-3 px-6 py-8 sm:px-10 lg:px-16">
           <Link
             href="/"
             className="font-mono text-base uppercase tracking-widest text-zinc-500 transition-colors hover:text-zinc-900"
           >
             Charlie Tolleson
           </Link>
+          <nav className="flex items-center gap-5 font-mono text-sm sm:gap-6">
+            <Link href="/about" className={NAV_LINK}>
+              About
+            </Link>
+            <span aria-hidden className="h-4 w-px bg-zinc-300" />
+            {CONTACT.map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                className={NAV_LINK}
+                {...(c.href.startsWith("http")
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {c.label}
+              </a>
+            ))}
+          </nav>
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
         <Analytics />

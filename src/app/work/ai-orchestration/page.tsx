@@ -54,6 +54,7 @@ const META: [string, string][] = [
   ["Project", "Hyperion, the orchestration layer of my personal AI workspace"],
   ["Stack", "Python · FastAPI · LiteLLM · Qdrant · Langfuse · Next.js"],
   ["Status", "Running daily since May 2026"],
+  ["Background", "Led evals at Meta across 7 production workflows serving thousands of sellers"],
 ];
 
 export default function AiOrchestrationPage() {
