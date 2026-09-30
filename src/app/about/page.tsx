@@ -4,7 +4,7 @@
  * Role in the system: visitors reach this page after the work has already
  * convinced them, so it answers the next question, "who is this person?",
  * rather than re-selling the case studies. The shape is personal first
- * (what I'm into, what I'm building, where I came from, fun facts) with a short
+ * (what I'm building, what I'm into, where I came from) with a short
  * work list kept for recruiters who land here directly.
  *
  * Key design decisions:
@@ -13,6 +13,8 @@
  *   - **Titles left out of the work list.** The list says what I did at each
  *     company rather than repeating job titles, which live on the resume and
  *     LinkedIn.
+ *   - **Interests stay low-key.** A plain bulleted list, so the personal
+ *     section reads as color rather than competing with the work.
  *   - **Figures match the cards.** Every career number here (Meta eval scope,
  *     Amazon Price Competitiveness) is the same one the home page quotes, so a
  *     reader cross-checking never finds a mismatch.
@@ -24,27 +26,17 @@ import type { ReactNode } from "react";
 export const metadata = {
   title: "About",
   description:
-    "Charlie Tolleson: data scientist and AI builder. Building Alex, previously Meta, Amazon, and IBM. Cyclist, skier, bag maker, and audiophile.",
+    "Charlie Tolleson: data scientist and AI builder. Building Alex, previously Meta, Amazon, and IBM. Cyclist, bag maker, and photographer.",
 };
 
 const LINK =
   "underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500";
 
-/** Current interests, each with a short aside. */
-const PASSIONS: [string, string][] = [
-  [
-    "Cycling.",
-    "A mountain biker first, and this year I got a gravel bike that I ride every chance I get.",
-  ],
-  [
-    "Sewing.",
-    "I picked up a sewing machine recently to start making bags and up-cycling. It turns out I have a crafty side.",
-  ],
-  [
-    "Photography.",
-    "I'm learning a hand-me-down DSLR by taking it somewhere beautiful, usually on the bike.",
-  ],
-  ["Skiing.", "Every chance I get once winter shows up."],
+/** Current interests, kept deliberately low-key so they don't compete with the work. */
+const PASSIONS = [
+  "Bikes are my preferred way to get fresh air, whether in the mountains or commuting around town.",
+  "I picked up a sewing machine recently to start making bags and tap into my crafty side.",
+  "I'm learning on a hand-me-down DSLR by taking it to beautiful places, usually on my bike.",
 ];
 
 /** One line per stop, newest first. ReactNode so a line can link to its case study. */
@@ -60,8 +52,8 @@ const WORK: { org: string; line: ReactNode }[] = [
         Led evals across 7 production AI workflows serving 5,000+ sellers,
         shipped 15 Claude Code Skills to a 50+ person data science org, and
         built{" "}
-        <Link href="/work/causal-inference" className={LINK}>
-          an agent that tests what moves the metric
+        <Link href="/work/metric-decomposition" className={LINK}>
+          an agent that tells you exactly why metrics moved
         </Link>
         .
       </>
@@ -71,7 +63,7 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Amazon",
     line: (
       <>
-        Owned the worldwide Price Competitiveness north star (+10 bps against a
+        Owned the worldwide Price Competitiveness north star metric (+10 bps against a
         7 bps goal), diagnosed{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           what was dragging it down
@@ -94,12 +86,6 @@ const WORK: { org: string; line: ReactNode }[] = [
       </>
     ),
   },
-];
-
-const FUN_FACTS = [
-  "I've been slowly moving west across the country, from Virginia to Colorado to Washington, and I've now hit the coast. Where's next?",
-  "I'll never buy something that doesn't have thoughtful, quality design. I'd rather own a few things I love than a lot of things I could take or leave.",
-  "I fancy myself a bit of an audiophile, and I'm the only person I know who listens to music on Tidal. Anyone else out there?",
 ];
 
 /** A small uppercase label over each section, matching the case studies. */
@@ -131,15 +117,9 @@ export default function AboutPage() {
 
         <section className="flex max-w-3xl flex-col gap-5">
           <Label>Lately I&apos;m into</Label>
-          <ul className="flex flex-col gap-4">
-            {PASSIONS.map(([head, body]) => (
-              <li
-                key={head}
-                className="border-l-2 border-zinc-200 pl-5 text-lg leading-relaxed text-zinc-600"
-              >
-                <span className="font-medium text-zinc-900">{head}</span>{" "}
-                {body}
-              </li>
+          <ul className="flex list-disc flex-col gap-2 pl-5 text-lg leading-relaxed text-zinc-600 marker:text-zinc-400">
+            {PASSIONS.map((p) => (
+              <li key={p}>{p}</li>
             ))}
           </ul>
         </section>
@@ -180,25 +160,10 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="flex max-w-3xl flex-col gap-5">
-          <Label>Fun facts</Label>
-          <ul className="flex flex-col gap-4">
-            {FUN_FACTS.map((f) => (
-              <li
-                key={f}
-                className="border-l-2 border-zinc-200 pl-5 text-lg leading-relaxed text-zinc-600"
-              >
-                {f}
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <section className="flex max-w-3xl flex-col gap-5 border-t border-zinc-200 pt-10">
           <p className="text-xl leading-relaxed text-zinc-700">
             Open to full-time AI and data science roles, and select freelance
-            projects. If you&apos;re building something, or you also listen on
-            Tidal, say hi.
+            projects. If you&apos;re building something, say hi.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <a
