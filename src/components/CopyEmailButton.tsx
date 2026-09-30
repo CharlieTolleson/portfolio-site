@@ -1,22 +1,26 @@
 "use client";
 
 /**
- * CopyEmailButton.tsx: the site's primary contact call-to-action.
+ * CopyEmailButton.tsx: the site's single contact call-to-action, in the header.
  *
- * Role in the system: replaces a plain `mailto:` button on the home and About
- * pages. A `mailto:` link only works for visitors with a desktop mail app set
- * up; for anyone on webmail it silently does nothing, which is the worst
- * possible outcome for the one button meant to start a conversation. Copying
- * the address works for everyone.
+ * Role in the system: the one email control on the site, rendered by the root
+ * layout so it is on every page, including a case study someone landed on from
+ * a shared link. It replaced both a `mailto:` header link and separate "Get in
+ * touch" buttons on the home and About pages.
  *
  * Key design decisions:
- *   - **The address is the label.** Showing the email itself, next to the
- *     standard copy icon, makes it obvious what will land on the clipboard.
+ *   - **Copy, not mailto.** A `mailto:` link only works for visitors with a
+ *     desktop mail app set up; for anyone on webmail it silently does nothing.
+ *     Copying the address works for everyone.
+ *   - **Black pill, "Email" plus the copy icon.** The pill is what makes it the
+ *     salient action in an otherwise quiet header, and the standard copy glyph
+ *     next to the word says what a click will do.
  *   - **Visible confirmation.** The icon swaps to a check and the label to
- *     "Email copied" for two seconds, so the click never feels like a no-op.
+ *     "Copied" for two seconds, so the click never feels like a no-op. Both
+ *     labels share one grid cell, so the pill never changes width.
  *   - **mailto as the fallback.** If the Clipboard API is unavailable or
- *     refused (an insecure context, or a browser permission prompt the visitor
- *     declines), the button falls back to opening the mail app.
+ *     refused (an insecure context, or a denied permission), the button falls
+ *     back to opening the mail app.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -50,25 +54,22 @@ export default function CopyEmailButton() {
     <button
       type="button"
       onClick={copy}
-      aria-label={copied ? "Email copied" : `Copy email address ${EMAIL}`}
-      className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-zinc-700"
+      title={copied ? "Copied" : `Copy ${EMAIL}`}
+      aria-label={copied ? "Email address copied" : `Copy email address ${EMAIL}`}
+      className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-1.5 text-white transition-colors hover:bg-zinc-700"
     >
-      {copied ? <CheckIcon /> : <CopyIcon />}
-      {/* Both labels share one grid cell and the inactive one is only made
-          invisible, so the button keeps the width of the longer label and the
-          text beside it doesn't jump when the confirmation shows. aria-live so
-          screen readers hear the confirmation too. */}
-      <span className="grid text-left" aria-live="polite">
+      <span className="grid" aria-live="polite">
         <span className={`col-start-1 row-start-1 ${copied ? "invisible" : ""}`}>
-          {EMAIL}
+          Email
         </span>
         <span
           className={`col-start-1 row-start-1 ${copied ? "" : "invisible"}`}
           aria-hidden={!copied}
         >
-          Email copied
+          Copied
         </span>
       </span>
+      {copied ? <CheckIcon /> : <CopyIcon />}
     </button>
   );
 }
@@ -78,8 +79,8 @@ function CopyIcon() {
   return (
     <svg
       aria-hidden
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -97,8 +98,8 @@ function CheckIcon() {
   return (
     <svg
       aria-hidden
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

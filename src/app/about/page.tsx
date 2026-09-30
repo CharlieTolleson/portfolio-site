@@ -22,7 +22,6 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import CopyEmailButton from "@/components/CopyEmailButton";
 
 export const metadata = {
   title: "About",
@@ -160,7 +159,6 @@ export default function AboutPage() {
             projects. If you&apos;re building something, say hi.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <CopyEmailButton />
             <Link href="/" className={`text-zinc-700 ${LINK}`}>
               See the work
             </Link>

@@ -6,7 +6,6 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
-import CopyEmailButton from "@/components/CopyEmailButton";
 
 /**
  * Built entries, newest last. Each renders as a card on the home page.
@@ -48,7 +47,7 @@ const entries = [
       "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
     stats: [
       { value: "50+", label: "hypotheses tested" },
-      { value: "Week → min", label: "analysis time per hypothesis" },
+      { value: "Minutes", label: "per hypothesis, down from a week" },
       { value: "3", label: "person team led" },
     ],
     visual: <CausalTree variant="card" />,
@@ -100,15 +99,12 @@ export default function Home() {
             them next.
           </h1>
           <p className="text-xl text-zinc-600">
-            Previously senior data scientist at @Meta, @Amazon, and @IBM
+            Previously a senior data scientist at @Meta, @Amazon, and @IBM
           </p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <CopyEmailButton />
-            <span className="text-base text-zinc-500">
-              Open to full-time AI and data science roles, and select freelance
-              projects.
-            </span>
-          </div>
+          <p className="text-base text-zinc-500">
+            Open to full-time AI and data science roles, and select freelance
+            projects.
+          </p>
         </motion.div>
 
         <div className="flex flex-col gap-12">

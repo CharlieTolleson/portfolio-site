@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -46,12 +47,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Header contact links, in the order the visitor should reach for them. They
- * live in the layout so every page, including a case study someone landed on
- * from a shared link, is one click from getting in touch.
+ * Header profile links. They live in the layout so every page, including a case
+ * study someone landed on from a shared link, is one click from getting in
+ * touch. Email is not here: it is the copy-to-clipboard pill rendered last in
+ * the header, the one salient call-to-action on the site.
  */
 const CONTACT = [
-  { label: "Email", href: "mailto:charlietolleson@gmail.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/charlietolleson" },
   { label: "GitHub", href: "https://github.com/CharlieTolleson" },
 ];
@@ -83,13 +84,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 key={c.label}
                 href={c.href}
                 className={NAV_LINK}
-                {...(c.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {c.label}
               </a>
             ))}
+            <CopyEmailButton />
           </nav>
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
