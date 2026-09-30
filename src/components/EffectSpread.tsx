@@ -41,10 +41,23 @@ const VIEW_H = TOP + PLOT_H + 52;
 const lo = Math.min(...LEAVES.map((l) => l.effect - 1.96 * l.se)) - 0.4;
 const hi = Math.max(...LEAVES.map((l) => l.effect + 1.96 * l.se)) + 0.4;
 
-const x = scaleLinear<number>({
+const scale = scaleLinear<number>({
   domain: [Math.min(lo, 0), hi],
   range: [LABEL_W, VIEW_W - RIGHT_PAD],
 });
+
+/**
+ * Data value to x position, rounded to 0.01 of a viewBox unit.
+ *
+ * The rounding is what keeps hydration clean: the server and the browser can
+ * disagree in the last floating-point digit of the scale's interpolation, and
+ * React reports any attribute that differs between the prerendered HTML and
+ * the client render. A hundredth of a unit is far below one rendered pixel.
+ *
+ * @param v Effect size in metric points.
+ * @returns The x coordinate in viewBox units.
+ */
+const x = (v: number) => Math.round(scale(v) * 100) / 100;
 
 /** Whole-number ticks across the domain, always including zero. */
 const TICKS = (() => {
