@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * CopyEmailButton.tsx: the site's single contact call-to-action, in the header.
+ * CopyEmailButton.tsx: the copy-to-clipboard email pill.
  *
  * Role in the system: the site's email control. The root layout renders it in
  * the header so it is on every page, including a case study someone landed on
