@@ -5,7 +5,8 @@
  *
  * Role in the system: the site's email control. The root layout renders it in
  * the header so it is on every page, including a case study someone landed on
- * from a shared link, and the About page repeats it under its closing "say hi".
+ * from a shared link, and the About page
+ * and every case study repeat it in their closing contact row.
  *
  * Key design decisions:
  *   - **Copy, not mailto.** A `mailto:` link only works for visitors with a
