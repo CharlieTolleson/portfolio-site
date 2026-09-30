@@ -60,7 +60,7 @@ const META: [string, string][] = [
   ["Team", "Me plus two data scientists"],
   ["Context", "Meta Sales analytics, generalized here"],
   ["Approach", "Causal forests over observational data, wrapped in an agent"],
-  ["Outcome", "30+ hypotheses tested, each in minutes instead of a week"],
+  ["Outcome", "50+ hypotheses tested, each in minutes instead of a week"],
   ["Status", "Handed off to a team extending it into a multi-method agent"],
 ];
 

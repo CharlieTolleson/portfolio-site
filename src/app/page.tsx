@@ -46,7 +46,7 @@ const entries = [
     blurb:
       "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
     stats: [
-      { value: "30+", label: "hypotheses tested" },
+      { value: "50+", label: "hypotheses tested" },
       { value: "Week → min", label: "analysis time per hypothesis" },
       { value: "3", label: "person team led" },
     ],
