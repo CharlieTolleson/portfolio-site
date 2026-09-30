@@ -3,9 +3,9 @@
  *
  * Role in the system: visitors reach this page after the work has already
  * convinced them, so it answers the next question, "who is this person?",
- * rather than re-selling the case studies. The shape is personal first
- * (what I'm building, what I'm into, where I came from) with a short
- * work list kept for recruiters who land here directly.
+ * rather than re-selling the case studies. The shape is an intro (what I'm
+ * into now and where I've been), a short work list for recruiters who land
+ * here directly, a brief origin story, and a few fun facts.
  *
  * Key design decisions:
  *   - **Warm, not cute.** First person and conversational, but sentence case
@@ -13,8 +13,8 @@
  *   - **Titles left out of the work list.** The list says what I did at each
  *     company rather than repeating job titles, which live on the resume and
  *     LinkedIn.
- *   - **Interests stay low-key.** A plain bulleted list, so the personal
- *     section reads as color rather than competing with the work.
+ *   - **Fun facts stay low-key.** A plain bulleted list at the end, so the
+ *     personal notes read as color rather than competing with the work.
  *   - **Figures match the cards.** Every career number here (Meta eval scope,
  *     Amazon Price Competitiveness) is the same one the home page quotes, so a
  *     reader cross-checking never finds a mismatch.
@@ -32,8 +32,8 @@ export const metadata = {
 const LINK =
   "underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500";
 
-/** Current interests, kept deliberately low-key so they don't compete with the work. */
-const PASSIONS = [
+/** Life outside work, kept deliberately low-key so it doesn't compete with the work. */
+const FUN_FACTS = [
   "Bikes are my preferred way to get fresh air, whether in the mountains or commuting around town.",
   "I picked up a sewing machine recently to start making bags and tap into my crafty side.",
   "I'm learning on a hand-me-down DSLR by taking it to beautiful places, usually on my bike.",
@@ -106,23 +106,15 @@ export default function AboutPage() {
             Hi there, I&apos;m Charlie.
           </h1>
           <p className="text-xl leading-relaxed text-zinc-700">
-            Right now I&apos;m building Alex, an AI crew member for trades
-            businesses, from zero. Before that I
+            Lately, I&apos;m into seeing how many of life&apos;s inconveniences I
+            can eliminate with agentic AI, whether that&apos;s a personal agent
+            for myself or a full-fledged app for trades businesses. Previously, I
             spent eight years at Meta, Amazon, and IBM figuring out why metrics
             move, and building the tools that let everyone else figure it out
             too. The part I love most is the beginning: a messy problem, no
             playbook, and something real to build.
           </p>
         </div>
-
-        <section className="flex max-w-3xl flex-col gap-5">
-          <Label>Lately I&apos;m into</Label>
-          <ul className="flex list-disc flex-col gap-2 pl-5 text-lg leading-relaxed text-zinc-600 marker:text-zinc-400">
-            {PASSIONS.map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
-        </section>
 
         <section className="flex max-w-4xl flex-col gap-5">
           <Label>Where I&apos;ve worked</Label>
@@ -147,17 +139,19 @@ export default function AboutPage() {
           <Label>Origin story</Label>
           <p className="text-lg leading-relaxed text-zinc-600">
             I studied Systems Engineering at UVA and fell into data science
-            through a summer bootcamp after my first year. I got so engrossed in
-            the algorithms and techniques that the group behind the bootcamp
-            asked me to lead its data science programs, and I spent the next year
-            writing curriculum and teaching.
+            through a summer bootcamp after my first year. Apparently I picked it
+            up quickly, because the group behind the bootcamp asked me to lead
+            its data science programs, and the rest is history.
           </p>
-          <p className="text-lg leading-relaxed text-zinc-600">
-            After teaching, an internship at IBM turned into a part-time role for
-            my last two years of school. Along the way I held a seat on the City
-            of Charlottesville&apos;s Open Data Advisory Board, which ran the
-            city&apos;s open data portal and its local data science hackathons.
-          </p>
+        </section>
+
+        <section className="flex max-w-3xl flex-col gap-5">
+          <Label>Fun facts</Label>
+          <ul className="flex list-disc flex-col gap-2 pl-5 text-lg leading-relaxed text-zinc-600 marker:text-zinc-400">
+            {FUN_FACTS.map((f) => (
+              <li key={f}>{f}</li>
+            ))}
+          </ul>
         </section>
 
         <section className="flex max-w-3xl flex-col gap-5 border-t border-zinc-200 pt-10">
