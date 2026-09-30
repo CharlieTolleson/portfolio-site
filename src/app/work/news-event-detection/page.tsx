@@ -25,6 +25,7 @@
 
 import Link from "next/link";
 import EntrySummary from "@/components/EntrySummary";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import StorySplit from "@/components/StorySplit";
 import StoryEvolution from "@/components/StoryEvolution";
 import StreamPipeline from "@/components/StreamPipeline";
@@ -507,11 +508,14 @@ export default function NewsEventDetectionPage() {
             <span className="text-zinc-600">
               Happy to talk about any of this.
             </span>
+            <CopyEmailButton />
             <a
-              href="mailto:charlietolleson@gmail.com"
-              className="font-mono text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+              href="https://www.linkedin.com/in/charlietolleson"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
             >
-              charlietolleson@gmail.com
+              LinkedIn
             </a>
             <Link
               href="/"
