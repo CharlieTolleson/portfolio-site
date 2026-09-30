@@ -15,13 +15,14 @@
  *     LinkedIn.
  *   - **Fun facts stay low-key.** A plain bulleted list at the end, so the
  *     personal notes read as color rather than competing with the work.
- *   - **Figures match the cards.** Every career number here (Meta eval scope,
- *     Amazon Price Competitiveness) is the same one the home page quotes, so a
- *     reader cross-checking never finds a mismatch.
+ *   - **Figures match the cards.** Every career number here (Meta eval scope)
+ *     is the same one the home page quotes, so a reader cross-checking never
+ *     finds a mismatch.
  */
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import CopyEmailButton from "@/components/CopyEmailButton";
 
 export const metadata = {
   title: "About",
@@ -159,12 +160,7 @@ export default function AboutPage() {
             projects. If you&apos;re building something, say hi.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a
-              href="mailto:charlietolleson@gmail.com"
-              className="rounded-full bg-zinc-900 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-zinc-700"
-            >
-              Get in touch
-            </a>
+            <CopyEmailButton />
             <Link href="/" className={`text-zinc-700 ${LINK}`}>
               See the work
             </Link>
