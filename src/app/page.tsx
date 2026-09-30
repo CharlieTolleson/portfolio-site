@@ -6,6 +6,7 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
+import CopyEmailButton from "@/components/CopyEmailButton";
 
 /**
  * Built entries, newest last. Each renders as a card on the home page.
@@ -80,9 +81,6 @@ const entries = [
   },
 ];
 
-/** Where every contact call-to-action points. Kept in one place with the header's. */
-const EMAIL = "mailto:charlietolleson@gmail.com";
-
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 font-sans">
@@ -102,15 +100,10 @@ export default function Home() {
             them next.
           </h1>
           <p className="text-xl text-zinc-600">
-            Previously a senior data scientist at @Meta, @Amazon, and @IBM
+            Previously senior data scientist at @Meta, @Amazon, and @IBM
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a
-              href={EMAIL}
-              className="rounded-full bg-zinc-900 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-zinc-700"
-            >
-              Get in touch
-            </a>
+            <CopyEmailButton />
             <span className="text-base text-zinc-500">
               Open to full-time AI and data science roles, and select freelance
               projects.
