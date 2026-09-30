@@ -74,7 +74,7 @@ const entries = [
     stats: [
       { value: "Live", label: "global news stream" },
       { value: "6", label: "person team led" },
-      { value: "Patent", label: "cover, published at IBM" },
+      { value: "Paper", label: "published internally at IBM" },
     ],
     visual: <StorySplit variant="card" />,
   },

@@ -77,7 +77,7 @@ const META: [string, string][] = [
     "Approach",
     "Streaming NER into a persistent entity graph, reorganized into stories on demand",
   ],
-  ["Outcome", "Proof of concept, published internally at IBM for patent cover"],
+  ["Outcome", "Proof of concept, written up as an internal IBM paper"],
 ];
 
 export default function NewsEventDetectionPage() {
@@ -405,9 +405,7 @@ export default function NewsEventDetectionPage() {
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
             The project ended at proof of concept, and I wrote the method and the
-            findings up as an internal IBM paper, which is how research gets
-            published there when the patent position matters more than the
-            citation.
+            findings up as an internal IBM paper.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             It is also one of the most enjoyable technical problems I have worked
