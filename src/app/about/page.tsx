@@ -36,7 +36,7 @@ const LINK =
 const FUN_FACTS = [
   "Bikes are my preferred way to get fresh air, whether in the mountains or commuting around town.",
   "I picked up a sewing machine recently to start making bags and tap into my crafty side.",
-  "I'm learning on a hand-me-down DSLR by taking it to beautiful places, usually on my bike.",
+  "I'm learning to use a hand-me-down DSLR by taking it to beautiful places, usually on my bike.",
 ];
 
 /** One line per stop, newest first. ReactNode so a line can link to its case study. */
