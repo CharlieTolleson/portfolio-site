@@ -17,6 +17,13 @@ import StorySplit from "@/components/StorySplit";
  *
  * Blurb length is not load-bearing: the paragraph below reserves two lines of
  * space either way, so these can be rewritten without disturbing card heights.
+ *
+ * `stats` are the skim layer: a visitor who reads nothing else on the card still
+ * leaves with the scale or outcome of the work. Every entry carries the same
+ * number of stats so the cards stay height-matched. The orchestration card
+ * deliberately quotes the Meta eval scope rather than Hyperion's own timings,
+ * because Hyperion is a personal project and the Meta numbers are the outcome
+ * that card's blurb opens with.
  */
 const entries = [
   {
@@ -25,6 +32,11 @@ const entries = [
     role: "Creator & Architect",
     blurb:
       "From evals @Meta to Hyperion, a multi-agent orchestrator for building your best agent team.",
+    stats: [
+      { value: "7", label: "production AI workflows" },
+      { value: "30+", label: "people coordinated" },
+      { value: "5,000+", label: "sellers served" },
+    ],
     visual: <WorkflowGraph variant="card" />,
   },
   {
@@ -33,6 +45,11 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
+    stats: [
+      { value: "30+", label: "hypotheses tested" },
+      { value: "Week → min", label: "analysis time per hypothesis" },
+      { value: "3", label: "person team led" },
+    ],
     visual: <CausalTree variant="card" />,
   },
   {
@@ -41,6 +58,11 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
+    stats: [
+      { value: "+10 bps", label: "Price Competitiveness at Amazon" },
+      { value: "7 bps", label: "goal it beat" },
+      { value: "15", label: "Claude Code Skills shipped at Meta" },
+    ],
     visual: <DecompWaterfall variant="card" />,
   },
   {
@@ -49,9 +71,17 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "Anything can break a supply chain. I built a graph that finds the story before the alert exists.",
+    stats: [
+      { value: "Live", label: "global news stream" },
+      { value: "6", label: "person team led" },
+      { value: "Patent", label: "cover, published at IBM" },
+    ],
     visual: <StorySplit variant="card" />,
   },
 ];
+
+/** Where every contact call-to-action points. Kept in one place with the header's. */
+const EMAIL = "mailto:charlietolleson@gmail.com";
 
 export default function Home() {
   return (
@@ -63,14 +93,29 @@ export default function Home() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex max-w-3xl flex-col gap-6"
         >
+          {/* The headline says what I build and what it gets a team, rather
+              than a job title: recruiters scan it for keywords (AI, ML,
+              metrics) and founders scan it for a point of view. */}
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie - a multidisciplinary data scientist
-            specializing in architecting and scaling AI, ML, and measurement
-            systems across organizations.
+            Hi, I&apos;m Charlie. I build AI agents, ML models, and measurement
+            systems that tell teams why their metrics moved, and what will move
+            them next.
           </h1>
           <p className="text-xl text-zinc-600">
-            Experience at @Meta, @Amazon, and @IBM
+            Previously a senior data scientist at @Meta, @Amazon, and @IBM
           </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a
+              href={EMAIL}
+              className="rounded-full bg-zinc-900 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-zinc-700"
+            >
+              Get in touch
+            </a>
+            <span className="text-base text-zinc-500">
+              Open to full-time AI and data science roles, and select freelance
+              projects.
+            </span>
+          </div>
         </motion.div>
 
         <div className="flex flex-col gap-12">
@@ -109,6 +154,18 @@ export default function Home() {
                   <p className="min-h-[3.7rem] max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
                     {entry.blurb}
                   </p>
+                  <dl className="mt-2 grid grid-cols-3 gap-x-6 border-t border-zinc-100 pt-5">
+                    {entry.stats.map((s) => (
+                      <div key={s.label} className="flex flex-col gap-0.5">
+                        <dt className="order-2 text-sm leading-snug text-zinc-500">
+                          {s.label}
+                        </dt>
+                        <dd className="order-1 m-0 text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
+                          {s.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
                 {entry.visual}
               </Link>

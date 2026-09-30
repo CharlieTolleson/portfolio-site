@@ -78,6 +78,7 @@ const META: [string, string][] = [
     "Contribution to Change for rate metrics, LMDI for absolute funnel metrics",
   ],
   ["Delivery", "Python modules behind Claude Code skills, self-serve to the org"],
+  ["Outcome", "Price Competitiveness up 10 bps at Amazon against a 7 bps goal"],
 ];
 
 /**
