@@ -25,6 +25,7 @@
 
 import Link from "next/link";
 import EntrySummary from "@/components/EntrySummary";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import StorySplit from "@/components/StorySplit";
 import StoryEvolution from "@/components/StoryEvolution";
 import StreamPipeline from "@/components/StreamPipeline";
@@ -77,7 +78,7 @@ const META: [string, string][] = [
     "Approach",
     "Streaming NER into a persistent entity graph, reorganized into stories on demand",
   ],
-  ["Outcome", "Proof of concept, published internally at IBM for patent cover"],
+  ["Outcome", "Proof of concept, written up as an internal IBM paper"],
 ];
 
 export default function NewsEventDetectionPage() {
@@ -405,9 +406,7 @@ export default function NewsEventDetectionPage() {
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
             The project ended at proof of concept, and I wrote the method and the
-            findings up as an internal IBM paper, which is how research gets
-            published there when the patent position matters more than the
-            citation.
+            findings up as an internal IBM paper.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             It is also one of the most enjoyable technical problems I have worked
@@ -509,11 +508,14 @@ export default function NewsEventDetectionPage() {
             <span className="text-zinc-600">
               Happy to talk about any of this.
             </span>
+            <CopyEmailButton />
             <a
-              href="mailto:charlietolleson@gmail.com"
-              className="font-mono text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+              href="https://www.linkedin.com/in/charlietolleson"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
             >
-              charlietolleson@gmail.com
+              LinkedIn
             </a>
             <Link
               href="/"

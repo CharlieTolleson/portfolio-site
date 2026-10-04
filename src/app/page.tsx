@@ -8,8 +8,7 @@ import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
 
 /**
- * Built entries, newest last. Each renders as a card above the coming-soon list,
- * and the list numbers itself from `entries.length + 1`.
+ * Built entries, newest last. Each renders as a card on the home page.
  *
  * Titles are written to invite rather than to classify, so `blurb` is where the
  * method keyword lives ("multi-agent orchestrator", "causal inference",
@@ -18,6 +17,13 @@ import StorySplit from "@/components/StorySplit";
  *
  * Blurb length is not load-bearing: the paragraph below reserves two lines of
  * space either way, so these can be rewritten without disturbing card heights.
+ *
+ * `stats` are the skim layer: a visitor who reads nothing else on the card still
+ * leaves with the scale or outcome of the work. Every entry carries the same
+ * number of stats so the cards stay height-matched. The orchestration card
+ * deliberately quotes the Meta eval scope rather than Hyperion's own timings,
+ * because Hyperion is a personal project and the Meta numbers are the outcome
+ * that card's blurb opens with.
  */
 const entries = [
   {
@@ -26,6 +32,11 @@ const entries = [
     role: "Creator & Architect",
     blurb:
       "From evals @Meta to Hyperion, a multi-agent orchestrator for building your best agent team.",
+    stats: [
+      { value: "7", label: "production AI workflows" },
+      { value: "30+", label: "people coordinated" },
+      { value: "5,000+", label: "sellers served" },
+    ],
     visual: <WorkflowGraph variant="card" />,
   },
   {
@@ -34,6 +45,11 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "They couldn't move the metric. I built a causal inference agent to test every hypothesis.",
+    stats: [
+      { value: "50+", label: "hypotheses tested" },
+      { value: "Minutes", label: "per hypothesis, down from a week" },
+      { value: "3", label: "person team led" },
+    ],
     visual: <CausalTree variant="card" />,
   },
   {
@@ -42,6 +58,11 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
+    stats: [
+      { value: "+10 bps", label: "Price Competitiveness at Amazon" },
+      { value: "7 bps", label: "goal it beat" },
+      { value: "15", label: "Claude Code Skills shipped at Meta" },
+    ],
     visual: <DecompWaterfall variant="card" />,
   },
   {
@@ -50,15 +71,13 @@ const entries = [
     role: "Data Science Lead",
     blurb:
       "Anything can break a supply chain. I built a graph that finds the story before the alert exists.",
+    stats: [
+      { value: "Live", label: "global news stream" },
+      { value: "6", label: "person team led" },
+      { value: "Paper", label: "published internally at IBM" },
+    ],
     visual: <StorySplit variant="card" />,
   },
-];
-
-const comingSoon = [
-  "NLP Patent Infringement Detection",
-  "ML Sales Recommendations with Shapley Values",
-  "No-Code ML",
-  "Agent Context Standards",
 ];
 
 export default function Home() {
@@ -71,14 +90,20 @@ export default function Home() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex max-w-3xl flex-col gap-6"
         >
+          {/* The headline says what I build and what it gets a team, rather
+              than a job title: recruiters scan it for keywords (AI, ML,
+              metrics) and founders scan it for a point of view. */}
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie - a multidisciplinary data scientist
-            specializing in architecting and scaling AI, ML, and measurement
-            systems across organizations.
+            Hi, I&apos;m Charlie. I build AI agents, ML models, and measurement
+            systems that tell teams why their metrics moved, and what will move
+            them next.
           </h1>
-          <p className="text-xl text-zinc-600">Currently Freelancing</p>
           <p className="text-xl text-zinc-600">
             Previously a senior data scientist at @Meta, @Amazon, and @IBM
+          </p>
+          <p className="text-base text-zinc-500">
+            Open to full-time AI and data science roles, and select freelance
+            projects.
           </p>
         </motion.div>
 
@@ -118,38 +143,24 @@ export default function Home() {
                   <p className="min-h-[3.7rem] max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
                     {entry.blurb}
                   </p>
+                  <dl className="mt-2 grid grid-cols-3 gap-x-6 border-t border-zinc-100 pt-5">
+                    {entry.stats.map((s) => (
+                      <div key={s.label} className="flex flex-col gap-0.5">
+                        <dt className="order-2 text-sm leading-snug text-zinc-500">
+                          {s.label}
+                        </dt>
+                        <dd className="order-1 m-0 text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
+                          {s.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
                 {entry.visual}
               </Link>
             </motion.div>
           ))}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut", delay: 0.25 }}
-          className="text-2xl text-zinc-500"
-        >
-          Coming soon…
-        </motion.p>
-
-        <ol className="flex w-full flex-col gap-8">
-          {comingSoon.map((title, i) => (
-            <motion.li
-              key={title}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 + i * 0.08 }}
-              className="flex items-baseline gap-6 border-b border-zinc-200 pb-8 text-left"
-            >
-              <span className="font-mono text-lg text-zinc-400">
-                {String(i + entries.length + 1).padStart(2, "0")}
-              </span>
-              <span className="text-2xl text-zinc-700">{title}</span>
-            </motion.li>
-          ))}
-        </ol>
       </main>
     </div>
   );
