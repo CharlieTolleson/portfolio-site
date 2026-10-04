@@ -37,9 +37,9 @@ const STATS: Stat[] = [
     note: `${AGGREGATES.medianWallSeconds}s end to end`,
   },
   {
-    value: `${AGGREGATES.distinctModels}`,
-    label: "model targets",
-    note: `${AGGREGATES.providers} providers behind them`,
+    value: `${AGGREGATES.distinctTargets}`,
+    label: "routing targets",
+    note: `${AGGREGATES.concreteModels} models plus ${AGGREGATES.aliasTargets} role aliases`,
   },
   {
     value: `${Math.round(AGGREGATES.medianTokens / 1000)}k`,

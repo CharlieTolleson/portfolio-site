@@ -20,7 +20,7 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
 import EvidenceStats from "@/components/EvidenceStats";
 import Figure from "@/components/Figure";
-import { AGGREGATES, FEATURED_RUN_ID } from "@/lib/hyperionRun";
+import { AGGREGATES, FEATURED_RUN_ID, SYSTEM_TOTALS } from "@/lib/hyperionRun";
 
 const REPO = "https://github.com/CharlieTolleson/personal-agent";
 /** Deep link into the orchestrator rather than the monorepo root. */
@@ -49,12 +49,33 @@ export const metadata = {
   },
 };
 
+/**
+ * Month name from an ISO date, for the status row.
+ *
+ * The status row reads out of SYSTEM_TOTALS rather than being typed, because a
+ * hand-written claim about cadence is exactly the kind of thing that silently
+ * goes stale while the page still points at the trace store as its source.
+ *
+ * @param iso An ISO `YYYY-MM-DD` date.
+ * @returns The full month name, e.g. "May".
+ */
+const MONTH = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  });
+
 /** Fact rows shown under the title, so the technical read is instant. */
 const META: [string, string][] = [
   ["Role", "Creator & architect: design, build, operations"],
   ["Project", "Hyperion, the orchestration layer of my personal AI workspace"],
   ["Stack", "Python · FastAPI · LiteLLM · Qdrant · Langfuse · Next.js"],
-  ["Status", "Running daily since May 2026"],
+  [
+    "Status",
+    `${SYSTEM_TOTALS.tasks} runs recorded, ${MONTH(SYSTEM_TOTALS.firstRun)} to ${MONTH(
+      SYSTEM_TOTALS.lastRun
+    )} 2026`,
+  ],
   ["Background", "Led evals at Meta across 7 production workflows serving 5,000+ sellers"],
 ];
 
@@ -234,18 +255,31 @@ export default function AiOrchestrationPage() {
               They point at{" "}
               <span className="font-mono text-zinc-800">smart</span> and{" "}
               <span className="font-mono text-zinc-800">worker</span>, logical
-              roles chosen by intent rather than by vendor. Each role resolves to an
-              alias, and each alias is an ordered chain across providers:{" "}
-              <span className="font-mono text-zinc-800">smart</span> tries
-              claude-opus-4-6, then gemini-2.5-pro, then gpt-4o, and takes the
-              first that answers.
+              roles chosen by intent rather than by vendor. Each role resolves to
+              an alias, and an alias is a pool of interchangeable models spanning
+              providers:{" "}
+              <span className="font-mono text-zinc-800">smart</span> holds
+              claude-opus-4-6, gemini-2.5-pro, and gpt-4o. The proxy shuffles
+              across whichever members are healthy, retries the others when one
+              fails, and falls through to a different pool only if all of them do.
             </p>
             <p className="text-lg leading-relaxed text-zinc-600">
               That indirection is what makes the routing claim more than a
-              preference. Reordering a chain re-routes every node pointed at it,
-              across every workflow, without touching code, and a provider outage
-              degrades a run instead of ending it: the node falls to the next
-              model in its chain and keeps going.
+              preference. Changing a pool&apos;s membership re-routes every node
+              pointed at it, across every workflow, without touching code, and a
+              provider outage degrades a run instead of ending it: the request
+              lands on another member and keeps going.
+            </p>
+            <p className="text-lg leading-relaxed text-zinc-600">
+              The run below is that fallback caught in the act. No Anthropic key
+              was configured, so both alias nodes were served by whichever of the
+              remaining members answered. The trace store records the target a
+              call asked for and not the provider that served it, which is why
+              those two bars read{" "}
+              <span className="font-mono text-zinc-800">smart</span> and{" "}
+              <span className="font-mono text-zinc-800">worker</span> rather than
+              a vendor model. Naming one would be a guess pretending to be a
+              measurement.
             </p>
           </div>
 
@@ -254,14 +288,15 @@ export default function AiOrchestrationPage() {
             src="/work/hyperion-aliases.png"
             width={2000}
             height={1760}
-            alt="Hyperion's alias settings. Each alias (smart, worker, cheap) lists an ordered chain of models with controls to reorder, remove, or add entries."
-            caption="The alias editor. smart tries claude-opus-4-6, then gemini-2.5-pro, then gpt-4o; worker and cheap have their own chains. Reordering here re-routes every node pointed at that alias, across every workflow, without touching a line of code."
+            alt="Hyperion's alias settings. Each alias (smart, worker, cheap) lists the models behind it with controls to reorder, remove, or add entries."
+            caption="The alias editor. smart pools claude-opus-4-6, gemini-2.5-pro, and gpt-4o; worker and cheap have their own pools. Editing membership here re-routes every node pointed at that alias, across every workflow, without touching a line of code."
           />
 
           <div className="max-w-3xl">
             <p className="text-lg leading-relaxed text-zinc-600">
-              Here is what that mix did on the clock across four models and
-              three providers in a single run. Bars are colored by model.
+              Here is what that mix did on the clock across all{" "}
+              {AGGREGATES.distinctTargets} routing targets in a single run. Bars
+              are colored by target.
             </p>
           </div>
 
@@ -313,10 +348,15 @@ export default function AiOrchestrationPage() {
           </h2>
           <p className="text-lg leading-relaxed text-zinc-600">
             Fanning work out to a dozen model calls means a dozen things that can
-            hang, loop, or quietly burn budget. Runs do fail here: the researcher,
-            the role that makes by far the most calls, carries a 27% error rate.
-            That is the number the next three mechanisms exist to bring down, and
-            each one was added because something actually went wrong first.
+            hang, loop, or quietly burn budget. Runs do fail here: of{" "}
+            {SYSTEM_TOTALS.tasks} recorded runs, {SYSTEM_TOTALS.failed} failed
+            and {SYSTEM_TOTALS.cancelled} were cancelled. The per-agent rates in
+            the monitoring view below are coarser than they look, because a
+            failure is charged to every agent the run selected rather than to the
+            one that caused it, so they rank exposure rather than blame. The
+            three mechanisms here are what keep a misbehaving node from taking
+            the run&apos;s budget with it, and each was added because something
+            actually went wrong first.
           </p>
           <ul className="flex flex-col gap-4 text-lg leading-relaxed text-zinc-600">
             <li className="border-l-2 border-zinc-200 pl-5">

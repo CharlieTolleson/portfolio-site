@@ -673,6 +673,19 @@ export function leavesOf(node: TreeNode): Extract<TreeNode, { kind: "leaf" }>[] 
 /** Leaves of `TREE`, sorted by estimated effect for the dot plot. */
 export const LEAVES = leavesOf(TREE).sort((a, b) => a.effect - b.effect);
 
+/**
+ * Share of the estimation sample sitting in leaves with a negative estimated
+ * effect, i.e. the accounts the lever measurably costs you.
+ *
+ * Summed over every negative leaf rather than read off the lowest one: today
+ * only one leaf is below zero, so the two agree, but a reseed that produced a
+ * second negative leaf would silently understate the figure the page quotes.
+ */
+export const NEGATIVE_SHARE = LEAVES.filter((l) => l.effect < 0).reduce(
+  (s, l) => s + l.share,
+  0
+);
+
 /** Spread between the weakest and strongest subgroup the tree found. */
 export const EFFECT_RANGE: [number, number] = [
   LEAVES[0].effect,

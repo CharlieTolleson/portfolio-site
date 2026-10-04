@@ -30,7 +30,7 @@ import {
   EFFECT_RANGE,
   BIAS_REMOVED,
   N_UNITS,
-  LEAVES,
+  NEGATIVE_SHARE,
 } from "@/lib/causalDemo";
 
 export const metadata = {
@@ -94,7 +94,6 @@ const METHODS: [string, string][] = [
 
 export default function CausalInferencePage() {
   const [lo, hi] = EFFECT_RANGE;
-  const negativeShare = LEAVES[0].share;
 
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 font-sans">
@@ -254,7 +253,7 @@ export default function CausalInferencePage() {
                 +{TRUE_ATE.toFixed(2)}
               </span>
               . Nearly two thirds of that headline is the head start. Weighting
-              recovers {(BIAS_REMOVED * 100).toFixed(0)}% of the error and lands
+              removes {(BIAS_REMOVED * 100).toFixed(0)}% of the error and lands
               at{" "}
               <span className="font-mono text-zinc-800">
                 +{ADJUSTED_ATE.toFixed(2)}
@@ -301,7 +300,7 @@ export default function CausalInferencePage() {
             <span className="font-mono text-zinc-800">{lo.toFixed(2)}</span> to{" "}
             <span className="font-mono text-zinc-800">+{hi.toFixed(2)}</span>.
             Acting on the average means running the play across{" "}
-            {(negativeShare * 100).toFixed(0)}% of accounts where it measurably
+            {(NEGATIVE_SHARE * 100).toFixed(0)}% of accounts where it measurably
             costs you, and under-investing in the segment where it is worth more
             than twice what the headline promised.
           </p>
@@ -498,8 +497,10 @@ export default function CausalInferencePage() {
             The tree, the subgroup effects, and the balance diagnostics on this
             page are not illustrations. They are the output of a working
             pipeline, run in the browser over a simulated population: a logistic
-            propensity model, inverse probability weights, an outcome model for
-            local centering, and an honest causal tree fit on split samples.
+            propensity model, an outcome model for local centering, an outcome
+            transformed by the propensity residual as the estimator itself, and
+            an honest causal tree fit on split samples. Inverse probability
+            weights are what the balance plot is drawn with.
             Because the population is simulated, the true effect is known, which
             is the only reason a page like this can show you an estimate and its
             error at the same time.
