@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@visx/group": "^4.0.0",
     "@visx/scale": "^4.0.0",
     "motion": "^13.1.1",

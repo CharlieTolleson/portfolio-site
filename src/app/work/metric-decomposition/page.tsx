@@ -22,6 +22,7 @@
 
 import Link from "next/link";
 import EntrySummary from "@/components/EntrySummary";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import MixVsRate from "@/components/MixVsRate";
 import FunnelLMDI from "@/components/FunnelLMDI";
@@ -78,6 +79,7 @@ const META: [string, string][] = [
     "Contribution to Change for rate metrics, LMDI for absolute funnel metrics",
   ],
   ["Delivery", "Python modules behind Claude Code skills, self-serve to the org"],
+  ["Outcome", "Met Price Competitiveness goals at Amazon"],
 ];
 
 /**
@@ -565,11 +567,14 @@ export default function MetricDecompositionPage() {
             <span className="text-zinc-600">
               Happy to talk about any of this.
             </span>
+            <CopyEmailButton />
             <a
-              href="mailto:charlietolleson@gmail.com"
-              className="font-mono text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+              href="https://www.linkedin.com/in/charlietolleson"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
             >
-              charlietolleson@gmail.com
+              LinkedIn
             </a>
             <Link
               href="/"
