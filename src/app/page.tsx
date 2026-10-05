@@ -98,13 +98,12 @@ export default function Home() {
             systems that tell teams why their metrics moved, and what will move
             them next.
           </h1>
-          <p className="text-xl text-zinc-600">
-            Previously a senior data scientist at @Meta, @Amazon, and @IBM
-          </p>
-          <p className="text-base text-zinc-500">
-            Open to full-time AI and data science roles, and select freelance
-            projects.
-          </p>
+          {/* Now, then before: one pair, so it sits tighter than the gap-6
+              between the hero's other blocks. */}
+          <div className="flex flex-col gap-1 text-xl text-zinc-600">
+            <p>Currently building and freelancing</p>
+            <p>Previously a senior data scientist at @Meta, @Amazon, and @IBM</p>
+          </div>
         </motion.div>
 
         <div className="flex flex-col gap-12">
