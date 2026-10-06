@@ -41,7 +41,7 @@ const entries = [
     stats: [
       { value: "7", label: "production AI workflows" },
       { value: "30+", label: "people coordinated" },
-      { value: "1,000s", label: "sellers served" },
+      { value: "1,000s", label: "of sellers served" },
     ],
     visual: <WorkflowGraph variant="card" />,
   },
@@ -167,7 +167,10 @@ export default function Home() {
                         <dt className="order-2 text-sm leading-snug text-zinc-500">
                           {s.label}
                         </dt>
-                        <dd className="order-1 m-0 text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
+                        {/* text-xl below `sm`: a third of a phone-width card
+                            is about 76px, and word-valued stats ("Minutes",
+                            "Agent-led") overflow it at text-2xl. */}
+                        <dd className="order-1 m-0 text-xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
                           {s.value}
                         </dd>
                       </div>

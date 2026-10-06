@@ -18,9 +18,8 @@ import EntrySummary from "@/components/EntrySummary";
 import CopyEmailButton from "@/components/CopyEmailButton";
 import WorkflowGraph from "@/components/WorkflowGraph";
 import RunTimeline from "@/components/RunTimeline";
-import EvidenceStats from "@/components/EvidenceStats";
 import Figure from "@/components/Figure";
-import { AGGREGATES, FEATURED_RUN_ID, SYSTEM_TOTALS } from "@/lib/hyperionRun";
+import { AGGREGATES, FEATURED_RUN_ID } from "@/lib/hyperionRun";
 
 const REPO = "https://github.com/CharlieTolleson/personal-agent";
 /** Deep link into the orchestrator rather than the monorepo root. */
@@ -33,11 +32,11 @@ const ROUTING_SRC = `${REPO}/blob/main/agents/hyperion/src/hyperion/llms.py`;
 export const metadata = {
   title: "Orchestrating a Team of Models",
   description:
-    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, and measuring what that actually buys you. 2.6× faster than sequential, traced end to end.",
+    "Building a multi-agent orchestrator that routes each step of a task to the model that fits it, with every call traced end to end.",
   openGraph: {
     title: "Orchestrating a Team of Models | Charlie Tolleson",
     description:
-      "A multi-agent orchestrator that routes each step to the model that fits it. 2.6× faster than sequential, with every call traced.",
+      "A multi-agent orchestrator that routes each step to the model that fits it, with every call traced.",
     type: "article",
     url: "https://charlietolleson.com/work/ai-orchestration",
   },
@@ -50,32 +49,17 @@ export const metadata = {
 };
 
 /**
- * Month name from an ISO date, for the status row.
+ * Fact rows shown under the title, so the technical read is instant.
  *
- * The status row reads out of SYSTEM_TOTALS rather than being typed, because a
- * hand-written claim about cadence is exactly the kind of thing that silently
- * goes stale while the page still points at the trace store as its source.
- *
- * @param iso An ISO `YYYY-MM-DD` date.
- * @returns The full month name, e.g. "May".
+ * No usage figures (run counts, date ranges, speedups) here or anywhere in the
+ * page's headline layer: Hyperion is a personal project, so aggregate usage
+ * says nothing a reader cares about (Charlie, 2026-10-05). The worked examples
+ * further down still read from `lib/hyperionRun`.
  */
-const MONTH = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleString("en-US", {
-    month: "long",
-    timeZone: "UTC",
-  });
-
-/** Fact rows shown under the title, so the technical read is instant. */
 const META: [string, string][] = [
   ["Role", "Creator & architect: design, build, operations"],
   ["Project", "Hyperion, the orchestration layer of my personal AI workspace"],
   ["Stack", "Python · FastAPI · LiteLLM · Qdrant · Langfuse · Next.js"],
-  [
-    "Status",
-    `${SYSTEM_TOTALS.tasks} runs recorded, ${MONTH(SYSTEM_TOTALS.firstRun)} to ${MONTH(
-      SYSTEM_TOTALS.lastRun
-    )} 2026`,
-  ],
   ["Background", "Led evals at Meta across 7 production workflows serving thousands of sellers"],
 ];
 
@@ -116,9 +100,7 @@ export default function AiOrchestrationPage() {
               ],
               [
                 "A pipeline stalls on its slowest step even when most of the work is independent.",
-                `A graph executed in parallel waves, which measures ${AGGREGATES.medianSpeedup.toFixed(
-                  1
-                )}× faster than the same work run sequentially.`,
+                "A graph executed in parallel waves, so independent steps run side by side instead of waiting their turn.",
               ],
             ]}
           />
@@ -134,8 +116,6 @@ export default function AiOrchestrationPage() {
             ))}
           </dl>
         </div>
-
-        <EvidenceStats />
 
         {/* ---- The problem ---- */}
         <section className="flex max-w-3xl flex-col gap-6">
@@ -322,12 +302,8 @@ export default function AiOrchestrationPage() {
               execution waves
             </a>
             , fires each wave concurrently, and only advances once every node in
-            it has finished. Across the runs on record that&apos;s worth a
-            median{" "}
-            <span className="font-medium text-zinc-800">
-              {AGGREGATES.medianSpeedup.toFixed(1)}×
-            </span>{" "}
-            against running the same nodes one at a time.
+            it has finished, so independent work runs side by side instead of
+            waiting its turn.
           </p>
           <p className="text-lg leading-relaxed text-zinc-600">
             The flexibility has real costs. A graph is harder to reason about
@@ -348,9 +324,8 @@ export default function AiOrchestrationPage() {
           </h2>
           <p className="text-lg leading-relaxed text-zinc-600">
             Fanning work out to a dozen model calls means a dozen things that can
-            hang, loop, or quietly burn budget. Runs do fail here: of{" "}
-            {SYSTEM_TOTALS.tasks} recorded runs, {SYSTEM_TOTALS.failed} failed
-            and {SYSTEM_TOTALS.cancelled} were cancelled. The per-agent rates in
+            hang, loop, or quietly burn budget, and runs here do fail. The
+            per-agent rates in
             the monitoring view below are coarser than they look, because a
             failure is charged to every agent the run selected rather than to the
             one that caused it, so they rank exposure rather than blame. The
