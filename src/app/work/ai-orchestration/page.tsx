@@ -60,7 +60,7 @@ const META: [string, string][] = [
   ["Role", "Creator & architect: design, build, operations"],
   ["Project", "Hyperion, the orchestration layer of my personal AI workspace"],
   ["Stack", "Python · FastAPI · LiteLLM · Qdrant · Langfuse · Next.js"],
-  ["Background", "Led evals at Meta across 7 production workflows serving thousands of sellers"],
+  ["Background", "Led evals at Meta across 7 AI workflows built for thousands of sellers"],
 ];
 
 export default function AiOrchestrationPage() {
@@ -84,7 +84,7 @@ export default function AiOrchestrationPage() {
           </p>
 
           <EntrySummary
-            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven production sales workflows, then built Hyperion to keep working on it with my hands on the whole stack. It treats model choice as a property of each step, and measures what that buys."
+            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven AI workflows built for thousands of sellers, then built Hyperion to keep working on it with my hands on the whole stack. It treats model choice as a property of each step, and measures what that buys."
             pairs={[
               [
                 "One prompt fans out into dozens of nondeterministic model calls, each compounding the variance of the one before it.",
@@ -146,9 +146,10 @@ export default function AiOrchestrationPage() {
           </p>
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
-            I led evals through this problem at Meta, across seven production
-            sales workflows and a group of about thirty: seven data scientists, seven
-            data engineers, seven PMs, and ten software engineers. Hyperion is
+            I led evals through this problem at Meta, across seven AI workflows
+            built for thousands of sellers and a group of about thirty: seven
+            data scientists, seven data engineers, seven PMs, and ten software
+            engineers. Hyperion is
             what I built to keep working on the same problem with my hands on the
             whole stack: orchestration, routing, and the traces underneath.
           </p>

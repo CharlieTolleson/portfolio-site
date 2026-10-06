@@ -61,7 +61,10 @@ const META: [string, string][] = [
   ["Team", "Me plus two data scientists"],
   ["Context", "Meta Sales analytics, generalized here"],
   ["Approach", "Causal forests over observational data, wrapped in an agent"],
-  ["Outcome", "50+ hypotheses tested, each in minutes instead of a week"],
+  [
+    "Outcome",
+    "50+ hypotheses tested in minutes each; sales plays reprioritized by region and company size",
+  ],
   ["Status", "Handed off to a team extending it into a multi-method agent"],
 ];
 
@@ -116,7 +119,7 @@ export default function CausalInferencePage() {
           </p>
 
           <EntrySummary
-            intro="The organization's funding case rested on hitting those goals, so the gap was not academic: leadership was allocating a quarter at a time on conviction alone. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached."
+            intro="The organization's funding case rested on hitting those goals, so the gap was not academic: leadership was allocating a quarter at a time on conviction alone. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached. Sales acted on them, changing which ad solutions it led with in each region and how it reached companies of each size."
             pairs={[
               [
                 "The accounts that got a given play were never chosen at random; reps picked the large, healthy ones.",
@@ -416,15 +419,24 @@ export default function CausalInferencePage() {
             with the evidence attached.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The honest framing of the result is not that this replaced
-            experimentation. Live experiments still validate, and they should.
-            What changed is which experiments get run. Instead of burning a
-            quarter to discover that a hypothesis was never promising, we spend
-            an afternoon ranking the whole set and give the quarter to the one
-            that earns it. Causal inference did not replace the experiment. It
-            made
-            the experiment queue an informed decision, and that is a capability
-            any business can use.
+            Sales acted on them. Different ad solutions were prioritized in
+            different regions, and the way reps reached a company (email, phone,
+            video call, or a mix of them) was matched to its size. Those are the
+            decisions that had been running on conviction, now running on
+            evidence.
+          </p>
+          {/* Written as a capability, not a history: none of these findings
+              went on to a live experiment (Charlie, 2026-10-06), so the page
+              must not imply the team re-ordered an experiment queue. */}
+          <p className="text-xl leading-relaxed text-zinc-700">
+            None of this replaces experimentation. Live experiments still
+            validate, and where a decision is expensive enough, they should.
+            What the framework changes is which experiments are worth running.
+            Instead of burning a quarter to discover that a hypothesis was never
+            promising, a team can spend an afternoon ranking the whole set and
+            give the quarter to the one that earns it. That makes the experiment
+            queue an informed decision, and it is a capability any business can
+            use.
           </p>
         </section>
 
