@@ -6,9 +6,15 @@ import WorkflowGraph from "@/components/WorkflowGraph";
 import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
+import AnswerSpread from "@/components/AnswerSpread";
 
 /**
- * Built entries, newest last. Each renders as a card on the home page.
+ * Built entries, in display order. Each renders as a card on the home page.
+ *
+ * Ordered for an AI-literate reader, not by date: the agent work first (one
+ * system, then the org-wide standards), then the measurement work that agents
+ * wrap, then the pre-LLM IBM work. Keeping the two bar-chart thumbnails
+ * (AnswerSpread, DecompWaterfall) apart also gives the stack some visual rhythm.
  *
  * Titles are written to invite rather than to classify, so `blurb` is where the
  * method keyword lives ("multi-agent orchestrator", "causal inference",
@@ -38,6 +44,19 @@ const entries = [
       { value: "1,000s", label: "sellers served" },
     ],
     visual: <WorkflowGraph variant="card" />,
+  },
+  {
+    href: "/work/agent-ready-org",
+    title: "Making an Org Agent-Ready @Meta",
+    role: "Framework Author",
+    blurb:
+      "Agents trust everything they read. I wrote the standards that make it worth trusting.",
+    stats: [
+      { value: "50+", label: "person org it was presented to" },
+      { value: "30+", label: "Claude Skills built to its guidelines" },
+      { value: "Agent-led", label: "doc cleanup adopted across repos" },
+    ],
+    visual: <AnswerSpread variant="card" />,
   },
   {
     href: "/work/causal-inference",
