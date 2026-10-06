@@ -79,7 +79,10 @@ const META: [string, string][] = [
     "Contribution to Change for rate metrics, LMDI for absolute funnel metrics",
   ],
   ["Delivery", "Python modules behind Claude Code skills, self-serve to the org"],
-  ["Outcome", "Met Price Competitiveness goals at Amazon"],
+  [
+    "Outcome",
+    "Met Price Competitiveness goals at Amazon; about 30 reports replaced at Meta, saving roughly 30 weeks of data science time",
+  ],
 ];
 
 /**
@@ -504,7 +507,10 @@ export default function MetricDecompositionPage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             At Meta the effect was structural. Recurring reporting became
             automatic, with the visualizations a leader needed already built into
-            the brief. More importantly, the analysis stopped being gated on my
+            the brief. The skill replaced about 30 reports that would each have
+            taken a data scientist roughly a week to build, about 30 weeks of
+            data science time, and it picked up regular weekly users across the
+            org. More importantly, the analysis stopped being gated on my
             team. Anyone with an agent could ask what happened to their line of
             business and get a clear, objective, reconciled answer without
             filing a request or waiting for a queue.

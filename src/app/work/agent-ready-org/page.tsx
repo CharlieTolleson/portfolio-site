@@ -13,8 +13,13 @@
  *     stays out of implementation detail (no YAML, no SQL, no eval mechanics).
  *   - **Outcomes are the ones Charlie confirmed, stated without inflation:** the
  *     paper was presented to a 50+ person org and led to a metric spec
- *     repository, 30+ Skills built to its guidelines, a Skill discovery
- *     dashboard, and agent-led documentation cleanup in several repositories.
+ *     repository with specs for 25+ metrics and data fields, 30+ Skills built
+ *     to its guidelines, a Skill discovery dashboard, and agent-led
+ *     documentation cleanup in several repositories. None of it was mandated;
+ *     teams adopted it on their own, which is the point for a leader reading.
+ *   - **The Skills count is the org's, not Charlie's.** The page never singles
+ *     out which Skills he built himself (Charlie, 2026-10-06): the stronger
+ *     claim is that he created the scope others built into.
  *   - **The closing looks forward ("my next team")** rather than back at Meta,
  *     so the page ends on what a reader would be hiring.
  *   - **Synthetic examples, same rule as the other entries.** The paper is
@@ -51,18 +56,18 @@ export const metadata = {
 
 /** Fact rows shown under the title, so the scope is legible at a glance. */
 const META: [string, string][] = [
-  ["Role", "Author of the framework; built Skills to put it into practice"],
+  ["Role", "Author of the framework; set the standards the org built to"],
   ["Audience", "A 50+ person data science org supporting Meta's Ads Sales"],
   ["Scope", "Metric definitions, shared context, Skills, and their governance"],
   [
     "Outcome",
-    "A metric spec repository and 30+ Claude Skills built to its guidelines",
+    "Adopted by teams without a mandate: specs for 25+ metrics and data fields, and 30+ Claude Skills built to its guidelines",
   ],
 ];
 
 /** What the org built after the paper, in the order a leader would weigh it. */
 const OUTCOMES: string[] = [
-  "A metric spec repository became the home for decision-grade definitions, and existing queries were rewritten on top of those specs instead of carrying their own logic.",
+  "A metric spec repository became the home for decision-grade definitions, with specs for more than 25 metrics and data fields, and existing queries were rewritten on top of those specs instead of carrying their own logic.",
   "Teams designed more than 30 Claude Skills to the paper's guidelines.",
   "A Skill discovery dashboard gave everyone one place to find, share, and reuse them.",
   "Several repositories adopted autonomous cleanup jobs, in which agents find redundant documentation and remove it before another agent can read it.",
@@ -115,7 +120,7 @@ export default function AgentReadyOrgPage() {
           </p>
 
           <EntrySummary
-            intro="Agents made every analyst in our org faster almost overnight. They also exposed a quieter problem: an agent is only as reliable as what it reads, and what our org had written down was scattered, duplicated, and often out of date. Two people could ask the same question and get two different numbers, each delivered with full confidence. At Meta, I traced where this came from, wrote a paper proposing a set of standards and a governance framework to fix it, and presented it to our 50+ person data science org. It led to a shared metric spec repository, more than 30 Skills built to its guidelines, and agents that clean up after other agents."
+            intro="Agents made every analyst in our org faster almost overnight. They also exposed a quieter problem: an agent is only as reliable as what it reads, and what our org had written down was scattered, duplicated, and often out of date. Two people could ask the same question and get two different numbers, each delivered with full confidence. At Meta, I traced where this came from, wrote a paper proposing a set of standards and a governance framework to fix it, and presented it to our 50+ person data science org. Nothing was mandated, and teams adopted it anyway: a shared metric spec repository, more than 30 Skills built to its guidelines, and agents that clean up after other agents."
             pairs={[
               [
                 "The same metric was defined differently in different places, and agents could not tell which version was true.",
@@ -320,7 +325,8 @@ export default function AgentReadyOrgPage() {
           <h2 className={H2}>What came of it</h2>
           <p className={P}>
             I presented the paper to the full data science org, more than 50
-            people, and the org put it to work.
+            people. Nothing was mandated, and nobody had to adopt it. Teams
+            put it to work on their own.
           </p>
           <ul className="m-0 flex list-none flex-col gap-4 p-0">
             {OUTCOMES.map((o) => (

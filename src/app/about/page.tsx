@@ -18,6 +18,9 @@
  *   - **Figures match the cards.** Every career number here (Meta eval scope)
  *     is the same one the home page quotes, so a reader cross-checking never
  *     finds a mismatch.
+ *   - **The current product stays in stealth (Charlie, 2026-10-06).** Neither
+ *     the intro nor the work list names it, its industry, or what it connects
+ *     to; the work list links to the stealth entry instead.
  */
 
 import Link from "next/link";
@@ -27,7 +30,7 @@ import CopyEmailButton from "@/components/CopyEmailButton";
 export const metadata = {
   title: "About",
   description:
-    "Charlie Tolleson: data scientist and AI builder. Building Alex, previously Meta, Amazon, and IBM. Cyclist, bag maker, and photographer.",
+    "Charlie Tolleson: data scientist and AI builder. Building in stealth, previously Meta, Amazon, and IBM. Cyclist, bag maker, and photographer.",
 };
 
 const LINK =
@@ -44,13 +47,21 @@ const FUN_FACTS = [
 const WORK: { org: string; line: ReactNode }[] = [
   {
     org: "Independent",
-    line: "Building Alex, a voice-first AI crew member for trades businesses: crews talk to it from the truck, and it does the paperwork in Jobber, QuickBooks, and Gmail.",
+    line: (
+      <>
+        Building{" "}
+        <Link href="/work/building-in-stealth" className={LINK}>
+          an AI product of my own
+        </Link>
+        , in stealth for now. Happy to walk you through it privately.
+      </>
+    ),
   },
   {
     org: "Meta",
     line: (
       <>
-        Led evals across 7 production AI workflows serving thousands of sellers,
+        Led evals across 7 AI workflows built for thousands of sellers,
         shipped 15 Claude Code Skills to a 50+ person data science org, and
         built{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
@@ -108,7 +119,8 @@ export default function AboutPage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             Lately, I&apos;m into seeing how many of life&apos;s inconveniences I
             can eliminate with agentic AI, whether that&apos;s a personal agent
-            for myself or a full-fledged app for trades businesses. Previously, I
+            for myself or a full-fledged product for an industry most software
+            has passed by. Previously, I
             spent eight years at Meta, Amazon, and IBM figuring out why metrics
             move, and building the tools that let everyone else figure it out
             too. The part I love most is the beginning: a messy problem, no

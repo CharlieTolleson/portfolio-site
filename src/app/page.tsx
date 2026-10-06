@@ -7,14 +7,18 @@ import CausalTree from "@/components/CausalTree";
 import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
 import AnswerSpread from "@/components/AnswerSpread";
+import StealthBrief from "@/components/StealthBrief";
 
 /**
  * Built entries, in display order. Each renders as a card on the home page.
  *
  * Ordered for an AI-literate reader, not by date: the agent work first (one
- * system, then the org-wide standards), then the measurement work that agents
- * wrap, then the pre-LLM IBM work. Keeping the two bar-chart thumbnails
- * (AnswerSpread, DecompWaterfall) apart also gives the stack some visual rhythm.
+ * system, then the org-wide standards, then the product Charlie is building
+ * now), then the measurement work that agents wrap, then the pre-LLM IBM work.
+ * Keeping the two bar-chart thumbnails (AnswerSpread, DecompWaterfall) apart
+ * also gives the stack some visual rhythm. The stealth entry sits after the
+ * Meta agent work rather than first: it answers "what now?", but it can't show
+ * the product, so it shouldn't be the first impression.
  *
  * Titles are written to invite rather than to classify, so `blurb` is where the
  * method keyword lives ("multi-agent orchestrator", "causal inference",
@@ -25,11 +29,16 @@ import AnswerSpread from "@/components/AnswerSpread";
  * space either way, so these can be rewritten without disturbing card heights.
  *
  * `stats` are the skim layer: a visitor who reads nothing else on the card still
- * leaves with the scale or outcome of the work. Every entry carries the same
- * number of stats so the cards stay height-matched. The orchestration card
+ * leaves with the scale or outcome of the work. Every entry with stats carries
+ * the same number, so those cards stay height-matched; the stealth entry has
+ * none and simply renders shorter, which also sets it apart as the one card
+ * that can't show its work. The orchestration card
  * deliberately quotes the Meta eval scope rather than Hyperion's own timings,
  * because Hyperion is a personal project and the Meta numbers are the outcome
- * that card's blurb opens with.
+ * that card's blurb opens with. Outcome stats replace scope stats wherever
+ * Charlie has an outcome to quote (2026-10-06): sales plays changed by the
+ * causal work, reports replaced and time saved by the decomposition agent, and
+ * specs written under the agent-ready framework.
  */
 const entries = [
   {
@@ -39,9 +48,9 @@ const entries = [
     blurb:
       "From evals @Meta to Hyperion, a multi-agent orchestrator for building your best agent team.",
     stats: [
-      { value: "7", label: "production AI workflows" },
+      { value: "7", label: "AI workflows evaluated" },
       { value: "30+", label: "people coordinated" },
-      { value: "1,000s", label: "of sellers served" },
+      { value: "1,000s", label: "of sellers they were built for" },
     ],
     visual: <WorkflowGraph variant="card" />,
   },
@@ -53,10 +62,21 @@ const entries = [
       "Agents trust everything they read. I wrote the standards that make it worth trusting.",
     stats: [
       { value: "50+", label: "person org it was presented to" },
+      { value: "25+", label: "metrics and data fields given specs" },
       { value: "30+", label: "Claude Skills built to its guidelines" },
-      { value: "Agent-led", label: "doc cleanup adopted across repos" },
     ],
     visual: <AnswerSpread variant="card" />,
+  },
+  {
+    href: "/work/building-in-stealth",
+    title: "Building in Stealth",
+    role: "Founder",
+    blurb:
+      "My own AI product, for an industry most software has passed by. Ask me for a private walkthrough.",
+    // No stats: the entry gives no details about the product, and numbers on
+    // the card would promise a kind of evidence the page deliberately withholds.
+    stats: [],
+    visual: <StealthBrief />,
   },
   {
     href: "/work/causal-inference",
@@ -67,7 +87,7 @@ const entries = [
     stats: [
       { value: "50+", label: "hypotheses tested" },
       { value: "Minutes", label: "per hypothesis, down from a week" },
-      { value: "3", label: "person team led" },
+      { value: "Sales plays", label: "reprioritized by region and company size" },
     ],
     visual: <CausalTree variant="card" />,
   },
@@ -79,8 +99,8 @@ const entries = [
       "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
     stats: [
       { value: "Goal met", label: "for Price Competitiveness at Amazon" },
-      { value: "Goal met", label: "for Price Competitiveness" },
-      { value: "15", label: "Claude Code Skills shipped at Meta" },
+      { value: "~30", label: "reports the agent replaced at Meta" },
+      { value: "~30 weeks", label: "of data science time saved" },
     ],
     visual: <DecompWaterfall variant="card" />,
   },
@@ -117,11 +137,13 @@ export default function Home() {
             systems that tell teams why their metrics moved, and what will move
             them next.
           </h1>
-          {/* Now, then before: one pair, so it sits tighter than the gap-6
-              between the hero's other blocks. */}
+          {/* Background, then availability: one pair, so it sits tighter than
+              the gap-6 between the hero's other blocks. The availability line
+              names the field as well as the arrangement, so a recruiter can
+              tell which kind of role to match it against. */}
           <div className="flex flex-col gap-1 text-xl text-zinc-600">
-            <p>Currently building and freelancing</p>
             <p>Previously a senior data scientist at @Meta, @Amazon, and @IBM</p>
+            <p>Open to full-time roles and freelance projects in AI and data science</p>
           </div>
         </motion.div>
 
@@ -161,21 +183,24 @@ export default function Home() {
                   <p className="min-h-[3.7rem] max-w-2xl text-lg font-light leading-relaxed text-zinc-500">
                     {entry.blurb}
                   </p>
-                  <dl className="mt-2 grid grid-cols-3 gap-x-6 border-t border-zinc-100 pt-5">
-                    {entry.stats.map((s) => (
-                      <div key={s.label} className="flex flex-col gap-0.5">
-                        <dt className="order-2 text-sm leading-snug text-zinc-500">
-                          {s.label}
-                        </dt>
-                        {/* text-xl below `sm`: a third of a phone-width card
-                            is about 76px, and word-valued stats ("Minutes",
-                            "Agent-led") overflow it at text-2xl. */}
-                        <dd className="order-1 m-0 text-xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
-                          {s.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
+                  {entry.stats.length > 0 && (
+                    <dl className="mt-2 grid grid-cols-3 gap-x-6 border-t border-zinc-100 pt-5">
+                      {entry.stats.map((s) => (
+                        <div key={s.label} className="flex flex-col gap-0.5">
+                          <dt className="order-2 text-sm leading-snug text-zinc-500">
+                            {s.label}
+                          </dt>
+                          {/* text-xl below `sm`: a third of a phone-width
+                              card is about 76px, and word-valued stats
+                              ("Minutes", "Sales plays") overflow it at
+                              text-2xl. */}
+                          <dd className="order-1 m-0 text-xl font-medium tracking-tight text-zinc-900 sm:text-3xl">
+                            {s.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </div>
                 {entry.visual}
               </Link>
