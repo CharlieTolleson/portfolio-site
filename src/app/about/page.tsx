@@ -61,7 +61,11 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Meta",
     line: (
       <>
-        Led evals across 7 AI workflows built for thousands of sellers,
+        Led{" "}
+        <Link href="/work/launch-bar" className={LINK}>
+          evals across 7 AI workflows built for thousands of sellers
+        </Link>
+        ,
         shipped 15 Claude Code Skills to a 50+ person data science org, and
         built{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
