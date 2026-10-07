@@ -8,17 +8,19 @@ import DecompWaterfall from "@/components/DecompWaterfall";
 import StorySplit from "@/components/StorySplit";
 import AnswerSpread from "@/components/AnswerSpread";
 import StealthBrief from "@/components/StealthBrief";
+import EvalDashboard from "@/components/EvalDashboard";
 
 /**
  * Built entries, in display order. Each renders as a card on the home page.
  *
- * Ordered for an AI-literate reader, not by date: the agent work first (one
- * system, then the org-wide standards, then the product Charlie is building
- * now), then the measurement work that agents wrap, then the pre-LLM IBM work.
- * Keeping the two bar-chart thumbnails (AnswerSpread, DecompWaterfall) apart
- * also gives the stack some visual rhythm. The stealth entry sits after the
- * Meta agent work rather than first: it answers "what now?", but it can't show
- * the product, so it shouldn't be the first impression.
+ * Ordered for an AI-literate reader, not by date: the Meta agent work first
+ * (evals, then the org-wide standards), then Charlie's own agent systems
+ * (Hyperion, then the product he is building now), then the measurement work
+ * that agents wrap, then the pre-LLM IBM work. The evals entry leads because
+ * leading evals for production-bound agents is the most hireable credential on
+ * the site. Keeping the two bar-chart thumbnails (AnswerSpread,
+ * DecompWaterfall) apart also gives the stack some visual rhythm. The stealth
+ * entry never leads: it answers "what now?", but it can't show the product.
  *
  * Titles are written to invite rather than to classify, so `blurb` is where the
  * method keyword lives ("multi-agent orchestrator", "causal inference",
@@ -32,27 +34,29 @@ import StealthBrief from "@/components/StealthBrief";
  * leaves with the scale or outcome of the work. Every entry with stats carries
  * the same number, so those cards stay height-matched; the stealth entry has
  * none and simply renders shorter, which also sets it apart as the one card
- * that can't show its work. The orchestration card
- * deliberately quotes the Meta eval scope rather than Hyperion's own timings,
- * because Hyperion is a personal project and the Meta numbers are the outcome
- * that card's blurb opens with. Outcome stats replace scope stats wherever
+ * that can't show its work. The orchestration card quotes capabilities
+ * (custom agents, per-step model config, full traces), never counts or usage
+ * figures, because it is a personal project; the Meta eval scope it used to
+ * quote now lives on the evals card (2026-10-07).
+ * Outcome stats replace scope stats wherever
  * Charlie has an outcome to quote (2026-10-06): sales plays changed by the
  * causal work, reports replaced and time saved by the decomposition agent, and
- * specs written under the agent-ready framework.
+ * specs written under the agent-ready framework. The Amazon outcome is stated
+ * relative to its goal, not in basis points (2026-10-07).
  */
 const entries = [
   {
-    href: "/work/ai-orchestration",
-    title: "Orchestrating a Team of Models",
-    role: "Creator & Architect",
+    href: "/work/launch-bar",
+    title: "Setting the Launch Bar for AI @Meta",
+    role: "Eval DS Lead",
     blurb:
-      "From evals @Meta to Hyperion, a multi-agent orchestrator for building your best agent team.",
+      "Seven teams were building agents for thousands of ad sellers. I set the bar they had to clear to launch.",
     stats: [
-      { value: "7", label: "AI workflows evaluated" },
-      { value: "30+", label: "people coordinated" },
-      { value: "1,000s", label: "of sellers they were built for" },
+      { value: "7", label: "AI workflows held to one launch bar" },
+      { value: "~100", label: "eval criteria on one dashboard" },
+      { value: "30+", label: "people across eight teams aligned" },
     ],
-    visual: <WorkflowGraph variant="card" />,
+    visual: <EvalDashboard variant="card" />,
   },
   {
     href: "/work/agent-ready-org",
@@ -66,6 +70,19 @@ const entries = [
       { value: "30+", label: "Claude Skills built to its guidelines" },
     ],
     visual: <AnswerSpread variant="card" />,
+  },
+  {
+    href: "/work/ai-orchestration",
+    title: "Orchestrating a Team of Models",
+    role: "Creator & Architect",
+    blurb:
+      "Hyperion, my multi-agent orchestrator: every task a graph, every step on the model that fits it.",
+    stats: [
+      { value: "Custom", label: "specialist agents for every role" },
+      { value: "Any model", label: "per step, with config and callbacks" },
+      { value: "Full trace", label: "of every step, for deep diagnostics" },
+    ],
+    visual: <WorkflowGraph variant="card" />,
   },
   {
     href: "/work/building-in-stealth",

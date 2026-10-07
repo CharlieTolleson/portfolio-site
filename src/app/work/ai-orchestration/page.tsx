@@ -84,14 +84,14 @@ export default function AiOrchestrationPage() {
           </p>
 
           <EntrySummary
-            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. I led evals through this problem at Meta across seven AI workflows built for thousands of sellers, then built Hyperion to keep working on it with my hands on the whole stack. It treats model choice as a property of each step, and measures what that buys."
+            intro="That works until the graph gets deep, and then the cost shows up everywhere at once: in latency, in spend, and in how much of the system anyone can actually verify. Working on agent evals at Meta taught me you can only trust what you can see, so I built Hyperion around that idea. It treats model choice as a property of each step, and traces every call to measure what that buys."
             pairs={[
               [
                 "One prompt fans out into dozens of nondeterministic model calls, each compounding the variance of the one before it.",
                 "Every task planned as an inspectable graph, so any node can be opened, edited, and re-run on its own.",
               ],
               [
-                "Evals have to happen per sub-agent, so the number of things to measure grows with the graph rather than the feature.",
+                "When every step runs through one model behind one interface, a bad answer can't be traced to the step that caused it.",
                 "Every call traced end to end, with per-node timings, token counts, and failure rates I can audit rather than guess at.",
               ],
               [
@@ -117,41 +117,47 @@ export default function AiOrchestrationPage() {
           </dl>
         </div>
 
-        {/* ---- The problem ---- */}
+        {/* ---- Why I built it ----
+            Framed as a point of view the Meta work taught, not as a problem
+            Hyperion solves for Meta: the two are separate projects, and the
+            launch-bar entry carries the eval story (2026-10-07). */}
         <section className="flex max-w-3xl flex-col gap-6">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
-            The problem: evals explode
+            Why I built it
           </h2>
 
           <p className="text-xl leading-relaxed text-zinc-700">
-            A single prompt to a modern AI agent doesn&apos;t trigger one model
-            call. It triggers several, sometimes dozens, of sub-agents working
-            together.
+            At Meta I worked on AI agents from the measurement side,{" "}
+            <Link
+              href="/work/launch-bar"
+              className="underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500"
+            >
+              setting the bar seven workflows had to clear to launch
+            </Link>
+            . The lesson that stuck was simple: you can only evaluate what you
+            can see, and you can only trust what you can evaluate.
           </p>
 
           <p className="text-xl leading-relaxed text-zinc-700">
-            Anyone who has re-run the same prompt knows LLMs are
-            nondeterministic. That variance compounds as sub-agents chain
-            together, each one building on an already-uncertain upstream output.
-            So evals increasingly have to happen at the sub-agent level, not
-            just on the final answer, and the number of things you have to
-            measure grows with the graph, not with the feature.
+            A single prompt to a modern agent doesn&apos;t trigger one model
+            call. It triggers several, sometimes dozens, of sub-agents working
+            together, and because LLMs are nondeterministic, the variance
+            compounds as each step builds on an already-uncertain upstream
+            output. When all of that runs through one model behind one
+            interface, a bad answer is hard to trace to the step that caused
+            it, and every step pays premium rates for work that often
+            didn&apos;t need them.
           </p>
 
           <p className="text-xl leading-relaxed text-zinc-700">
             This is a big reason organizations still don&apos;t trust AI for
-            high-stakes work like client-facing documents or reported metrics,
-            and it&apos;s what makes enterprise-ready agentic tools expensive to
-            ship.
+            high-stakes work like client-facing documents or reported metrics.
           </p>
 
           <p className="border-l-2 border-zinc-900 pl-5 text-xl leading-relaxed text-zinc-900">
-            I led evals through this problem at Meta, across seven AI workflows
-            built for thousands of sellers and a group of about thirty: seven
-            data scientists, seven data engineers, seven PMs, and ten software
-            engineers. Hyperion is
-            what I built to keep working on the same problem with my hands on the
-            whole stack: orchestration, routing, and the traces underneath.
+            Hyperion is my answer, built with my hands on the whole stack: every
+            step is a node you can open, routed to the model that fits it, and
+            traced end to end.
           </p>
         </section>
 
