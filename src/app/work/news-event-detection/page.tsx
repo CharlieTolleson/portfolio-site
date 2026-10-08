@@ -72,7 +72,7 @@ const META: [string, string][] = [
   ["Team", "Two developers, one designer, two product managers"],
   [
     "Context",
-    "IBM engagement for a client whose supply chain moves global prices",
+    "IBM engagement for a global energy client",
   ],
   [
     "Approach",
@@ -154,8 +154,8 @@ export default function NewsEventDetectionPage() {
             An alert for something you cannot list
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            The client ran a supply chain large enough that its prices move
-            global commerce. What they wanted was simple to say: tell us when
+            The client was a global energy company with a supply chain to
+            match. What they wanted was simple to say: tell us when
             something has gone wrong out there, early enough to do something
             about it.
           </p>

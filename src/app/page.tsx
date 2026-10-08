@@ -9,6 +9,7 @@ import StorySplit from "@/components/StorySplit";
 import AnswerSpread from "@/components/AnswerSpread";
 import StealthBrief from "@/components/StealthBrief";
 import EvalDashboard from "@/components/EvalDashboard";
+import CopyEmailButton from "@/components/CopyEmailButton";
 
 /**
  * Built entries, in display order. Each renders as a card on the home page.
@@ -26,6 +27,9 @@ import EvalDashboard from "@/components/EvalDashboard";
  * method keyword lives ("multi-agent orchestrator", "causal inference",
  * "decomposition"). That keeps the card searchable and tells a visitor what the
  * entry actually is, which an evocative title on its own does not.
+ *
+ * `date` is the year the work was done (Charlie, 2026-10-07), shown beside
+ * the role so a reader can place each entry in time.
  *
  * Blurb length is not load-bearing: the paragraph below reserves two lines of
  * space either way, so these can be rewritten without disturbing card heights.
@@ -47,6 +51,7 @@ import EvalDashboard from "@/components/EvalDashboard";
 const entries = [
   {
     href: "/work/launch-bar",
+    date: "2026",
     title: "Setting the Launch Bar for AI @Meta",
     role: "Eval DS Lead",
     blurb:
@@ -60,6 +65,7 @@ const entries = [
   },
   {
     href: "/work/agent-ready-org",
+    date: "2026",
     title: "Making an Org Agent-Ready @Meta",
     role: "Framework Author",
     blurb:
@@ -67,12 +73,13 @@ const entries = [
     stats: [
       { value: "50+", label: "person org it was presented to" },
       { value: "25+", label: "metrics and data fields given specs" },
-      { value: "30+", label: "Claude Skills built to its guidelines" },
+      { value: "No mandate", label: "teams adopted it on their own" },
     ],
     visual: <AnswerSpread variant="card" />,
   },
   {
     href: "/work/ai-orchestration",
+    date: "2026",
     title: "Orchestrating a Team of Models",
     role: "Creator & Architect",
     blurb:
@@ -86,6 +93,7 @@ const entries = [
   },
   {
     href: "/work/building-in-stealth",
+    date: "In development",
     title: "Building in Stealth",
     role: "Founder",
     blurb:
@@ -97,6 +105,7 @@ const entries = [
   },
   {
     href: "/work/causal-inference",
+    date: "2026",
     title: "What Moves the Metric @Meta",
     role: "Data Science Lead",
     blurb:
@@ -110,6 +119,7 @@ const entries = [
   },
   {
     href: "/work/metric-decomposition",
+    date: "2025",
     title: "Metric Forensics @Amazon & @Meta",
     role: "Data Science Lead",
     blurb:
@@ -123,6 +133,7 @@ const entries = [
   },
   {
     href: "/work/news-event-detection",
+    date: "2019",
     title: "Finding the Story @IBM",
     role: "Data Science Lead",
     blurb:
@@ -150,17 +161,22 @@ export default function Home() {
               than a job title: recruiters scan it for keywords (AI, ML,
               metrics) and founders scan it for a point of view. */}
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie. I build AI agents, ML models, and measurement
-            systems that tell teams why their metrics moved, and what will move
-            them next.
+            Hi, I&apos;m Charlie, a multidisciplinary data scientist designing
+            agentic AI frameworks that are effective and trustworthy enough to
+            make decisions with.
           </h1>
-          {/* Background, then availability: one pair, so it sits tighter than
-              the gap-6 between the hero's other blocks. The availability line
-              names the field as well as the arrangement, so a recruiter can
-              tell which kind of role to match it against. */}
-          <div className="flex flex-col gap-1 text-xl text-zinc-600">
+          {/* Background, then an invitation: one pair, so it sits tighter than
+              the gap-6 between the hero's other blocks. The second line is a
+              call to connect rather than an availability statement
+              (2026-10-07): it names the problem Charlie solves for a team and
+              puts the email control right beside it, so interest turns into
+              contact in one click. */}
+          <div className="flex flex-col gap-3 text-xl text-zinc-600">
             <p>Previously a senior data scientist at @Meta, @Amazon, and @IBM</p>
-            <p>Open to full-time roles and freelance projects in AI and data science</p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <p>Ready to modernize your team&apos;s agentic stack? Let&apos;s talk.</p>
+              <CopyEmailButton />
+            </div>
           </div>
         </motion.div>
 
@@ -185,8 +201,12 @@ export default function Home() {
                     <h2 className="text-2xl font-medium text-zinc-900 sm:text-3xl">
                       {entry.title}
                     </h2>
+                    {/* Role, then when: the date rides in the same mono
+                        overline so it reads as metadata, not a headline. The
+                        stealth entry says "In development" rather than a year
+                        because it is ongoing. */}
                     <span className="shrink-0 font-mono text-sm uppercase tracking-wide text-zinc-500">
-                      {entry.role}
+                      {entry.role} · {entry.date}
                     </span>
                   </div>
                   {/* Two lines of space are reserved whether or not the blurb

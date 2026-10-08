@@ -76,8 +76,9 @@ export type Graph = { nodes: GNode[]; edges: GEdge[] };
 /**
  * The target entity the ego-network is built around.
  *
- * Fictional. The real engagement was with a client whose pricing moves global
- * commerce, and naming them is not mine to do.
+ * Fictional, and deliberately not in the real client's industry: the real
+ * engagement was with a global energy client, and naming them is not mine to
+ * do.
  */
 export const TARGET = "Meridian Retail";
 

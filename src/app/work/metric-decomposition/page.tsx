@@ -498,8 +498,8 @@ export default function MetricDecompositionPage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             At Amazon the effect was operational. Pricing problems were caught,
             attributed, and remediated before customers noticed they were not
-            getting the best price. When goals were missed, the CEO and the board
-            did not receive a narrative. They received a list: each challenge
+            getting the best price. When goals were missed, leadership did not
+            receive a narrative. They received a list: each challenge
             that came up, exactly what it cost in basis points, and what was done
             about it. A reconciling number ends an argument that a story only
             starts.

@@ -7,8 +7,8 @@
  * prose cannot drift from the charts.
  *
  * What lives here:
- *   - **Three of the seven workflows** (follow-up email, solution
- *     recommendation, pitch deck) and a sample of their eval criteria, each
+ *   - **Three of the seven workflows** (follow-up email, product
+ *     recommendation, client presentation) and a sample of their eval criteria, each
  *     with its eval type (code check or LLM judge) and its tier.
  *   - **The tiers**, each defined by the question every team answered: how
  *     often is it OK for this criterion not to pass? Track-only criteria are
@@ -21,7 +21,7 @@
  *   - **Synthetic, and labeled so on the page.** The real criteria, thresholds,
  *     and dashboard are internal to Meta. The criteria named here are the kinds
  *     Charlie describes (right recipient, numbers that match the call, pitched
- *     solutions that are the ranking model's top picks); the thresholds and
+ *     products that are the recommendation model's top picks); the thresholds and
  *     pass rates are illustrative.
  *   - **No production stage in the history.** The workflows were still building
  *     toward launch when Charlie left Meta, so the example stops at shadow
@@ -71,8 +71,8 @@ export type WorkflowId = "email" | "solutions" | "deck";
 /** The three workflows the page uses as examples, out of the program's seven. */
 export const WORKFLOWS: { id: WorkflowId; name: string; short: string }[] = [
   { id: "email", name: "Follow-up email", short: "Email" },
-  { id: "solutions", name: "Solution recommendation", short: "Solutions" },
-  { id: "deck", name: "Pitch deck", short: "Deck" },
+  { id: "solutions", name: "Product recommendation", short: "Products" },
+  { id: "deck", name: "Client presentation", short: "Slides" },
 ];
 
 /** Total workflows in the program; only three are shown in detail. */
@@ -205,17 +205,17 @@ export const CRITERIA: Criterion[] = [
   },
   {
     id: "ranked",
-    name: "Pitches the model's top-ranked solutions",
+    name: "Pitches the model's top-ranked products",
     detail:
-      "Every solution pitched sits near the top of the ranking model's output for this advertiser, so none are invented.",
+      "Every product pitched sits near the top of the recommendation model's output for this advertiser, so none are invented.",
     workflows: ["solutions"],
     type: "code",
     tier: "critical",
   },
   {
     id: "available",
-    name: "Solutions available to this advertiser",
-    detail: "Each pitched solution is offered in the advertiser's market and fits its account type.",
+    name: "Products available to this advertiser",
+    detail: "Each pitched product is offered in the advertiser's market and fits its account type.",
     workflows: ["solutions"],
     type: "code",
     tier: "critical",
@@ -223,7 +223,7 @@ export const CRITERIA: Criterion[] = [
   {
     id: "rationale",
     name: "Rationale fits the advertiser's goals",
-    detail: "The reason given for each solution ties to a goal this advertiser actually has.",
+    detail: "The reason given for each product ties to a goal this advertiser actually has.",
     workflows: ["solutions"],
     type: "judge",
     tier: "high",
@@ -231,7 +231,7 @@ export const CRITERIA: Criterion[] = [
   {
     id: "deck-numbers",
     name: "Charts use the advertiser's real numbers",
-    detail: "Every chart and figure in the deck is checked against the account data it claims to show.",
+    detail: "Every chart and figure in the presentation is checked against the account data it claims to show.",
     workflows: ["deck"],
     type: "code",
     tier: "critical",
@@ -376,7 +376,7 @@ export type TraceStep = { name: string; detail: string; ms: number };
 export const TRACE = {
   title: "Follow-up email · shadow day 9 · Harbor & Pine Outfitters",
   steps: [
-    { name: "Fetch call transcript", detail: "38-minute video call, 2 speakers", ms: 410 },
+    { name: "Fetch call transcript", detail: "38-minute call, 2 speakers", ms: 410 },
     { name: "Fetch account record", detail: "Contacts, spend, open opportunities", ms: 260 },
     { name: "Extract commitments", detail: "3 next steps, 2 numbers", ms: 2900 },
     { name: "Draft email", detail: "176 words", ms: 6100 },
