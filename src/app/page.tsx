@@ -157,13 +157,14 @@ export default function Home() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex max-w-3xl flex-col gap-6"
         >
-          {/* The headline says what I build and what it gets a team, rather
-              than a job title: recruiters scan it for keywords (AI, ML,
-              metrics) and founders scan it for a point of view. */}
+          {/* The headline pairs breadth (the full data science stack) with
+              what I do now (AI that makes teams more effective), rather than
+              a job title, so it reads for both data science and AI roles and
+              leads into the call to connect below (2026-10-08). */}
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie, a multidisciplinary data scientist designing
-            agentic AI frameworks that are effective and trustworthy enough to
-            make decisions with.
+            Hi, I&apos;m Charlie, a multidisciplinary data scientist with
+            experience across the full data science stack, now using AI to make
+            teams more effective.
           </h1>
           {/* Background, then an invitation: one pair, so it sits tighter than
               the gap-6 between the hero's other blocks. The second line is a
