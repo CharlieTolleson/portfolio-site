@@ -119,7 +119,7 @@ export default function CausalInferencePage() {
           </p>
 
           <EntrySummary
-            intro="The organization's funding case rested on hitting those goals, so the gap was not academic: leadership was allocating a quarter at a time on conviction alone. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached. Sales acted on them, changing which ad solutions it led with in each region and how it reached companies of each size."
+            intro="Leadership needed to know which plays would move it, and the rigorous way to find out took a full quarter per question. As the data science lead on a team of three, I architected an agentic causal inference framework that turned data we already had into direction executives could act on, then took the strongest findings to sales leadership as strategic recommendations with the evidence attached. Sales acted on them, changing which ad solutions it led with in each region and how it reached companies of each size."
             pairs={[
               [
                 "The accounts that got a given play were never chosen at random; reps picked the large, healthy ones.",
@@ -171,18 +171,16 @@ export default function CausalInferencePage() {
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
             When I joined, Meta Sales had just moved to a new north star metric.
-            The metric was chosen, the goals against it were set, and the
-            organization&apos;s funding case rested on hitting them. What nobody
-            had done was establish how the metric responded to anything sales
+            The metric was chosen and the goals against it were set. What nobody
+            had done yet was establish how the metric responded to anything sales
             actually did. No experiments, no causal work, no sensitivity
             analysis behind it.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             That is a worse position than it sounds. Leadership could see the
-            number move and could not attribute the movement to any decision
-            they had made. Every planning conversation came down to conviction
-            about which plays mattered, and every quarter&apos;s result came down
-            to whether that conviction happened to be right. An organization can
+            number move but could not attribute the movement to any decision
+            they had made, so planning had no evidence to draw on about which
+            plays mattered. An organization can
             be perfectly disciplined about a number it has no way to influence
             and still miss it.
           </p>
@@ -421,9 +419,8 @@ export default function CausalInferencePage() {
           <p className="text-xl leading-relaxed text-zinc-700">
             Sales acted on them. Different ad solutions were prioritized in
             different regions, and the way reps reached a company (email, phone,
-            video call, or a mix of them) was matched to its size. Those are the
-            decisions that had been running on conviction, now running on
-            evidence.
+            video call, or a mix of them) was matched to its size. Those
+            decisions now had evidence behind them.
           </p>
           {/* Written as a capability, not a history: none of these findings
               went on to a live experiment (Charlie, 2026-10-06), so the page
@@ -453,12 +450,11 @@ export default function CausalInferencePage() {
               framework assumes that choice has already been made.
             </p>
             <p className="text-xl leading-relaxed text-zinc-700">
-              Closing that gap became someone else&apos;s roadmap. I scoped the
-              extension with the broader org and handed the framework over to a
-              team now building it into a specialist agent that reads the data
-              and the question, picks the technique, defends the choice, runs it,
-              and reports its own diagnostics. These are the methods it
-              arbitrates between.
+              Closing that gap was the natural next step, and it grew into scope
+              for others. I handed the framework to a larger team to build on
+              with more hands, so the technique could be chosen to fit each
+              question rather than assumed. These are the methods that choice
+              runs between.
             </p>
           </div>
 

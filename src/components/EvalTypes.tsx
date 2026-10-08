@@ -39,7 +39,7 @@ const TYPES: EvalTypeCard[] = [
     examples: [
       "Spend in the email against the billing record",
       "Recipient against the meeting record",
-      "Pitched solutions against the ranking model's output",
+      "Pitched products against the recommendation model's output",
     ],
     tradeOff:
       "Exact, cheap, and fails with a precise reason. Only as good as the source of truth behind it.",
@@ -50,7 +50,7 @@ const TYPES: EvalTypeCard[] = [
     useWhen:
       "There's no single right answer, but a person could still call it pass or fail.",
     examples: [
-      "The deck reads as one argument",
+      "The presentation reads as one argument",
       "The email's next steps match the call",
       "The tone fits the relationship",
     ],

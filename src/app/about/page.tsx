@@ -66,7 +66,7 @@ const WORK: { org: string; line: ReactNode }[] = [
           evals across 7 AI workflows built for thousands of sellers
         </Link>
         ,
-        shipped 15 Claude Code Skills to a 50+ person data science org, and
+        built agent skills that automate key data science workflows, and
         built{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           an agent that tells you exactly why metrics moved
@@ -120,15 +120,18 @@ export default function AboutPage() {
           <h1 className="text-5xl font-semibold tracking-tight text-zinc-900 sm:text-6xl">
             Hi there, I&apos;m Charlie.
           </h1>
+          {/* Where Charlie lives, stated as a fact rather than a constraint: he
+              has no location preference for new roles (2026-10-07). */}
+          <p className="font-mono text-sm uppercase tracking-wide text-zinc-500">
+            Based in Seattle, WA
+          </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             Lately, I&apos;m into seeing how many of life&apos;s inconveniences I
             can eliminate with agentic AI, whether that&apos;s a personal agent
-            for myself or a full-fledged product for an industry most software
-            has passed by. Previously, I
-            spent eight years at Meta, Amazon, and IBM figuring out why metrics
-            move, and building the tools that let everyone else figure it out
-            too. The part I love most is the beginning: a messy problem, no
-            playbook, and something real to build.
+            for myself or a full-fledged product. Previously, I spent eight
+            years at Meta, Amazon, and IBM working in just about every corner of
+            data science: production ML, metrics and forecasting, and agentic
+            AI.
           </p>
         </div>
 

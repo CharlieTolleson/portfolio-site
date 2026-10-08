@@ -106,7 +106,7 @@ export default function LaunchBarPage() {
                 "One gating process, one set of eval types, and one dashboard, so a number meant the same thing on every team.",
               ],
               [
-                "Close to 100 things could go wrong across the workflows, from the wrong name on an email to a solution the ranking model never picked.",
+                "Close to 100 things could go wrong across the workflows, from the wrong name on an email to a product the recommendation model never picked.",
                 "Every criterion its own pass-or-fail eval: a code check wherever a source of truth existed, a tuned LLM judge where one didn't.",
               ],
               [
@@ -153,8 +153,8 @@ export default function LaunchBarPage() {
           <p className={P}>
             So the org defined {WORKFLOW_COUNT} workflows for the agent to own,
             three of which carry the examples on this page: drafting a follow-up
-            email to an advertiser after a video call, choosing which ad
-            solutions to pitch, and building the pitch deck itself. Each workflow
+            email to an advertiser after a call, recommending which products
+            to pitch, and building the client presentation itself. Each workflow
             got its own team, a PM, a data scientist, a data engineer, and at
             least one software engineer, to build both the workflow and the evals that
             would gate its launch. An eighth team of four, a PM, a data engineer,
@@ -185,9 +185,9 @@ export default function LaunchBarPage() {
               Some criteria were common to every workflow: grammar, tone, factual
               accuracy. The specific ones mattered most. A follow-up email has to
               be addressed to the person who was actually on the call, and every
-              number it repeats has to match what was said. A pitch deck has to
-              read as one argument, not a stack of slides. And the solutions the
-              agent pitches have to be the ones Meta&apos;s ranking model put at
+              number it repeats has to match what was said. A presentation has to
+              read as one argument, not a stack of slides. And the products the
+              agent pitches have to be the ones the recommendation model put at
               the top, not ones the agent found plausible.
             </p>
           </div>
@@ -221,13 +221,13 @@ export default function LaunchBarPage() {
               Where a source of truth exists, the check should be code. An
               advertiser&apos;s spend is in a database, so the figure in the email
               can be compared against it exactly. The recipient is in the meeting
-              record. The ranking model&apos;s output is logged, so a pitched
-              solution is either near the top of it or it isn&apos;t. Checks like
+              record. The recommendation model&apos;s output is logged, so a pitched
+              product is either near the top of it or it isn&apos;t. Checks like
               these are cheap to run, never disagree with themselves, and fail
               with an exact reason.
             </p>
             <p className={P}>
-              Where there&apos;s no single right answer, like whether a deck flows
+              Where there&apos;s no single right answer, like whether a presentation flows
               or an email&apos;s tone fits the relationship, the check is an LLM
               judge. Each judge asks one narrow question and returns a binary
               verdict, and each was tuned against a human-labeled golden set

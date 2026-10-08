@@ -17,7 +17,7 @@
  *   - **Illustrative thresholds from `lib/launchBar`**, labeled as such. Each
  *     team set its own per criterion and per stage.
  *   - **Examples are named in full**, with their workflow ("Reads as one
- *     argument" in the pitch deck), because a bare "e.g." under a tier read as
+ *     argument" in the client presentation), because a bare "e.g." under a tier read as
  *     a description of the tier rather than a criterion in it.
  *   - **A server component.** Static content, no state.
  */
