@@ -9,7 +9,6 @@ import StorySplit from "@/components/StorySplit";
 import AnswerSpread from "@/components/AnswerSpread";
 import StealthBrief from "@/components/StealthBrief";
 import EvalDashboard from "@/components/EvalDashboard";
-import CopyEmailButton from "@/components/CopyEmailButton";
 
 /**
  * Built entries, in display order. Each renders as a card on the home page.
@@ -53,7 +52,7 @@ const entries = [
     href: "/work/launch-bar",
     date: "2026",
     title: "Setting the Launch Bar for AI @Meta",
-    role: "Eval DS Lead",
+    role: "Evals Lead",
     blurb:
       "Seven teams were building agents for thousands of ad sellers. I set the bar they had to clear to launch.",
     stats: [
@@ -166,18 +165,13 @@ export default function Home() {
             experience across the full data science stack, now using AI to make
             teams more effective.
           </h1>
-          {/* Background, then an invitation: one pair, so it sits tighter than
-              the gap-6 between the hero's other blocks. The second line is a
-              call to connect rather than an availability statement
-              (2026-10-07): it names the problem Charlie solves for a team and
-              puts the email control right beside it, so interest turns into
-              contact in one click. */}
+          {/* Availability, then background: one pair, so it sits tighter than
+              the gap-6 between the hero's other blocks. The first line is a
+              plain availability statement (2026-10-12); it replaced a call to
+              connect with an email button, and the header carries contact. */}
           <div className="flex flex-col gap-3 text-xl text-zinc-600">
+            <p>Currently freelancing and open to new roles</p>
             <p>Previously a senior data scientist at @Meta, @Amazon, and @IBM</p>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <p>Ready to modernize your team&apos;s agentic stack? Let&apos;s talk.</p>
-              <CopyEmailButton />
-            </div>
           </div>
         </motion.div>
 
