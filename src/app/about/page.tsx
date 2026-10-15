@@ -20,6 +20,10 @@
  *   - **Problem, fix, adoption (2026-10-15).** Each work line follows the
  *     framing of Charlie's entrepreneurship resume: the problem he noticed,
  *     what he built, and who picked it up. Lines link to their case studies.
+ *   - **No goal attainment (Charlie, 2026-10-15).** The Amazon line never says
+ *     how Price Competitiveness did against its goal (no "beat the goal", no
+ *     basis points). Like the Metric Forensics "What changed" section, it says
+ *     weekly headwinds were traced to a cause and turned into decisions.
  *   - **Figures match the cards.** Every career number here (seven teams,
  *     50+ hypotheses) is the same one the home page quotes, so a reader
  *     cross-checking never finds a mismatch. Resume-only figures (org size,
@@ -99,9 +103,9 @@ const WORK: { org: string; line: ReactNode }[] = [
         <Link href="/work/metric-decomposition" className={LINK}>
           what was dragging it down
         </Link>{" "}
-        and beat the annual goal. Found goals that conflicted across orgs, then
-        led a working group that resolved them and set up a process for metric
-        tradeoffs.
+        each week and turned every headwind into a product or business
+        decision. Found goals that conflicted across orgs, then led a working
+        group that resolved them and set up a process for metric tradeoffs.
       </>
     ),
   },
