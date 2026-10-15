@@ -27,7 +27,8 @@
  *   - **Figures match the cards.** Every career number here (seven teams,
  *     50+ hypotheses) is the same one the home page quotes, so a reader
  *     cross-checking never finds a mismatch. Resume-only figures (org size,
- *     speedup multiples, dollar amounts, Skill counts) stay off the site.
+ *     dollar amounts, Skill counts) stay off the site; the one exception is
+ *     "10x" on the Meta Skills line, which Charlie asked for (2026-10-15).
  *   - **The current product stays in stealth (Charlie, 2026-10-06).** Neither
  *     the intro nor the work list names it, its industry, or what it connects
  *     to; the work list links to the stealth entry instead.
@@ -80,8 +81,8 @@ const WORK: { org: string; line: ReactNode }[] = [
         <Link href="/work/launch-bar" className={LINK}>
           one eval and launch-gate method
         </Link>{" "}
-        before each invented its own. Built agent skills that automate
-        recurring data science work,{" "}
+        before each invented its own. Built agent skills to 10x data
+        science work,{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           an agent that tells you exactly why metrics moved
         </Link>
