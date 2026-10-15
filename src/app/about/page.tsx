@@ -15,9 +15,13 @@
  *     LinkedIn.
  *   - **Fun facts stay low-key.** A plain bulleted list at the end, so the
  *     personal notes read as color rather than competing with the work.
- *   - **Figures match the cards.** Every career number here (Meta eval scope)
- *     is the same one the home page quotes, so a reader cross-checking never
- *     finds a mismatch.
+ *   - **Problem, fix, adoption (2026-10-15).** Each work line follows the
+ *     framing of Charlie's entrepreneurship resume: the problem he noticed,
+ *     what he built, and who picked it up. Lines link to their case studies.
+ *   - **Figures match the cards.** Every career number here (seven teams,
+ *     50+ hypotheses) is the same one the home page quotes, so a reader
+ *     cross-checking never finds a mismatch. Resume-only figures (org size,
+ *     speedup multiples, dollar amounts, Skill counts) stay off the site.
  *   - **The current product stays in stealth (Charlie, 2026-10-06).** Neither
  *     the intro nor the work list names it, its industry, or what it connects
  *     to; the work list links to the stealth entry instead.
@@ -49,11 +53,12 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Independent",
     line: (
       <>
-        Building{" "}
+        Taking my own AI products from customer discovery to launch,
+        including{" "}
         <Link href="/work/building-in-stealth" className={LINK}>
-          an AI product of my own
+          one in stealth
         </Link>
-        , in stealth for now. Happy to walk you through it privately.
+        . Happy to walk you through it privately.
       </>
     ),
   },
@@ -61,17 +66,24 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Meta",
     line: (
       <>
-        Led{" "}
+        Saw that AI agents were only as good as the context they read, so I{" "}
+        <Link href="/work/agent-ready-org" className={LINK}>
+          wrote the context and Skills standards
+        </Link>{" "}
+        a data science org adopted on its own. Moved seven teams to{" "}
         <Link href="/work/launch-bar" className={LINK}>
-          evals across 7 AI workflows built for thousands of sellers
-        </Link>
-        ,
-        built agent skills that automate key data science workflows, and
-        built{" "}
+          one eval and launch-gate method
+        </Link>{" "}
+        before each invented its own. Built agent skills that automate
+        recurring data science work,{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           an agent that tells you exactly why metrics moved
         </Link>
-        .
+        , and{" "}
+        <Link href="/work/causal-inference" className={LINK}>
+          Double ML libraries that tested 50+ sales hypotheses
+        </Link>{" "}
+        in days, not months.
       </>
     ),
   },
@@ -79,12 +91,15 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Amazon",
     line: (
       <>
-        Owned the worldwide Price Competitiveness north star metric, diagnosed{" "}
+        Grew a one-team role into worldwide ownership of Pricing&apos;s customer
+        experience metrics, as single-threaded owner of the Price
+        Competitiveness north star. Diagnosed{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           what was dragging it down
-        </Link>
-        , and partnered with teams across the company to balance price
-        competitiveness against their own goals.
+        </Link>{" "}
+        and beat the annual goal. Found goals that conflicted across orgs, then
+        led a working group that resolved them and set up a process for metric
+        tradeoffs.
       </>
     ),
   },
@@ -92,12 +107,15 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "IBM",
     line: (
       <>
-        Led the team behind{" "}
+        Data science was the bottleneck for new pipelines, so I wrote a
+        framework that let non-technical staff build their own ETL and ML
+        pipelines from one config file. Several teams adopted it, it halved
+        deployment time, and it won an Outstanding Technical Achievement Award.
+        Also led the team behind{" "}
         <Link href="/work/news-event-detection" className={LINK}>
           a live news graph for supply-chain risk
         </Link>
-        , and won an Outstanding Technical Achievement Award for a framework
-        that let non-technical teams build their own data and ML pipelines.
+        .
       </>
     ),
   },
@@ -126,9 +144,9 @@ export default function AboutPage() {
             Based in Seattle, WA
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
-            Lately, I&apos;m into seeing how many of life&apos;s inconveniences I
-            can eliminate with agentic AI, whether that&apos;s a personal agent
-            for myself or a full-fledged product. Previously, I spent eight
+            Lately, I&apos;ve been ideating, prototyping, and working toward
+            launch on several projects, having fun with AI along the way.
+            Previously, I spent eight
             years at Meta, Amazon, and IBM working in just about every corner of
             data science: production ML, metrics and forecasting, and agentic
             AI.
@@ -159,8 +177,18 @@ export default function AboutPage() {
           <p className="text-lg leading-relaxed text-zinc-600">
             I studied Systems Engineering at UVA and fell into data science
             through a summer bootcamp after my first year. Apparently I picked it
-            up quickly, because the group behind the bootcamp asked me to lead
-            its data science programs, and the rest is history.
+            up quickly, because the group behind it,{" "}
+            <a
+              href="https://joinforge.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={LINK}
+            >
+              Forge
+            </a>
+            , asked me to lead its data science programs. Everything since has
+            been largely self-taught, mostly by building things, which is still
+            how I learn best.
           </p>
         </section>
 

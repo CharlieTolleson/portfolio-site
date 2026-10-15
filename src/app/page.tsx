@@ -156,14 +156,15 @@ export default function Home() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex max-w-3xl flex-col gap-6"
         >
-          {/* The headline pairs breadth (the full data science stack) with
-              what I do now (AI that makes teams more effective), rather than
-              a job title, so it reads for both data science and AI roles and
-              leads into the call to connect below (2026-10-08). */}
+          {/* The headline names the through-line of the work (measurement
+              frameworks that drive decisions), which the launch-bar, causal,
+              and Metric Forensics cards all prove, then says what I do now
+              (2026-10-15). It avoids a job title so it reads for both data
+              science and AI roles. */}
           <h1 className="text-3xl font-medium leading-snug tracking-tight text-zinc-900 sm:text-4xl">
-            Hi, I&apos;m Charlie, a multidisciplinary data scientist with
-            experience across the full data science stack, now using AI to make
-            teams more effective.
+            Hi, I&apos;m Charlie, a multidisciplinary data scientist building
+            the measurement frameworks that decide a business&apos;s next move.
+            Now prototyping and launching products with AI.
           </h1>
           {/* Availability, then background: one pair, so it sits tighter than
               the gap-6 between the hero's other blocks. The first line is a
