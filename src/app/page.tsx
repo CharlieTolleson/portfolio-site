@@ -44,8 +44,9 @@ import EvalDashboard from "@/components/EvalDashboard";
  * Outcome stats replace scope stats wherever
  * Charlie has an outcome to quote (2026-10-06): sales plays changed by the
  * causal work, reports replaced and time saved by the decomposition agent, and
- * specs written under the agent-ready framework. The Amazon outcome is stated
- * relative to its goal, not in basis points (2026-10-07).
+ * specs written under the agent-ready framework. The Amazon stat quotes the
+ * weekly cadence of explained headwinds rather than goal attainment or basis
+ * points (2026-10-15).
  */
 const entries = [
   {
@@ -124,7 +125,7 @@ const entries = [
     blurb:
       "Don't know what happened? I built a one-stop-shop framework+agent to tell you.",
     stats: [
-      { value: "Goal met", label: "for Price Competitiveness at Amazon" },
+      { value: "Weekly", label: "headwinds traced to exact causes at Amazon" },
       { value: "~30", label: "reports the agent replaced at Meta" },
       { value: "~30 weeks", label: "of data science time saved" },
     ],

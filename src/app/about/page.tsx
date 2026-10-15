@@ -4,8 +4,10 @@
  * Role in the system: visitors reach this page after the work has already
  * convinced them, so it answers the next question, "who is this person?",
  * rather than re-selling the case studies. The shape is an intro (what I'm
- * into now and where I've been), a short work list for recruiters who land
- * here directly, a brief origin story, and a few fun facts.
+ * into now and where I've been), a brief origin story, a few fun facts, and
+ * then a short work list for recruiters who land here directly. The personal
+ * sections come first (Charlie, 2026-10-15) so the page reads as a person
+ * before it reads as a resume.
  *
  * Key design decisions:
  *   - **Warm, not cute.** First person and conversational, but sentence case
@@ -13,8 +15,8 @@
  *   - **Titles left out of the work list.** The list says what I did at each
  *     company rather than repeating job titles, which live on the resume and
  *     LinkedIn.
- *   - **Fun facts stay low-key.** A plain bulleted list at the end, so the
- *     personal notes read as color rather than competing with the work.
+ *   - **Fun facts stay low-key.** A plain bulleted list, so the personal
+ *     notes read as color rather than competing with the work.
  *   - **Problem, fix, adoption (2026-10-15).** Each work line follows the
  *     framing of Charlie's entrepreneurship resume: the problem he noticed,
  *     what he built, and who picked it up. Lines link to their case studies.
@@ -153,25 +155,6 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <section className="flex max-w-4xl flex-col gap-5">
-          <Label>A few things I&apos;ve done…</Label>
-          <ol className="flex flex-col">
-            {WORK.map((w) => (
-              <li
-                key={w.org}
-                className="grid grid-cols-1 gap-x-10 gap-y-1 border-t border-zinc-200 py-5 sm:grid-cols-[10rem_1fr]"
-              >
-                <span className="text-lg font-medium text-zinc-900">
-                  {w.org}
-                </span>
-                <span className="text-lg leading-relaxed text-zinc-600">
-                  {w.line}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
-
         <section className="flex max-w-3xl flex-col gap-5">
           <Label>Origin story</Label>
           <p className="text-lg leading-relaxed text-zinc-600">
@@ -199,6 +182,25 @@ export default function AboutPage() {
               <li key={f}>{f}</li>
             ))}
           </ul>
+        </section>
+
+        <section className="flex max-w-4xl flex-col gap-5">
+          <Label>A few things I&apos;ve done…</Label>
+          <ol className="flex flex-col">
+            {WORK.map((w) => (
+              <li
+                key={w.org}
+                className="grid grid-cols-1 gap-x-10 gap-y-1 border-t border-zinc-200 py-5 sm:grid-cols-[10rem_1fr]"
+              >
+                <span className="text-lg font-medium text-zinc-900">
+                  {w.org}
+                </span>
+                <span className="text-lg leading-relaxed text-zinc-600">
+                  {w.line}
+                </span>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <section className="flex max-w-3xl flex-col gap-5 border-t border-zinc-200 pt-10">

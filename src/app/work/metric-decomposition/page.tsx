@@ -81,7 +81,7 @@ const META: [string, string][] = [
   ["Delivery", "Python modules behind Claude Code skills, self-serve to the org"],
   [
     "Outcome",
-    "Met Price Competitiveness goals at Amazon; about 30 reports replaced at Meta, saving roughly 30 weeks of data science time",
+    "Weekly headwinds at Amazon traced to exact causes, then fixed on the roadmap or explained to Jeff Bezos; about 30 reports replaced at Meta, saving roughly 30 weeks of data science time",
   ],
 ];
 
@@ -496,13 +496,54 @@ export default function MetricDecompositionPage() {
             What changed
           </h2>
           <p className="text-xl leading-relaxed text-zinc-700">
-            At Amazon the effect was operational. Pricing problems were caught,
-            attributed, and remediated before customers noticed they were not
-            getting the best price. When goals were missed, leadership did not
-            receive a narrative. They received a list: each challenge
-            that came up, exactly what it cost in basis points, and what was done
-            about it. A reconciling number ends an argument that a story only
-            starts.
+            At Amazon the effect was operational. The market never held still,
+            so every week brought a new headwind. The framework told us exactly
+            which one was behind each move and what it cost, and that turned
+            each headwind into a specific response:
+          </p>
+          {/* Cause, then response, in the same bordered-list style the
+              Hyperion page uses for its design decisions. Examples are
+              Charlie's (2026-10-15); the regional-mix case stays unnamed. */}
+          <ul className="flex flex-col gap-4 text-lg leading-relaxed text-zinc-600">
+            <li className="border-l-2 border-zinc-200 pl-5">
+              <span className="font-medium text-zinc-800">
+                Sellers learned to game our pricing systems.
+              </span>{" "}
+              We adjusted the product roadmap to close the gap.
+            </li>
+            <li className="border-l-2 border-zinc-200 pl-5">
+              <span className="font-medium text-zinc-800">
+                Customers saw high prices when stock became low in their
+                region.
+              </span>{" "}
+              We rerouted stock from other regions to cover the imbalance.
+            </li>
+            <li className="border-l-2 border-zinc-200 pl-5">
+              <span className="font-medium text-zinc-800">
+                Supply chain delays left Amazon priced above retailers that
+                still had stock.
+              </span>{" "}
+              We worked with suppliers to prioritize restock shipments and
+              set timeline expectations.
+            </li>
+            <li className="border-l-2 border-zinc-200 pl-5">
+              <span className="font-medium text-zinc-800">
+                Limited-edition items sold on Amazon only through resellers, at
+                resale prices.
+              </span>{" "}
+              We steered traffic away from them, toward better-priced items.
+            </li>
+            <li className="border-l-2 border-zinc-200 pl-5">
+              <span className="font-medium text-zinc-800">
+                Traffic grew in a market where the metric ran lower, pulling the
+                worldwide number down even though no single market got worse.
+              </span>{" "}
+              That was outside our control, so we reported it as such and moved
+              on to the next problem without burning cycles on a non-problem.
+            </li>
+          </ul>
+          <p className="text-xl leading-relaxed text-zinc-700">
+            A reconciling number ends an argument that a story only starts.
           </p>
           <p className="text-xl leading-relaxed text-zinc-700">
             At Meta the effect was structural. Recurring reporting became
