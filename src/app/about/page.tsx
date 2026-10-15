@@ -97,9 +97,8 @@ const WORK: { org: string; line: ReactNode }[] = [
     org: "Amazon",
     line: (
       <>
-        Grew a one-team role into worldwide ownership of Pricing&apos;s customer
-        experience metrics, as single-threaded owner of the Price
-        Competitiveness north star. Diagnosed{" "}
+        Single-threaded owner of the Price Competitiveness north star.
+        Diagnosed{" "}
         <Link href="/work/metric-decomposition" className={LINK}>
           what was dragging it down
         </Link>{" "}
